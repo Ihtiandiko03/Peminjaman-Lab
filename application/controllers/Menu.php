@@ -6,7 +6,7 @@ class Menu extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        // is_logged_in();
+        is_logged_in();
     }
     public function index()
     {
@@ -43,6 +43,7 @@ class Menu extends CI_Controller
 
         $data['subMenu'] = $this->menu->getSubMenu();
         $data['menu'] = $this->db->get('tb_menu')->result_array();
+
         $this->form_validation->set_rules('title', 'title', 'required');
         $this->form_validation->set_rules('menu_id', 'Menu', 'required');
         $this->form_validation->set_rules('url', 'Url', 'required');

@@ -6,7 +6,7 @@ class Admin extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        // is_logged_in();
+        is_logged_in();
     }
 
 
@@ -15,6 +15,7 @@ class Admin extends CI_Controller
 
         $data['title'] = 'Dashboard Admin';
         $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $this->session->userdata('email')])->row_array();
+
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);

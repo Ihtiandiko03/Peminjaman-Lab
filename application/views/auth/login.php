@@ -15,14 +15,7 @@
                                     <h1 class="h4 text-gray-900 mb-4">Masuk</h1>
                                 </div>
 
-                                <?php
-                                $message = $this->session->flashdata('message');
-                                if (isset($message)) {
-                                    echo '<div class="alert alert-info">' . $message . '</div>';
-                                    $this->session->unset_userdata('message');
-                                }
-
-                                ?>
+                                <?= $this->session->set_flashdata('message'); ?>
 
                                 <form class="user" action="<?php base_url('auth'); ?>" method="post">
                                     <div class="form-group">
