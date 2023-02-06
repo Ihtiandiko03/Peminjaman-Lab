@@ -14,6 +14,7 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
 
+        //Jika user belum login
         if ($this->form_validation->run() == false) {
             $data = [
                 'title' => 'Login'
@@ -22,7 +23,9 @@ class Auth extends CI_Controller
 
             $this->load->view('auth/login');
             $this->load->view('templates/auth_footer');
-        } else {
+        }
+        //Jika user melakukan login
+        else {
             $this->_login();
         }
     }
@@ -32,9 +35,12 @@ class Auth extends CI_Controller
         $email = $this->input->post('email');
         $password = $this->input->post('password');
 
+        //membandingkan email dari inputan dengan email di database
         $user = $this->db->get_where('tb_pengguna', ['email' => $email])->row_array();
+
+        //Jika usernya ada
         if ($user) {
-            //usernya ada
+            //mengecek apakah dalam kondisi aktif
             if ($user['is_active'] == 1) {
                 if (password_verify($password, $user['password'])) {
                     $data = [
@@ -42,22 +48,31 @@ class Auth extends CI_Controller
                         'role_id' => $user['role_id']
                     ];
 
+                    //Mengirim data ke session
                     $this->session->set_userdata($data);
 
+                    //mengecek apabila rolenya admin akan redirect ke halaman admin
+                    //apabila rolenya user akan redirect ke halaman user
                     if ($user['role_id'] == 1) {
                         redirect('admin');
                     } else {
                         redirect('user');
                     }
-                } else {
+                }
+                //Jika password inputan salah
+                else {
                     $this->session->set_flashdata('message', 'Password Salah ');
                     redirect('auth');
                 }
-            } else {
+            }
+            //JIka akun tidak aktif
+            else {
                 $this->session->set_flashdata('message', 'Akun tidak AKTIF');
                 redirect('auth');
             }
-        } else {
+        }
+        //Jika tidak ada akun
+        else {
             $this->session->set_flashdata('message', 'Tidak Ada Akun');
             redirect('auth');
         }
@@ -84,11 +99,14 @@ class Auth extends CI_Controller
             'required' => 'Masukkan ulang password'
         ]);
 
+        //JIka tidak melakukan registrasi
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/auth_header', $data);
             $this->load->view('auth/register');
             $this->load->view('templates/auth_footer');
-        } else {
+        }
+        //Jika melakukan registrasi
+        else {
             $data = [
                 'nama' => htmlspecialchars($this->input->post('name', true)),
                 'email' => $this->input->post('email', true),
@@ -109,11 +127,17 @@ class Auth extends CI_Controller
 
     public function logout()
     {
+        //logout menghapus session
         $this->session->unset_userdata('email');
         $this->session->unset_userdata('role_id');
 
         $this->session->set_flashdata('message', 'Telah Keluar');
 
         redirect('auth');
+    }
+
+    public function blocked()
+    {
+        $this->load->view('auth/blocked');
     }
 }
