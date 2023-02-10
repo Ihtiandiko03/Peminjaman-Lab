@@ -16,16 +16,16 @@
 
             <?= $this->session->flashdata('message'); ?>
 
-            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#gedungModal">Buat Peminjaman Ruangan</a>
+            <a href="<?= base_url('peminjaman/buatpeminjaman/'); ?>" class="btn btn-primary mb-3">Buat Peminjaman</a>
 
             <table class=" table table-hover">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Laboratorium</th>
+                        <th scope="col">Nama</th>
                         <th scope="col">Tanggal</th>
-                        <th scope="col">Jam Mulai</th>
-                        <th scope="col">Jam Selesai</th>
+                        <th scope="col">Kapasitas</th>
+                        <th scope="col">Jam</th>
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -35,14 +35,16 @@
                     <?php foreach ($peminjaman as $p) : ?>
                         <tr>
                             <th scope="row"><?= $i++; ?></th>
-                            <td><?= $p['nama_lab']; ?></td>
-                            <td><?= $p['tanggal_penggunaan']; ?></td>
-                            <td><?= $p['mulai_penggunaan']; ?></td>
-                            <td><?= $p['selesai_penggunaan']; ?></td>
+                            <td><?= $p['nama']; ?></td>
+                            <td><?=  $p['tanggal_penggunaan']; ?></td>
+                            <td><?=  $p['kapasitas']; ?></td>
+                            <td><?= $p['range_waktu']; ?></td>
                             <?php if($p['status'] == 'request') : ?>
                                 <td> <b class="badge badge-warning"><?= $p['status']; ?></b></td>
                             <?php elseif($p['status'] == 'done') : ?>
                                 <td> <b class="badge badge-success"><?= $p['status']; ?></b></td>
+                            <?php elseif($p['status'] == 'proses') : ?>
+                                <td> <b class="badge badge-secondary"><?= $p['status']; ?></b></td>
                             <?php elseif($p['status'] == 'reject') : ?>
                                 <td> <b class="badge badge-danger"><?= $p['status']; ?></b></td>
                             <?php endif ?>
@@ -70,7 +72,7 @@
 
 <!-- MODAL -->
 
-<div class="modal fade" id="gedungModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="gedungModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -82,14 +84,6 @@
 
             <form action="<?= base_url('peminjaman/upload'); ?>" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
-                    <div class="form-group">
-                        <select name="id_laboratorium" id="id_laboratorium" class="form-control">
-                            <option value="">Pilih Laboratorium</option>
-                            <?php foreach ($lab as $l) : ?>
-                                <option value="<?= $l['id_laboratorium']; ?>"><?= $l['nama_lab']; ?></option>
-                            <?php endforeach ?>
-                        </select>
-                    </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama"> 
                     </div>
@@ -106,31 +100,72 @@
                         <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                     </div>
                     <div class="form-group">
-                        <input type="date" class="form-control" id="tanggal_penggunaan" name="tanggal_penggunaan" placeholder="Tanggal Pelaksanaan"> 
-                    </div>
-                    <div class="form-group">
-                        <input type="time" class="form-control" id="mulai_penggunaan" name="mulai_penggunaan" placeholder="Jam Mulai">
-                    </div>
-                    <div class="form-group">
-                        <input type="time" class="form-control" id="selesai_penggunaan" name="selesai_penggunaan" placeholder="Jam Selesai">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="judul_penelitian" name="judul_penelitian" placeholder="Judul Penelitian">
+                        <input type="text" class="form-control" id="nama_kegiatan" name="nama_kegiatan" placeholder="Nama Kegiatan">
                     </div>
                     <div class="form-group">
                          <input type="file" class="form-control" id="dokumen_pendukung" name="dokumen_pendukung">
                     </div>
+
+                    <h6> Jadwal ke-1</h6>
+
+                    <div class="form-group">
+                        <input type="date" class="form-control" name="tanggal_penggunaan[]" placeholder="Tanggal Pelaksanaan"> 
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control"  name="kapasitas[]" placeholder="Jumlah peserta">
+                    </div>
+                    <div class="form-group">
+                        <select name="id_range_waktu[]" class="form-control">
+                            <option value="">Pilih Jam</option>
+                            <?php foreach ($rangeWaktu as $r) : ?>
+                                <option value="<?= $r['id_range_waktu']; ?>"><?= $r['range_waktu']; ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+
+
+                    <div id="newinput"></div>
+
+                    <button id="btn-tambah-form" type="button"
+						class="btn btn-primary">ADD
+					</button>
+
+                    <button type="button" id="btn-reset-form" class="btn btn-secondary">Reset Form</button><br>
+
                     <input type="hidden" class="form-control" id="status" name="status" value="request">
+                    <input type="hidden" id="jumlah-form" name="jumlah-form" value="1">
                     
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Buat Peminjaman</button>
                 </div>
+                
             </form>
         </div>
     </div>
-</div>
+</div> -->
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script> 
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            $("#btn-tambah-form").click(function(){ 
+                var jumlah = parseInt($("#jumlah-form").val());
+                var nextform = jumlah + 1;
+
+                $("#newinput").append('<h6> Jadwal ke-' + nextform + '</h6><div class="form-group"><input type="date" class="form-control" id="tanggal_penggunaan" name="tanggal_penggunaan" placeholder="Tanggal Pelaksanaan"> </div><div class="form-group"><input type="number" class="form-control" id="kapasitas" name="kapasitas" placeholder="Jumlah peserta"></div><div class="form-group"><select name="id_range_waktu" id="id_range_waktu" class="form-control"><option value="">Pilih Jam</option><?php foreach ($rangeWaktu as $r) : ?><option value="<?= $r['id_range_waktu']; ?>"><?= $r['range_waktu']; ?></option><?php endforeach ?></select></div>');
+                $("#jumlah-form").val(nextform);
+            });
+
+            $("#btn-reset-form").click(function(){
+                $("#newinput").html("");
+                $("#jumlah-form").val("1");
+            });
+        });
+
+    </script> -->
+
+
 
 
 

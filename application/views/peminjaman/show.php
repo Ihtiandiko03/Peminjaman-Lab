@@ -14,11 +14,6 @@
                 
                 <tbody>
                         <tr>
-                            <th scope="col">Nama Laboratorium</th>
-                            <td><?= $p['nama_lab']; ?></td>
-                        </tr>
-
-                        <tr>
                             <th scope="col">Nama</th>
                             <td><?= $p['nama']; ?></td>
                         </tr>
@@ -49,18 +44,18 @@
                         </tr>
 
                         <tr>
-                            <th scope="col">Jam mulai</th>
-                            <td><?= $p['mulai_penggunaan']; ?></td>
+                            <th scope="col">Jumlah Peserta</th>
+                            <td><?= $p['kapasitas']; ?></td>
                         </tr>
 
                         <tr>
-                            <th scope="col">Jam Selesai</th>
-                            <td><?= $p['selesai_penggunaan']; ?></td>
+                            <th scope="col">Jam</th>
+                            <td><?= $p['range_waktu']; ?></td>
                         </tr>
 
                         <tr>
-                            <th scope="col">Judul Penelitian</th>
-                            <td><?= $p['judul_penelitian']; ?></td>
+                            <th scope="col">Nama Kegiatan</th>
+                            <td><?= $p['nama_kegiatan']; ?></td>
                         </tr>
 
                         <tr>
@@ -75,6 +70,17 @@
                         </tr>
 
                         <tr>
+                            <th scope="col">Ruangan Lab</th>
+                            <?php foreach($nama_lab as $nl) : ?>
+                            <?php if($nl['nama_lab']) : ?>
+                                <td><?= $nl['nama_lab'] ?></td>
+                            <?php else : ?>
+                                <td>Belum ada</td>
+                            <?php endif ?>
+                            <?php endforeach ?>
+                        </tr>
+
+                        <tr>
                             <th scope="col">Catatan</th>
                             <td><?= $p['komentar']; ?></td>
                         </tr>
@@ -82,7 +88,6 @@
                 </tbody>
             </table>
 
-            <a href=" <?= base_url('peminjaman') ?>" class="ml-3">Kembali</a>
         </div>
 
         <div class="col-lg-6">

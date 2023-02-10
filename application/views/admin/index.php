@@ -11,65 +11,123 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
+                
                     <div class="schedule-table">
                         <table class="table bg-white">
                             <thead>
                                 <tr>
                                     <th>Routine</th>
-                                    <th>07.00</th>
-                                    <th>08.00</th>
-                                    <th>09.00</th>
-                                    <th>10.00</th>
-                                    <th>11.00</th>
-                                    <th>12.00</th>
-                                    <th>13.00</th>
-                                    <th>14.00</th>
-                                    <th>15.00</th>
-                                    <th>16.00</th>
-                                    <th class="last">17.00</th>
+                                    <?php $hari = '' ?>
+                                    <?php foreach($range_waktu as $r) : ?>
+                                        <th><?= $r['range_waktu']; ?></th>
+                                    <?php endforeach ?>
+
                                 </tr>
                             </thead>
                             <tbody>
+                                    <?php foreach($jadwal as $j) : ?>
+
+                                <?php if($j['id_laboratorium'] == 00001) : ?>
+                                    
                                 <tr>
-                                    <td class="day">Monday</td>
-                                    <td class="active">
-                                    <h4>Weight Loss</h4>
-                                    <p>10 am - 11 am</p>
-                                        <div class="hover">
-                                            <h4>Weight Loss</h4>
-                                            <p>10 am - 11 am</p>
-                                            <span>Wayne Ponce</span>
-                                        </div>
-                                    </td>
+                                    <td class="day"><?= date("l", strtotime($j['tanggal_penggunaan'])); ?><br><?=$j['tanggal_penggunaan']?></td>
+                                    
+                                    <?php if($j['J_07_00_09_00'] == 1) : ?>
+                                        <td class="active">
+                                        <h4><?= $j['nama_kegiatan'];?></h4>
+                                        <p><?= $j['prodi'];?></p>
+                                            <div class="hover">
+                                                <h4><?= $j['nama_kegiatan'];?></h4>
+                                                <p><?= $j['prodi'];?></p>
+                                                <span><?= $j['tanggal_penggunaan'];?></span>
+                                            </div>
+                                        </td>
 
-                                    <td></td>
+                                    <?php else : ?>
+                                        <td></td>
 
-                                    <td class="active">
-                                    <h4>Yoga</h4>
-                                    <p>03 pm - 04 pm</p>
-                                        <div class="hover">
-                                            <h4>Yoga</h4>
-                                            <p>03 pm - 04 pm</p>
-                                            <span>Francisco Watt</span>
-                                        </div>
-                                    </td>
+                                    <?php endif; ?>
 
-                                    <td class="active">
-                                    <h4>Boxing</h4>
-                                    <p>05 pm - 06 pm</p>
-                                        <div class="hover">
-                                            <h4>Boxing</h4>
-                                            <p>05 pm - 046am</p>
-                                            <span>Charles King</span>
-                                        </div>
-                                    </td>
+                                        
 
-                                    <td></td>
+                                    <?php if($j['J_09_00_11_00'] == 1) : ?>
+                                        <td class="active">
+                                        <h4><?= $j['nama_kegiatan'];?></h4>
+                                        <p><?= $j['prodi'];?></p>
+                                            <div class="hover">
+                                                <h4><?= $j['nama_kegiatan'];?></h4>
+                                                <p><?= $j['prodi'];?></p>
+                                                <span><?= $j['tanggal_penggunaan'];?></span>
+                                            </div>
+                                        </td>
+                                        
+                                    <?php else : ?>
+                                        <td></td>
 
-                                </tr>                
+                                    <?php endif; ?>
+
+                                    <?php if($j['J_11_00_13_00'] == 1) : ?>
+                                        <td class="active">
+                                        <h4><?= $j['nama_kegiatan'];?></h4>
+                                        <p><?= $j['prodi'];?></p>
+                                            <div class="hover">
+                                                <h4><?= $j['nama_kegiatan'];?></h4>
+                                                <p><?= $j['prodi'];?></p>
+                                                <span><?= $j['tanggal_penggunaan'];?></span>
+                                            </div>
+                                        </td>
+                                        
+                                    <?php else : ?>
+                                        <td></td>
+
+                                    <?php endif; ?>
+
+                                    
+                                    <?php if($j['J_13_00_15_00'] == 1) : ?>
+                                        <td class="active">
+                                        <h4><?= $j['nama_kegiatan'];?></h4>
+                                        <p><?= $j['prodi'];?></p>
+                                            <div class="hover">
+                                                <h4><?= $j['nama_kegiatan'];?></h4>
+                                                <p><?= $j['prodi'];?></p>
+                                                <span><?= $j['tanggal_penggunaan'];?></span>
+                                            </div>
+                                        </td>
+                                        
+                                    <?php else : ?>
+                                        <td></td>
+
+                                    <?php endif; ?>
+
+
+
+                                    <?php if($j['J_15_00_17_00'] == 1) : ?>
+                                        <td class="active">
+                                        <h4><?= $j['nama_kegiatan'];?></h4>
+                                        <p><?= $j['prodi'];?></p>
+                                            <div class="hover">
+                                                <h4><?= $j['nama_kegiatan'];?></h4>
+                                                <p><?= $j['prodi'];?></p>
+                                                <span><?= $j['tanggal_penggunaan'];?></span>
+                                            </div>
+                                        </td>
+                                        
+                                    <?php else : ?>
+                                        <td></td>
+
+                                    <?php endif; ?>
+
+                                </tr>
+                                    <?php $hari = $j['tanggal_penggunaan'];  ?>
+                                <?php endif ?>
+
+                                <?php endforeach ?>
                             </tbody>
                         </table>
                     </div>
+
+
+
                 </div>
             </div>
     </div>
@@ -121,6 +179,7 @@
         z-index: 10;
         transition: all 0.3s linear 0s;
         min-width: 50px;
+        background-color : lightblue;
         }
         .schedule-table table tbody td.active h4 {
         font-weight: 700;

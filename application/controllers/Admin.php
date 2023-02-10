@@ -6,6 +6,7 @@ class Admin extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('Peminjaman_model');
         is_logged_in();
     }
 
@@ -15,6 +16,8 @@ class Admin extends CI_Controller
 
         $data['title'] = 'Dashboard Admin';
         $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $this->session->userdata('email')])->row_array();
+        $data['range_waktu'] = $this->Peminjaman_model->roadster();
+        $data['jadwal'] = $this->Peminjaman_model->jadwal();
 
 
         $this->load->view('templates/header', $data);
