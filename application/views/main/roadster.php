@@ -1,3 +1,4 @@
+
 <!-- Begin Page Content -->
 
 
@@ -16,6 +17,8 @@
                 
                     <div class="schedule-table">
                         <table class="table bg-white">
+
+
                             <thead>
                                 <tr>
                                         <th colspan="1" rowspan="2" scope="colgroup">Nama Lab</th>
@@ -55,7 +58,6 @@
 
                             <tbody>
                                 <?php foreach($jadwal as $j) : ?>
-
                                     <tr>
                                         <td><?= $j['nama_lab'] ?></td>
 
@@ -73,7 +75,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -88,7 +89,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -103,7 +103,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -118,7 +117,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -133,7 +131,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -150,7 +147,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -165,7 +161,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -180,7 +175,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -195,7 +189,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -210,7 +203,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -227,7 +219,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -242,7 +233,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -257,7 +247,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -272,7 +261,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -287,7 +275,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -303,7 +290,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -318,7 +304,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -333,7 +318,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -348,7 +332,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -363,7 +346,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -379,7 +361,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -394,7 +375,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -409,7 +389,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -424,7 +403,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -439,7 +417,6 @@
                                                                         <div class="hover">
                                                                             <h4><?= $j2['nama_kegiatan'];?></h4>
                                                                             <p><?= $j2['prodi'];?></p>
-                                                                            <p><?= $j2['kapasitas'];?> orang</p>
                                                                             <span><?= $j2['tanggal_penggunaan'];?></span>
                                                                         </div>
                                                         </td>
@@ -454,7 +431,6 @@
                                             <?php endif ?>
                                         <?php endforeach ?>        
                                     </tr>
-
                                 <?php endforeach ?>
                             </tbody>
 
@@ -463,7 +439,7 @@
                         </table>
                     </div>
 
-
+                    
 
                 </div>
             </div>

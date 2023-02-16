@@ -16,7 +16,7 @@
 
             <?= $this->session->flashdata('message'); ?>
 
-            <a href="<?= base_url('peminjaman/buatpeminjaman/'); ?>" class="btn btn-primary mb-3">Buat Peminjaman</a>
+            <a href="<?= base_url('user/buatpeminjaman/'); ?>" class="btn btn-primary mb-3">Buat Peminjaman</a>
 
             <table class=" table table-hover">
                 <thead>
@@ -51,7 +51,7 @@
 
 
                             <td>
-                                <a href="<?= base_url('peminjaman/show/').$p['id_peminjaman_ruang']; ?>" class="badge badge-primary">Lihat</a>
+                                <a href="<?= base_url('user/show/').$p['id_peminjaman_ruang']; ?>" class="badge badge-primary">Lihat</a>
                             </td>
                         </tr>
                     <?php endforeach ?>

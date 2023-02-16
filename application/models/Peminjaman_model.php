@@ -72,6 +72,63 @@ class Peminjaman_model extends CI_Model
         return $this->db->query($query)->result_array();
     }
 
+    public function jadwal2(){
+        $query = "select `tb_peminjaman_ruang`.`id_laboratorium`,`tanggal_penggunaan`, `tb_laboratorium`.`nama_lab`,
+
+        count(case when (id_range_waktu = 1 AND (DAYNAME(`tanggal_penggunaan`) = 'Monday')) then 1 else null end) as Senin_J_07_00_09_00,
+        count(case when (id_range_waktu = 2 AND (DAYNAME(`tanggal_penggunaan`) = 'Monday')) then 1 else null end) as Senin_J_09_00_11_00,
+        count(case when (id_range_waktu = 3 AND (DAYNAME(`tanggal_penggunaan`) = 'Monday')) then 1 else null end) as Senin_J_11_00_13_00,
+           count(case when (id_range_waktu = 4 AND (DAYNAME(`tanggal_penggunaan`) = 'Monday')) then 1 else null end) as Senin_J_13_00_15_00,
+           count(case when (id_range_waktu = 5 AND (DAYNAME(`tanggal_penggunaan`) = 'Monday')) then 1 else null end) as Senin_J_15_00_17_00,
+        count(case when (id_range_waktu = 1 AND (DAYNAME(`tanggal_penggunaan`) = 'Tuesday')) then 1 else null end) as Selasa_J_07_00_09_00,
+        count(case when (id_range_waktu = 2 AND (DAYNAME(`tanggal_penggunaan`) = 'Tuesday')) then 1 else null end) as Selasa_J_09_00_11_00,
+        count(case when (id_range_waktu = 3 AND (DAYNAME(`tanggal_penggunaan`) = 'Tuesday')) then 1 else null end) as Selasa_J_11_00_13_00,
+           count(case when (id_range_waktu = 4 AND (DAYNAME(`tanggal_penggunaan`) = 'Tuesday')) then 1 else null end) as Selasa_J_13_00_15_00,
+           count(case when (id_range_waktu = 5 AND (DAYNAME(`tanggal_penggunaan`) = 'Tuesday')) then 1 else null end) as Selasa_J_15_00_17_00,
+        count(case when (id_range_waktu = 1 AND (DAYNAME(`tanggal_penggunaan`) = 'Wednesday')) then 1 else null end) as Rabu_J_07_00_09_00,
+        count(case when (id_range_waktu = 2 AND (DAYNAME(`tanggal_penggunaan`) = 'Wednesday')) then 1 else null end) as Rabu_J_09_00_11_00,
+        count(case when (id_range_waktu = 3 AND (DAYNAME(`tanggal_penggunaan`) = 'Wednesday')) then 1 else null end) as Rabu_J_11_00_13_00,
+           count(case when (id_range_waktu = 4 AND (DAYNAME(`tanggal_penggunaan`) = 'Wednesday')) then 1 else null end) as Rabu_J_13_00_15_00,
+           count(case when (id_range_waktu = 5 AND (DAYNAME(`tanggal_penggunaan`) = 'Wednesday')) then 1 else null end) as Rabu_J_15_00_17_00,
+        count(case when (id_range_waktu = 1 AND (DAYNAME(`tanggal_penggunaan`) = 'Thursday')) then 1 else null end) as Kamis_J_07_00_09_00,
+        count(case when (id_range_waktu = 2 AND (DAYNAME(`tanggal_penggunaan`) = 'Thursday')) then 1 else null end) as Kamis_J_09_00_11_00,
+        count(case when (id_range_waktu = 3 AND (DAYNAME(`tanggal_penggunaan`) = 'Thursday')) then 1 else null end) as Kamis_J_11_00_13_00,
+           count(case when (id_range_waktu = 4 AND (DAYNAME(`tanggal_penggunaan`) = 'Thursday')) then 1 else null end) as Kamis_J_13_00_15_00,
+           count(case when (id_range_waktu = 5 AND (DAYNAME(`tanggal_penggunaan`) = 'Thursday')) then 1 else null end) as Kamis_J_15_00_17_00,
+        count(case when (id_range_waktu = 1 AND (DAYNAME(`tanggal_penggunaan`) = 'Friday')) then 1 else null end) as Jumat_J_07_00_09_00,
+        count(case when (id_range_waktu = 2 AND (DAYNAME(`tanggal_penggunaan`) = 'Friday')) then 1 else null end) as Jumat_J_09_00_11_00,
+        count(case when (id_range_waktu = 3 AND (DAYNAME(`tanggal_penggunaan`) = 'Friday')) then 1 else null end) as Jumat_J_11_00_13_00,
+           count(case when (id_range_waktu = 4 AND (DAYNAME(`tanggal_penggunaan`) = 'Friday')) then 1 else null end) as Jumat_J_13_00_15_00,
+           count(case when (id_range_waktu = 5 AND (DAYNAME(`tanggal_penggunaan`) = 'Friday')) then 1 else null end) as Jumat_J_15_00_17_00
+        
+        
+        
+  
+  
+  
+          from tb_peminjaman_ruang JOIN `tb_laboratorium` ON `tb_peminjaman_ruang`.`id_laboratorium` = `tb_laboratorium`.`id_laboratorium`
+          
+          where status='done'
+          group by id_laboratorium";
+
+        return $this->db->query($query)->result_array();
+    }
+
+    public function jadwal3(){
+        $query = "SELECT id_laboratorium, tanggal_penggunaan, id_range_waktu, nama_kegiatan, prodi, kapasitas
+        
+        from tb_peminjaman_ruang
+        where status='done'";
+
+        return $this->db->query($query)->result_array();
+    }
+
+    public function getLaboratorium(){
+        $query="SELECT * FROM tb_laboratorium";
+
+        return $this->db->query($query)->result_array();
+    }
+
 
 
 

@@ -5,7 +5,7 @@
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
 
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-5">
             <?= form_error(
                 'menu',
                 '<div class="alert alert-danger" role="alert">',
@@ -19,26 +19,31 @@
                 <h5 class="modal-title" id="exampleModalLabel">Tambah Peminjaman Ruang</h5>
             </div>
 
-            <form action="<?=base_url()?>peminjaman/upload" method="post" enctype="multipart/form-data" id="formPeminjaman">
+            <form action="<?=base_url()?>peminjaman/buatpeminjaman" method="post" enctype="multipart/form-data" id="formPeminjaman">
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama" required> 
+                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama" value="<?php echo set_value('nama') ?>">
+                        <?php echo form_error('nama', ' <small class="text-danger pl-3">', '</small>') ?>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nrk" name="nrk" placeholder="NRK" required>
+                        <input type="text" class="form-control" id="nrk" name="nrk" placeholder="NRK" value="<?php echo set_value('nrk') ?>">
+                        <?php echo form_error('nrk', ' <small class="text-danger pl-3">', '</small>') ?>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="prodi" name="prodi" placeholder="Prodi" required>
+                        <input type="text" class="form-control" id="prodi" name="prodi" placeholder="Prodi" value="<?php echo set_value('prodi') ?>">
+                        <?php echo form_error('prodi', ' <small class="text-danger pl-3">', '</small>') ?>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="notlp" name="notlp" placeholder="Nomor Telepon" required>
+                        <input type="text" class="form-control" id="notlp" name="notlp" placeholder="Nomor Telepon" value="<?php echo set_value('notlp') ?>">
+                        <?php echo form_error('notlp', ' <small class="text-danger pl-3">', '</small>') ?>
                     </div>
                     <div class="form-group">
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="<?php echo set_value('email') ?>">
+                        <?php echo form_error('email', ' <small class="text-danger pl-3">', '</small>') ?>
                     </div>
 
                     <div class="form-group">
-                        <select class="form-control" aria-label="Default select example" id="jeniskegiatan">
+                        <select class="form-control" aria-label="Default select example" id="jeniskegiatan" onchange="jnsKegiatan()">
                             <option selected>Pilih Jenis Kegiatan</option>
                             <option value="kuliah">Kuliah</option>
                             <option value="umum">Umum</option>
@@ -46,21 +51,30 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nama_kegiatan" name="nama_kegiatan" placeholder="Nama Kegiatan">
+                        <input type="text" class="form-control" id="nama_kegiatan" name="nama_kegiatan" placeholder="Nama Kegiatan" value="<?php echo set_value('nama_kegiatan') ?>">
+                        <?php echo form_error('nama_kegiatan', ' <small class="text-danger pl-3">', '</small>') ?>
                     </div>
+
+
+
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+
+
                     <div class="form-group">
                          <input type="file" class="form-control" id="dokumen_pendukung" name="dokumen_pendukung">
                     </div>
 
+                    
 
-                    <div id="isijadwal">
-                        <h6> Jadwal ke-1</h6>
 
+                    <div id="isijadwal" style="display:none;">
+                        <h6> Jadwal ke-1 </h6>
                         <div class="form-group">
-                            <input type="date" class="form-control" name="multiple[0][tanggal_penggunaan]" placeholder="Tanggal Pelaksanaan"> 
+                            <input type="date" class="form-control" id="tanggal_penggunaan" name="multiple[0][tanggal_penggunaan]" placeholder="Tanggal Pelaksanaan"> 
                         </div>
                         <div class="form-group">
-                            <input type="number" class="form-control"  name="multiple[0][kapasitas]" placeholder="Jumlah peserta">
+                            <input type="number" class="form-control" id="kapasitas" name="multiple[0][kapasitas]" placeholder="Jumlah peserta">
                         </div>
                         <div class="form-group">
                             <select name="multiple[0][id_range_waktu]" class="form-control">
@@ -71,7 +85,6 @@
                             </select>
                         </div>
 
-
                         <div id="newinput"></div>
 
                         <button id="btn-tambah-form" type="button"
@@ -80,116 +93,174 @@
 
                         <button type="button" id="btn-reset-form" class="btn btn-secondary">Reset Form</button><br>
 
-                        <input type="hidden" class="form-control" id="status" name="status" value="request">
+                        
                         <input type="hidden" id="jumlah-form" name="jumlah-form" value="0">
                     </div>
 
-                    <div id="isijadwal2">
-                        <select class="form-control" aria-label="Default select example" id="namahari" onchange="fungsiHari()">
-                            <option selected>Pilih Hari</option>
-                            <option value="0">Minggu</option>
-                            <option value="1">Senin</option>
-                            <option value="2">Selasa</option>
-                            <option value="3">Rabu</option>
-                            <option value="4">Kamis</option>
-                            <option value="5">Jumat</option>
-                            <option value="6">Sabtu</option>
-                        </select>
+                    <div id="isijadwal2" style="display:none;">
+
+                        <div class="form-group">
+                            <input type="number" class="form-control"  name="kapasitas" placeholder="Jumlah peserta">
+                        </div>
+                        <div class="form-group">
+                            <select name="id_range_waktu" class="form-control">
+                                <option value="">Pilih Jam</option>
+                                <?php foreach ($rangeWaktu as $r) : ?>
+                                    <option value="<?= $r['id_range_waktu']; ?>"><?= $r['range_waktu']; ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
                         
-                        <div id="daftartanggal" class="ml-5 mt-2">
-                            <div class="form-group" id="tgl_plksn">
-                                <p><?= $draftanggal; ?></p>
-                            </div>
+                        <div class="form-group">
+                            <select class="form-control" id="namahari" onchange="fungsiHari()">
+                                <option selected>Pilih Hari</option>
+                                <option value="0">Minggu</option>
+                                <option value="1">Senin</option>
+                                <option value="2">Selasa</option>
+                                <option value="3">Rabu</option>
+                                <option value="4">Kamis</option>
+                                <option value="5">Jumat</option>
+                                <option value="6">Sabtu</option>
+                            </select>
                         </div>
 
+                        <div class="form-group" name="tgl_plk" id="tgl_plk"></div>
 
                     </div>
                     
-
+                    <input type="hidden" class="form-control" id="status" name="status" value="request">             
                 </div>
+
+
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Buat Peminjaman</button>
                 </div>
-                
             </form>
         </div>
-
-
-        </div>
+        
     </div>
+    
+    <div class="col-lg-6">
+        <b>Dokumen</b><br>
+        <canvas id="pdfViewer"></canvas>
+    </div>
+
 </div>
 <!-- /.container-fluid -->
-
-
-
-
-
 
 </div>
 <!-- End of Main Content -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
     <script type="text/javascript">
 
-        // $(document).ready(function(){
-        //     $("#btn-tambah-form").click(function(){ 
-        //         var jumlah = parseInt($("#jumlah-form").val());
-        //         var nextform = jumlah + 1;
+    function jnsKegiatan() {
+        var jenisKegiatan = document.getElementById("jeniskegiatan").value;
 
-        //         $("#newinput").append('<h6> Jadwal ke-' + (nextform+1) + '</h6><div class="form-group"><input type="date" class="form-control" id="tanggal_penggunaan" name="multiple['+nextform+'][tanggal_penggunaan]" placeholder="Tanggal Pelaksanaan"> </div><div class="form-group"><input type="number" class="form-control" id="kapasitas" name="multiple['+nextform+'][kapasitas]" placeholder="Jumlah peserta"></div><div class="form-group"><select name="multiple['+nextform+'][id_range_waktu]" class="form-control"><option value="">Pilih Jam</option><?php foreach ($rangeWaktu as $r) : ?><option value="<?= $r['id_range_waktu']; ?>"><?= $r['range_waktu']; ?></option><?php endforeach ?></select></div>');
-        //         $("#jumlah-form").val(nextform);
-        //     });
+        if(jenisKegiatan === 'umum'){
+            var x = document.getElementById("isijadwal");
+            var y = document.getElementById("isijadwal2");
 
-        //     $("#btn-reset-form").click(function(){
-        //         $("#newinput").html("");
-        //         $("#jumlah-form").val("1");
-        //     });
+            if (x.style.display == "none") {
+                x.style.display = "block";
+                y.style.display = "none";
+            } else {
+                x.style.display = "none";
+                y.style.display = "block";
+            }
+        }
+        else if(jenisKegiatan == 'kuliah'){
+            var x = document.getElementById("isijadwal");
+            var y = document.getElementById("isijadwal2");
 
-        // });
+            if (y.style.display === "none") {
+                y.style.display = "block";
+                x.style.display = "none";
+            } else {
+                y.style.display = "none";
+                x.style.display = "block";
+            }
+            
+        }
+    }
+
+        $(document).ready(function(){
+            $("#btn-tambah-form").click(function(){ 
+                var jumlah = parseInt($("#jumlah-form").val());
+                var nextform = jumlah + 1;
+
+                $("#newinput").append('<h6> Jadwal ke-' + (nextform+1) + '</h6><div class="form-group"><input type="date" class="form-control" id="tanggal_penggunaan" name="multiple['+nextform+'][tanggal_penggunaan]" placeholder="Tanggal Pelaksanaan"> </div><div class="form-group"><input type="number" class="form-control" id="kapasitas" name="multiple['+nextform+'][kapasitas]" placeholder="Jumlah peserta"></div><div class="form-group"><select name="multiple['+nextform+'][id_range_waktu]" class="form-control"><option value="">Pilih Jam</option><?php foreach ($rangeWaktu as $r) : ?><option value="<?= $r['id_range_waktu']; ?>"><?= $r['range_waktu']; ?></option><?php endforeach ?></select></div>');
+                $("#jumlah-form").val(nextform);
+            });
+
+            $("#btn-reset-form").click(function(){
+                $("#newinput").html("");
+                $("#jumlah-form").val("1");
+            });
+
+        });
 
         function fungsiHari() {
-            // var jenisKegiatan = document.getElementById("jeniskegiatan").value;
+            
             var hari = document.getElementById("namahari").value;
             
             $.ajax({
                     url: '<?=base_url()?>peminjaman/getday',
                     type: 'post',
-                    dataType: 'JSON',
+                    dataType: 'json',
+                    async : true,
                     data: {
-                    'hari': hari
-                    },
-                    success: function() {
-
+                            'hari': hari
+                            },
+                    success: function(data) {
+                        // console.log(data);
+                        $('#tgl_plk').html(data);
                     }
-                });
+            });
 
-
-            // if(jenisKegiatan == 'kuliah'){
-
-                
-
-
-                // var x = document.getElementById("isijadwal2");
-
-                // if (x.style.display === "none") {
-                //     x.style.display = "block";
-                // } else {
-                //     x.style.display = "none";
-                // }
-            // }
-            // else if(jenisKegiatan == 'umum'){
-                // var x = document.getElementById("isijadwal");
-
-                // if (x.style.display === "none") {
-                //     x.style.display = "block";
-                // } else {
-                //     x.style.display = "none";
-                // }
-                
-            // }
         }
 
-        
+        var pdfjsLib = window['pdfjs-dist/build/pdf'];
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+        $("#dokumen_pendukung").on("change", function(e){
+            var file = e.target.files[0]
+            if(file.type == "application/pdf"){
+                var fileReader = new FileReader();  
+                fileReader.onload = function() {
+                var pdfData = new Uint8Array(this.result);
+                var loadingTask = pdfjsLib.getDocument({data: pdfData});
+                loadingTask.promise.then(function(pdf) {
+                console.log('PDF loaded');
+                                        
+                var pageNumber = 1;
+                pdf.getPage(pageNumber).then(function(page) {
+                    console.log('Page loaded');
+                                            
+                    var scale = 1.5;
+                    var viewport = page.getViewport({scale: scale});
+
+                    var canvas = $("#pdfViewer")[0];
+                    var context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+
+                    var renderContext = {
+                        canvasContext: context,
+                        viewport: viewport
+                    };
+                    var renderTask = page.render(renderContext);
+                    renderTask.promise.then(function () {
+                    console.log('Page rendered');
+                    });
+                });
+            }, function (reason) {
+                console.error(reason);
+                });
+            };
+                fileReader.readAsArrayBuffer(file);
+            }
+        });
 
     </script>
 

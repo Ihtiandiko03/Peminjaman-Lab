@@ -73,13 +73,13 @@
             <div class=" collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav ms-auto ">
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-light" aria-current="page" href="#">Lihat Roadster</a>
+                        <a class="nav-link mx-2 text-light" aria-current="page" href="<?= base_url('main/roadster')?>">Lihat Roadster</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-light" href="#">Buat Peminjaman Lab</a>
+                        <a class="nav-link mx-2 text-light" href="<?= base_url('main/kapasitasruangan')?>">Kapasitas Ruangan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-light" href="/main/kontak">Kontak</a>
+                        <a class="nav-link mx-2 text-light" href="<?= base_url('main/kontak')?>">Kontak</a>
                     </li>
                     <li class="nav-item ml-2">
                         <div class="subnav" style="background-color: #E8AA42; border-radius:3px;" tes>

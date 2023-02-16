@@ -1,12 +1,13 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background: rgb(38,48,97);
+background: linear-gradient(90deg, rgba(38,48,97,1) 0%, rgba(47,47,179,1) 48%, rgba(38,48,97,1) 100%);">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php echo base_url('user/peminjaman');?>">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-code"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">Admin</div>
+        <div class="sidebar-brand-text mx-3">Laboratorium</div>
     </a>
 
     <!-- Divider -->
@@ -20,9 +21,13 @@
     $menu = $this->db->query($queryMenu)->result_array();
     ?>
 
+    
     <!-- LOOPING MENU -->
-    <?php foreach ($menu as $m) :
-    ?>
+    <?php foreach ($menu as $m) :?>
+        <?php if(($m['menu'] == 'Gedung') or ($m['menu'] == 'Admin') or ($m['menu'] == 'Peminjaman')) : ?>
+
+        <?php else : ?>
+        
         <!-- Heading -->
         <div class="sidebar-heading">
             <?php echo $m['menu'];
@@ -47,8 +52,7 @@
                 <li class="nav-item">
                 <?php endif;
                 ?>
-                <a class="nav-link" href="<?php echo base_url($sm['url']);
-                                            ?>">
+                <a class="nav-link" href="<?php echo base_url($sm['url']);?>">
                     <i class="<?php echo $sm['icon'];
                                 ?>"></i>
                     <span><?php echo $sm['title'];
@@ -59,7 +63,7 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
-
+        <?php endif ?>
         <?php endforeach
         ?>
 

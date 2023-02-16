@@ -14,7 +14,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="">Ruangan Lab</label>
-                        <select name="id_laboratorium" id="id_laboratorium" class="form-control" required>
+                        <select name="id_laboratorium" id="id_laboratorium" class="form-control">
                             <option value="">Pilih Ruangan Lab</option>
                             <?php foreach ($lab as $l) : ?>
                                 <option value="<?= $l['id_laboratorium']; ?>"><?= $l['nama_lab']; ?></option>
@@ -78,7 +78,7 @@
 
         <div class="col-lg-6">
             <b>Dokumen</b><br> 
-            <iframe src="<?php echo base_url("assets/"); ?><?= $p['dokumen_pendukung']; ?>" width="700" height="1000"></iframe>
+            <iframe src="<?php echo base_url("dokumen/"); ?><?= $p['dokumen_pendukung']; ?>" width="700" height="1000"></iframe>
         </div>
         <?php endforeach ?>
     </div>

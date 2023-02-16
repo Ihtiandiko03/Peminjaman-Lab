@@ -118,7 +118,7 @@ class Auth extends CI_Controller
             Telah Keluar
           </div>');
 
-        redirect('auth');
+        redirect('/');
     }
 
     public function blocked()

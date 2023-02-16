@@ -4,8 +4,6 @@
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
 
-
-
     <div class="row">
     <?php foreach ($detailPeminjaman as $p) : ?>
         <div class="col-lg-6">
@@ -92,9 +90,9 @@
 
         <div class="col-lg-6">
             <b>Dokumen</b><br> 
-            <iframe src="<?php echo base_url("assets/"); ?><?= $p['dokumen_pendukung']; ?>" width="700" height="700"></iframe>
+            <iframe src="<?php echo base_url("dokumen/"); ?><?= $p['dokumen_pendukung']; ?>" width="700" height="700"></iframe>
         </div>
-        <?php endforeach ?>
+    <?php endforeach ?>
     </div>
 </div>
 <!-- /.container-fluid -->

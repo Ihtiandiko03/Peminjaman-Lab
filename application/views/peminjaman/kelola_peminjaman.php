@@ -1,10 +1,10 @@
 <!-- Begin Page Content -->
+
+
 <div class="container-fluid">
 
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
-
-
 
     <div class="row">
         <div class="col-lg">
@@ -17,7 +17,7 @@
             <?= $this->session->flashdata('message'); ?>
 
 
-            <table class=" table table-hover">
+            <table id="tabel" class="table table-hover">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -36,9 +36,9 @@
                     <?php $i = 1; $today = date("Y/m/d") ?>
                     <?php foreach ($peminjaman as $p) : ?>
                         <tr>
-                            <th scope="row"><?= $i++; ?></th>
+                            <td scope="row"><b><?= $i++; ?></b></td>
                             <td><?= $p['nama']; ?></td>
-                            <td><?=date("l", strtotime($p['tanggal_penggunaan']))?>, <?= $p['tanggal_penggunaan']; ?></td>
+                            <td><?=date("l", strtotime($p['tanggal_penggunaan']))?>, <?php $timestamp = strtotime($p['tanggal_penggunaan']); $new_date = date("d-m-Y", $timestamp); echo $new_date;  ?></td>
                             <td><?= $p['range_waktu']; ?></td>
 
                             <?php if($p['status'] == 'request') : ?>
@@ -80,15 +80,16 @@
 </div>
 <!-- /.container-fluid -->
 
-
-
-
-
-
 </div>
 <!-- End of Main Content -->
 
 <!-- MODAL -->
+
+<script>
+    $(document).ready(function () {
+        $('#tabel').DataTable();
+    });
+</script>
 
 
 
