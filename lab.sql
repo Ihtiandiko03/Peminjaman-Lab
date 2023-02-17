@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 16, 2023 at 08:41 AM
+-- Generation Time: Feb 17, 2023 at 08:53 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 5.6.40
 
@@ -216,21 +216,17 @@ CREATE TABLE `tb_peminjaman_ruang` (
   `status` enum('request','reject','proses','done') DEFAULT NULL,
   `komentar` text,
   `tanggal_pengajuan` datetime NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `email_pengguna` varchar(128) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `tb_peminjaman_ruang`
 --
 
-INSERT INTO `tb_peminjaman_ruang` (`id_peminjaman_ruang`, `id_laboratorium`, `nama`, `nrk`, `prodi`, `notlp`, `email`, `tanggal_penggunaan`, `id_range_waktu`, `mulai_penggunaan`, `selesai_penggunaan`, `berapa_minggu`, `nama_kegiatan`, `kapasitas`, `dokumen_pendukung`, `status`, `komentar`, `tanggal_pengajuan`, `created_at`) VALUES
-(56, 00002, 'Habibie', '1610040309010002', 'Teknik Kehutanan', '4574564654', 'habibie@gmail.com', '2023-02-17', 3, NULL, NULL, NULL, 'UAS', 57, '929_Permohonan_Peminjaman_Lab_Multimedia_(1).pdf', 'done', '', '0000-00-00 00:00:00', '2023-02-15 07:18:41'),
-(57, 00000, 'Joko', '1610040309010001', 'Teknik Biosistem', '1231513413123', 'hehe@gmail.com', '2023-02-16', 4, NULL, NULL, NULL, 'Kuliah', 80, '929_Permohonan_Peminjaman_Lab_Multimedia_(1)1.pdf', 'reject', 'Gk boleh pinjam', '0000-00-00 00:00:00', '2023-02-15 07:25:57'),
-(59, 00000, 'Ihtiandiko Wicaksono', '16100400213', 'IF', '4574564654', 'wihtiandiko@gmail.com', '2023-02-16', 1, NULL, NULL, NULL, 'TPB 31', 50, '929_Permohonan_Peminjaman_Lab_Multimedia_(1)3.pdf', 'reject', 'Gk boleh pinjam', '0000-00-00 00:00:00', '2023-02-16 04:01:22'),
-(60, NULL, 'Parto', '1610040309010001', 'Teknik Biosistem', '4574564654', 'sad@gggggg.coo', '2023-02-18', 4, NULL, NULL, NULL, 'Kuliah', 50, '929_Permohonan_Peminjaman_Lab_Multimedia_(1)4.pdf', 'request', NULL, '0000-00-00 00:00:00', '2023-02-16 04:03:16'),
-(53, 00004, 'Ihtiandiko Wicaksono', '16100400213', 'Teknik Informatika', '4574564654', 'wihtiandiko@gmail.com', '2023-02-16', 1, NULL, NULL, NULL, 'PKS TPB 31', 90, '491_Permohonan_Lab_MM_TIK.pdf', 'done', '', '0000-00-00 00:00:00', '2023-02-15 03:02:03'),
-(54, 00001, 'Soekarno', '1610040309010001', 'Teknik Lingkungan', '082377102531', 'soekarno@gmail.com', '2023-02-13', 1, NULL, NULL, NULL, 'UTBK', 65, '1191_Disposisi_Pemberitahuan_Uji_Kompetisi_Sertifikasi_Profesi_Mahasiswa_Periode_Februari_2023_(1).pdf', 'done', '', '0000-00-00 00:00:00', '2023-02-15 03:03:17'),
-(55, 00003, 'Soekarno', '1610040309010001', 'Teknik Lingkungan', '082377102531', 'soekarno@gmail.com', '2023-02-14', 1, NULL, NULL, NULL, 'UTBK', 70, '1191_Disposisi_Pemberitahuan_Uji_Kompetisi_Sertifikasi_Profesi_Mahasiswa_Periode_Februari_2023_(1).pdf', 'done', '', '0000-00-00 00:00:00', '2023-02-15 03:03:17');
+INSERT INTO `tb_peminjaman_ruang` (`id_peminjaman_ruang`, `id_laboratorium`, `nama`, `nrk`, `prodi`, `notlp`, `email`, `tanggal_penggunaan`, `id_range_waktu`, `mulai_penggunaan`, `selesai_penggunaan`, `berapa_minggu`, `nama_kegiatan`, `kapasitas`, `dokumen_pendukung`, `status`, `komentar`, `tanggal_pengajuan`, `created_at`, `email_pengguna`) VALUES
+(27, 00001, 'Ihtiandiko Wicaksono', '16100400213', 'Teknik Informatika', '082377102531', 'ihtiandiko.119140118@student.itera.ac.id', '2023-02-17', 5, NULL, NULL, NULL, 'PKS TPB 31', 70, '491_Permohonan_Lab_MM_TIK6.pdf', 'done', '', '0000-00-00 00:00:00', '2023-02-17 07:21:18', 'wihtiandiko@gmail.com'),
+(28, 00000, 'Joko Widodo', '1610040309010001', 'Teknik Pariwisata', '1231513413123', 'jokowi@gmail.com', '2023-02-17', 5, NULL, NULL, NULL, 'UAS', 90, '491_Permohonan_Lab_MM_TIK7.pdf', 'reject', 'Terdapat ruangan sama', '0000-00-00 00:00:00', '2023-02-17 07:24:25', 'wihtiandiko@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -249,17 +245,16 @@ CREATE TABLE `tb_pengguna` (
   `image` varchar(128) NOT NULL,
   `role_id` int(11) NOT NULL,
   `is_active` int(11) NOT NULL,
-  `date_created` int(11) NOT NULL,
-  `id_peminjaman_ruangan` int(11) NOT NULL
+  `date_created` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tb_pengguna`
 --
 
-INSERT INTO `tb_pengguna` (`id`, `email`, `password`, `nama`, `nrk`, `prodi`, `notlpn`, `image`, `role_id`, `is_active`, `date_created`, `id_peminjaman_ruangan`) VALUES
-(1, 'wihtiandiko@gmail.com', '$2y$10$6BEfRSHt7gWTJIz.Rli0iOz6TYcP4L99WkCDE.FiREsxTEXAquXxa', 'Ihtiandiko Wicaksono', '', '', '', 'default.PNG', 1, 1, 1675649713, 0),
-(2, 'hapis@gmail.com', '$2y$10$L1bD3ZQl3u2L3OZCPWvr.e3aZE3gSntLXNxV6KScO/qK2GsCo4GSy', 'Hapis GG', '', '', '', 'default.PNG', 2, 1, 1675650686, 0);
+INSERT INTO `tb_pengguna` (`id`, `email`, `password`, `nama`, `nrk`, `prodi`, `notlpn`, `image`, `role_id`, `is_active`, `date_created`) VALUES
+(1, 'wihtiandiko@gmail.com', '$2y$10$6BEfRSHt7gWTJIz.Rli0iOz6TYcP4L99WkCDE.FiREsxTEXAquXxa', 'Ihtiandiko Wicaksono', '', '', '', 'default.PNG', 1, 1, 1675649713),
+(2, 'hapis@gmail.com', '$2y$10$L1bD3ZQl3u2L3OZCPWvr.e3aZE3gSntLXNxV6KScO/qK2GsCo4GSy', 'Hapis GG', '', '', '', 'default.PNG', 2, 1, 1675650686);
 
 -- --------------------------------------------------------
 
@@ -469,7 +464,7 @@ ALTER TABLE `tb_menu`
 -- AUTO_INCREMENT for table `tb_peminjaman_ruang`
 --
 ALTER TABLE `tb_peminjaman_ruang`
-  MODIFY `id_peminjaman_ruang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id_peminjaman_ruang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `tb_pengguna`

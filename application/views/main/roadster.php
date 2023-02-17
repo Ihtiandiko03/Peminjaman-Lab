@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-md-12">
                 
-                    <div class="schedule-table">
+                    <div class="schedule-table" style="overflow-x:auto;">
                         <table class="table bg-white">
 
 

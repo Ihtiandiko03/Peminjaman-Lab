@@ -28,10 +28,12 @@ class User extends CI_Controller
 
     public function peminjaman()
     {
+        $sessionUser = $this->session->userdata('email');
+
         $data['title'] = 'Halaman Peminjaman';
-        $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $sessionUser])->row_array();
         
-        $data['peminjaman'] = $this->Peminjaman_model->peminjamanUser();
+        $data['peminjaman'] = $this->Peminjaman_model->peminjamanUser($sessionUser);
         $data['lab'] = $this->db->get('tb_laboratorium')->result_array();
         $data['rangeWaktu'] = $this->Peminjaman_model->roadster();
 
@@ -46,7 +48,7 @@ class User extends CI_Controller
         $data['title'] = 'Halaman Peminjaman';
         $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $this->session->userdata('email')])->row_array();
         
-        $data['peminjaman'] = $this->Peminjaman_model->peminjamanUser();
+
         $data['lab'] = $this->db->get('tb_laboratorium')->result_array();
         $data['rangeWaktu'] = $this->Peminjaman_model->roadster();
 
@@ -127,6 +129,7 @@ class User extends CI_Controller
                                     $status = $this->input->post('status');
                                     $kapasitas = $this->input->post('kapasitas');
                                     $range_waktu = $this->input->post('id_range_waktu');
+                                    $email_pengguna = $this->input->post('email_pengguna');
     
                                     if($_POST['kapasitas']){
                                         //KULIAH
@@ -148,6 +151,7 @@ class User extends CI_Controller
                                                 'tanggal_penggunaan' => $m['tanggal_penggunaan'],
                                                 'kapasitas' => $kapasitas,
                                                 'id_range_waktu' => $range_waktu,
+                                                'email_pengguna' => $email_pengguna
                                             ));
         
                                             $index++;
@@ -175,7 +179,8 @@ class User extends CI_Controller
                                                 'status' => $status,
                                                 'tanggal_penggunaan' => $m['tanggal_penggunaan'],
                                                 'kapasitas' => $m['kapasitas'],
-                                                'id_range_waktu' => $m['id_range_waktu']
+                                                'id_range_waktu' => $m['id_range_waktu'],
+                                                'email_pengguna' => $email_pengguna
                                             ));
     
                                             $index++;
@@ -183,13 +188,19 @@ class User extends CI_Controller
     
                                         $this->db->insert_batch('tb_peminjaman_ruang', $data);
                                     }
-                            }
+                                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                                    Peminjaman lab berhasil diajukan
+                                    </div>');
+                                    redirect('user/peminjaman');
+                        }
+                        else{
+                            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+                                    Peminjaman gagal dokumen tidak sesuai format. Harus format .pdf
+                                    </div>');
+                                    redirect('user/buatpeminjaman');
+                        }
     
                             
-                            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-                            Peminjaman lab berhasil diajukan
-                            </div>');
-                            redirect('peminjaman');
                         
                     } else {
                         $this->load->view('templates/header', $data);
@@ -198,7 +209,6 @@ class User extends CI_Controller
                         $this->load->view('peminjaman/buat_peminjaman', $data);
                         $this->load->view('templates/footer');
                     }
-
     }     
 
     //Melihat detail peminjaman
@@ -215,5 +225,37 @@ class User extends CI_Controller
         $this->load->view('peminjaman/show', $data);
         $this->load->view('templates/footer');
 
+    }
+
+    public function getDay(){
+
+        $hari = $this->input->post('hari');
+        $mydate=getdate(date("U"));
+        $hariIni =  "$mydate[year]-$mydate[mon]-$mydate[mday]";
+
+        $begin = new DateTime( $hariIni );
+        $end   = new DateTime( "2023-07-16" );
+        $arr=array(
+            '0'=>'Minggu',
+            '1'=>'Senin',
+            '2'=>'Selasa',
+            '3'=>'Rabu',
+            '4'=>'Kamis',
+            '5'=>'Jumat',
+            '6'=>'Sabtu',
+            '7'=>'Minggu'
+        );
+        $kirim="";
+        $num = 0;
+        for($i = $begin; $i <= $end; $i->modify('+1 day')){
+            $tgl=$i->format("Y-m-d");
+            $dayofweek = date('w', strtotime($tgl));
+            if($dayofweek==$hari){
+                $kirim.="<input type='checkbox' class='form-check-input' name='tgl[$num][tanggal_penggunaan]' value='$tgl'>".$arr[$hari].", ".$tgl."<br>";
+                $num++;
+            }
+        }
+        
+        echo json_encode($kirim);
     }
 }

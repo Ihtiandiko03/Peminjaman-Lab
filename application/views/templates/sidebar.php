@@ -24,7 +24,7 @@ background: linear-gradient(90deg, rgba(38,48,97,1) 0%, rgba(47,47,179,1) 48%, r
     
     <!-- LOOPING MENU -->
     <?php foreach ($menu as $m) :?>
-        <?php if(($m['menu'] == 'Gedung') or ($m['menu'] == 'Admin') or ($m['menu'] == 'Peminjaman')) : ?>
+        <?php if(($m['menu'] == 'Gedung') or ($m['menu'] == 'Admin') or ($m['menu'] == 'Peminjaman') or ($m['menu'] == 'Menu')) : ?>
 
         <?php else : ?>
         
@@ -43,6 +43,11 @@ background: linear-gradient(90deg, rgba(38,48,97,1) 0%, rgba(47,47,179,1) 48%, r
 
         <?php foreach ($subMenu as $sm) :
         ?>
+
+            <?php if($sm['title'] == 'My Profile') : ?>
+
+            <?php else : ?>
+            
             <!-- Nav Item - Dashboard -->
             <?php if ($title == $sm['title']) :
             ?>
@@ -58,8 +63,8 @@ background: linear-gradient(90deg, rgba(38,48,97,1) 0%, rgba(47,47,179,1) 48%, r
                     <span><?php echo $sm['title'];
                             ?></span></a>
                 </li>
-            <?php endforeach
-            ?>
+        <?php endif ?>
+        <?php endforeach?>
 
             <!-- Divider -->
             <hr class="sidebar-divider">

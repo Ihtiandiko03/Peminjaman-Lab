@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-md-12">
                 
-                    <div class="schedule-table">
+                    <div class="schedule-table" style="overflow-x:auto;">
                         <table class="table bg-white">
                             <thead>
                                 <tr>
@@ -29,40 +29,35 @@
                                         <th colspan="5" scope="colgroup">Jumat</th> -->
                                 </tr>
                                 <tr>
+                                    <?php for($i=0; $i<=153; $i++) : ?>
                                     <?php foreach($range_waktu as $r) : ?>
                                         <th scope="col"><?= $r['range_waktu']; ?></th>
                                     <?php endforeach ?>
-                                    
-                                    <?php foreach($range_waktu as $r) : ?>
-                                        <th scope="col"><?= $r['range_waktu']; ?></th>
-                                    <?php endforeach ?>
-                                    
-                                    <?php foreach($range_waktu as $r) : ?>
-                                        <th scope="col"><?= $r['range_waktu']; ?></th>
-                                    <?php endforeach ?>
-                                    
-                                    <?php foreach($range_waktu as $r) : ?>
-                                        <th scope="col"><?= $r['range_waktu']; ?></th>
-                                    <?php endforeach ?>
-                                    
-                                    <?php foreach($range_waktu as $r) : ?>
-                                        <th scope="col"><?= $r['range_waktu']; ?></th>
-                                    <?php endforeach ?>
+
+                                    <?php endfor ?>
                                 
                                 </tr>
                             </thead>
 
 
                             <tbody>
-                                <?php foreach($jadwal as $j) : ?>
 
+                                <?php foreach($jadwal as $j) : ?>
+                                        <!-- KALO GAK DISINI -->
+                                       
                                     <tr>
                                         <td><?= $j['nama_lab'] ?></td>
 
+
+
+                                        <?php for($i=0; $i<=21; $i++) : ?>
                                         <?php foreach($jadwal2 as $j2) : ?>
+                                            <!-- ATAU DISINI -->
 
                                             <?php if($j2['id_laboratorium'] == $j['id_laboratorium']) : ?>
+                                                <!-- DISINI JUGA DICEK -->
                                                 <?php if($j['tanggal_penggunaan'] == $j2['tanggal_penggunaan']) : ?>
+                                                    <!-- NAH TERAKHIR CEK DISINI -->
 
 
                                                     <!-- SENIN -->
@@ -446,16 +441,177 @@
                                                         <?php else : ?>
                                                             <td></td>
                                                     <?php endif ?>
+
+                                                    <!-- SABTU -->
+                                                    <?php if($j['Sabtu_J_07_00_09_00'] == 1) : ?>
+                                                        <td class="active" style="background-color: #76eac4;">
+                                                                <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                    <p><?= $j2['prodi'];?></p>
+                                                                        <div class="hover">
+                                                                            <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                            <p><?= $j2['prodi'];?></p>
+                                                                            <p><?= $j2['kapasitas'];?> orang</p>
+                                                                            <span><?= $j2['tanggal_penggunaan'];?></span>
+                                                                        </div>
+                                                        </td>
+                                                        <?php else : ?>
+                                                            <td></td>
+                                                    <?php endif ?>
+
+                                                    <?php if($j['Sabtu_J_09_00_11_00'] == 1) : ?>
+                                                        <td class="active" style="background-color: #76eac4;">
+                                                                <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                    <p><?= $j2['prodi'];?></p>
+                                                                        <div class="hover">
+                                                                            <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                            <p><?= $j2['prodi'];?></p>
+                                                                            <p><?= $j2['kapasitas'];?> orang</p>
+                                                                            <span><?= $j2['tanggal_penggunaan'];?></span>
+                                                                        </div>
+                                                        </td>
+                                                        <?php else : ?>
+                                                            <td></td>
+                                                    <?php endif ?>
+
+                                                    <?php if($j['Sabtu_J_11_00_13_00'] == 1) : ?>
+                                                        <td class="active" style="background-color: #76eac4;">
+                                                                <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                    <p><?= $j2['prodi'];?></p>
+                                                                        <div class="hover">
+                                                                            <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                            <p><?= $j2['prodi'];?></p>
+                                                                            <p><?= $j2['kapasitas'];?> orang</p>
+                                                                            <span><?= $j2['tanggal_penggunaan'];?></span>
+                                                                        </div>
+                                                        </td>
+                                                        <?php else : ?>
+                                                            <td></td>
+                                                    <?php endif ?>
+
+                                                    <?php if($j['Sabtu_J_13_00_15_00'] == 1) : ?>
+                                                        <td class="active" style="background-color: #76eac4;">
+                                                                <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                    <p><?= $j2['prodi'];?></p>
+                                                                        <div class="hover">
+                                                                            <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                            <p><?= $j2['prodi'];?></p>
+                                                                            <p><?= $j2['kapasitas'];?> orang</p>
+                                                                            <span><?= $j2['tanggal_penggunaan'];?></span>
+                                                                        </div>
+                                                        </td>
+                                                        <?php else : ?>
+                                                            <td></td>
+                                                    <?php endif ?>
+
+                                                    <?php if($j['Sabtu_J_15_00_17_00'] == 1) : ?>
+                                                        <td class="active" style="background-color: #76eac4;">
+                                                                <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                    <p><?= $j2['prodi'];?></p>
+                                                                        <div class="hover">
+                                                                            <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                            <p><?= $j2['prodi'];?></p>
+                                                                            <p><?= $j2['kapasitas'];?> orang</p>
+                                                                            <span><?= $j2['tanggal_penggunaan'];?></span>
+                                                                        </div>
+                                                        </td>
+                                                        <?php else : ?>
+                                                            <td></td>
+                                                    <?php endif ?>
+
+                                                    <!-- MINGGU -->
+                                                    <?php if($j['Minggu_J_07_00_09_00'] == 1) : ?>
+                                                        <td class="active" style="background-color: #76eac4;">
+                                                                <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                    <p><?= $j2['prodi'];?></p>
+                                                                        <div class="hover">
+                                                                            <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                            <p><?= $j2['prodi'];?></p>
+                                                                            <p><?= $j2['kapasitas'];?> orang</p>
+                                                                            <span><?= $j2['tanggal_penggunaan'];?></span>
+                                                                        </div>
+                                                        </td>
+                                                        <?php else : ?>
+                                                            <td></td>
+                                                    <?php endif ?>
+
+                                                    <?php if($j['Minggu_J_09_00_11_00'] == 1) : ?>
+                                                        <td class="active" style="background-color: #76eac4;">
+                                                                <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                    <p><?= $j2['prodi'];?></p>
+                                                                        <div class="hover">
+                                                                            <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                            <p><?= $j2['prodi'];?></p>
+                                                                            <p><?= $j2['kapasitas'];?> orang</p>
+                                                                            <span><?= $j2['tanggal_penggunaan'];?></span>
+                                                                        </div>
+                                                        </td>
+                                                        <?php else : ?>
+                                                            <td></td>
+                                                    <?php endif ?>
+
+                                                    <?php if($j['Minggu_J_11_00_13_00'] == 1) : ?>
+                                                        <td class="active" style="background-color: #76eac4;">
+                                                                <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                    <p><?= $j2['prodi'];?></p>
+                                                                        <div class="hover">
+                                                                            <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                            <p><?= $j2['prodi'];?></p>
+                                                                            <p><?= $j2['kapasitas'];?> orang</p>
+                                                                            <span><?= $j2['tanggal_penggunaan'];?></span>
+                                                                        </div>
+                                                        </td>
+                                                        <?php else : ?>
+                                                            <td></td>
+                                                    <?php endif ?>
+
+                                                    <?php if($j['Minggu_J_13_00_15_00'] == 1) : ?>
+                                                        <td class="active" style="background-color: #76eac4;">
+                                                                <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                    <p><?= $j2['prodi'];?></p>
+                                                                        <div class="hover">
+                                                                            <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                            <p><?= $j2['prodi'];?></p>
+                                                                            <p><?= $j2['kapasitas'];?> orang</p>
+                                                                            <span><?= $j2['tanggal_penggunaan'];?></span>
+                                                                        </div>
+                                                        </td>
+                                                        <?php else : ?>
+                                                            <td></td>
+                                                    <?php endif ?>
+
+                                                    <?php if($j['Minggu_J_15_00_17_00'] == 1) : ?>
+                                                        <td class="active" style="background-color: #76eac4;">
+                                                                <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                    <p><?= $j2['prodi'];?></p>
+                                                                        <div class="hover">
+                                                                            <h4><?= $j2['nama_kegiatan'];?></h4>
+                                                                            <p><?= $j2['prodi'];?></p>
+                                                                            <p><?= $j2['kapasitas'];?> orang</p>
+                                                                            <span><?= $j2['tanggal_penggunaan'];?></span>
+                                                                        </div>
+                                                        </td>
+                                                        <?php else : ?>
+                                                            <td></td>
+                                                    <?php endif ?>
                                                 
                                                 <?php endif ?>
                                                 
                                                 
                                                 
                                             <?php endif ?>
-                                        <?php endforeach ?>        
-                                    </tr>
+                                        <?php endforeach ?>
 
+                                        <?php endfor ?>
+                                                
+
+
+
+
+                                    </tr>
+                                        
                                 <?php endforeach ?>
+                                
+   
                             </tbody>
 
 

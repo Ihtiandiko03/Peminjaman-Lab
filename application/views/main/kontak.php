@@ -41,7 +41,7 @@
             <div class="col-md-6 reverse-col" style="padding:20px; border-radius:0px 10px 10px 0px;">
                 <div class="kontak">
                     <div class="my-4" style="border-radius:5px;">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.3744037715724!2d105.31155574523129!3d-5.359711699125344!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x752d7a208d95dc1!2sLaboratorium%20Teknik%20Sipil%20ITERA!5e0!3m2!1sid!2sid!4v1675323002345!5m2!1sid!2sid" width="600" height="450" style="border-radius:10px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.3744037715724!2d105.31155574523129!3d-5.359711699125344!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x752d7a208d95dc1!2sLaboratorium%20Teknik%20Sipil%20ITERA!5e0!3m2!1sid!2sid!4v1675323002345!5m2!1sid!2sid" width="100%" height="450" style="border-radius:10px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                     <div class="mb-2 d-flex align-items-center">
                         <div class="mx-2">

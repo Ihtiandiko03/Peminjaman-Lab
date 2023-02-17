@@ -13,6 +13,7 @@
             background-repeat: no-repeat;
             background-size: cover;
             background-attachment: fixed;
+
         }
 
         .judul {
@@ -62,7 +63,7 @@
     </style>
 </head>
 
-<body>
+<body id="body">
     <nav class="navbar navbar-expand-lg navbar-dark bg-transparent position-fixed w-100" style="background-color: #263061;">
         <div class="container-fluid">
             <img src="<?php echo base_url("assets/"); ?>beranda/logo-lab.png" width="120"> <a class="navbar-brand text-light" href="/">| Peminjaman Lab</a>

@@ -22,7 +22,7 @@ class Admin extends CI_Controller
         $data['lab'] = $this->Peminjaman_model->getLaboratorium();
 
         $hariIni =  "2023-02-13";
-        $akhir =  date('Y-m-d', strtotime('+4 days', strtotime($hariIni)));
+        $akhir =  date('Y-m-d', strtotime('+153 days', strtotime($hariIni)));
 
         $begin = new DateTime( $hariIni );
         $end   = new DateTime( $akhir );

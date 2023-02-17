@@ -1,3 +1,6 @@
+
+
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
@@ -19,7 +22,7 @@
                 <h5 class="modal-title" id="exampleModalLabel">Tambah Peminjaman Ruang</h5>
             </div>
 
-            <form action="<?=base_url()?>peminjaman/buatpeminjaman" method="post" enctype="multipart/form-data" id="formPeminjaman">
+            <form action="<?=base_url()?>user/buatpeminjaman" method="post" enctype="multipart/form-data" id="formPeminjaman">
                 <div class="modal-body">
                     <div class="form-group">
                         <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama" value="<?php echo set_value('nama') ?>">
@@ -62,6 +65,7 @@
 
 
                     <div class="form-group">
+                         <label for="dokumen_pendukung">Upload Surat Permohonan (Wajib format .pdf)</label>
                          <input type="file" class="form-control" id="dokumen_pendukung" name="dokumen_pendukung">
                     </div>
 
@@ -128,7 +132,8 @@
 
                     </div>
                     
-                    <input type="hidden" class="form-control" id="status" name="status" value="request">             
+                    <input type="hidden" class="form-control" id="status" name="status" value="request">
+                    <input type="hidden" class="form-control" id="email_pengguna" name="email_pengguna" value="<?=$user['email']?>">            
                 </div>
 
 
@@ -140,7 +145,7 @@
         
     </div>
     
-    <div class="col-lg-6">
+    <div class="col-lg-6" style="overflow-x:auto;">
         <b>Dokumen</b><br>
         <canvas id="pdfViewer"></canvas>
     </div>
@@ -205,7 +210,7 @@
             var hari = document.getElementById("namahari").value;
             
             $.ajax({
-                    url: '<?=base_url()?>peminjaman/getday',
+                    url: '<?=base_url()?>user/getday',
                     type: 'post',
                     dataType: 'json',
                     async : true,

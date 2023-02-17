@@ -235,7 +235,24 @@ class Peminjaman extends CI_Controller
     }
 
     public function prosesPeminjaman($id){
+
+        
+
         if($this->input->method() == 'post'){
+
+            $getSeluruhDataPeminjaman = $this->Peminjaman_model->peminjamanDone();
+
+
+            foreach($getSeluruhDataPeminjaman as $getData){
+                //Kondisi ketika tanggal,jam, dan ruangan sudah terisi
+                if(  ($getData['tanggal_penggunaan'] == ($this->input->post('tanggal_penggunaan'))) &&  ($getData['id_laboratorium'] == ($this->input->post('id_laboratorium'))) && ($getData['range_waktu'] == ($this->input->post('range_waktu'))) && ($this->input->post('status') == 'done') ){
+                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+                    Terdapat Tanggal, Waktu, dan Ruang yang sama. Silahkan memilih ruangan yang lain
+                    </div>');
+                    redirect('peminjaman/proses/'.$id);
+                }
+            }
+
             $this->form_validation->set_rules('status', 'Status', 'required');
 
             $data = [
@@ -252,6 +269,7 @@ class Peminjaman extends CI_Controller
                     </div>');
             redirect('peminjaman/kelola');
         }
+
     }
 
     public function rangewaktu(){
@@ -342,37 +360,51 @@ class Peminjaman extends CI_Controller
         redirect('peminjaman/rangewaktu');
     }
 
-    public function getDay(){
-
-        $hari = $this->input->post('hari');
-        $mydate=getdate(date("U"));
-        $hariIni =  "$mydate[year]-$mydate[mon]-$mydate[mday]";
-
-        $begin = new DateTime( $hariIni );
-        $end   = new DateTime( "2023-05-31" );
-        $arr=array(
-            '0'=>'Minggu',
-            '1'=>'Senin',
-            '2'=>'Selasa',
-            '3'=>'Rabu',
-            '4'=>'Kamis',
-            '5'=>'Jumat',
-            '6'=>'Sabtu',
-            '7'=>'Minggu'
-        );
-        $kirim="";
-        $num = 0;
-        for($i = $begin; $i <= $end; $i->modify('+1 day')){
-            $tgl=$i->format("Y-m-d");
-            $dayofweek = date('w', strtotime($tgl));
-            if($dayofweek==$hari){
-                $kirim.="<input type='checkbox' class='form-check-input' name='tgl[$num][tanggal_penggunaan]' value='$tgl'>".$arr[$hari].", ".$tgl."<br>";
-                $num++;
-            }
-        }
+    public function hapus($id){
+        $getPeminjaman = $this->Peminjaman_model->hapus($id);
         
-        echo json_encode($kirim);
+        unlink('dokumen/'.$getPeminjaman['dokumen_pendukung']);
+
+
+        $this->db->where('id_peminjaman_ruang' , $id);
+        $this->db->delete('tb_peminjaman_ruang');
+
+        $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+        Peminjaman berhasil dihapus </div>');
+        redirect('peminjaman/kelola');
     }
+
+    // public function getDay(){
+
+    //     $hari = $this->input->post('hari');
+    //     $mydate=getdate(date("U"));
+    //     $hariIni =  "$mydate[year]-$mydate[mon]-$mydate[mday]";
+
+    //     $begin = new DateTime( $hariIni );
+    //     $end   = new DateTime( "2023-05-31" );
+    //     $arr=array(
+    //         '0'=>'Minggu',
+    //         '1'=>'Senin',
+    //         '2'=>'Selasa',
+    //         '3'=>'Rabu',
+    //         '4'=>'Kamis',
+    //         '5'=>'Jumat',
+    //         '6'=>'Sabtu',
+    //         '7'=>'Minggu'
+    //     );
+    //     $kirim="";
+    //     $num = 0;
+    //     for($i = $begin; $i <= $end; $i->modify('+1 day')){
+    //         $tgl=$i->format("Y-m-d");
+    //         $dayofweek = date('w', strtotime($tgl));
+    //         if($dayofweek==$hari){
+    //             $kirim.="<input type='checkbox' class='form-check-input' name='tgl[$num][tanggal_penggunaan]' value='$tgl'>".$arr[$hari].", ".$tgl."<br>";
+    //             $num++;
+    //         }
+    //     }
+        
+    //     echo json_encode($kirim);
+    // }
 
     
 }

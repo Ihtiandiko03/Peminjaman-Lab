@@ -66,10 +66,11 @@
                             <?php elseif($p['status'] == 'request') : ?>
                                 <a href="<?= base_url('peminjaman/proses/').$p['id_peminjaman_ruang']; ?>" class="badge badge-info">Proses</a>
                             <?php elseif($p['status'] == 'done') : ?>
-                                <a href="<?= base_url('peminjaman/show/').$p['id_peminjaman_ruang']; ?>" class="badge badge-secondary">Lihat</a>
+                                <a href="<?= base_url('user/show/').$p['id_peminjaman_ruang']; ?>" class="badge badge-secondary">Lihat</a>
                             <?php elseif($p['status'] == 'reject') : ?>
-                                <a href="<?= base_url('peminjaman/show/').$p['id_peminjaman_ruang']; ?>" class="badge badge-secondary">Lihat</a>
+                                <a href="<?= base_url('user/show/').$p['id_peminjaman_ruang']; ?>" class="badge badge-secondary">Lihat</a>
                             <?php endif ?>
+                            <a href="<?= base_url('peminjaman/hapus/').$p['id_peminjaman_ruang']; ?>" class="badge badge-danger" data-toggle="modal" data-target="#hapusModal">Hapus</a>
                             </td>
                         </tr>
                     <?php endforeach ?>
@@ -84,6 +85,25 @@
 <!-- End of Main Content -->
 
 <!-- MODAL -->
+
+<!-- Logout Modal-->
+<div class="modal fade" id="hapusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Hapus</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Apakah anda yakin ingin menghapus peminjaman ini?</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger" href="<?= base_url('peminjaman/hapus/').$p['id_peminjaman_ruang']; ?>">Hapus</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     $(document).ready(function () {

@@ -34,7 +34,7 @@ class Main extends CI_Controller
         $data['jadwal2'] = $this->Peminjaman_model->jadwal3();
 
         $hariIni =  "2023-02-13";
-        $akhir =  date('Y-m-d', strtotime('+4 days', strtotime($hariIni)));
+        $akhir =  date('Y-m-d', strtotime('+150 days', strtotime($hariIni)));
 
         $begin = new DateTime( $hariIni );
         $end   = new DateTime( $akhir );
