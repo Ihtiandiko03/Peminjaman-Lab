@@ -1,3 +1,4 @@
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
@@ -18,7 +19,7 @@
 
             <a href="<?= base_url('user/buatpeminjaman/'); ?>" class="btn btn-primary mb-3">Buat Peminjaman</a>
 
-            <table class=" table table-hover">
+            <table class="table table-hover" id="peminjaman">
                 <thead>
                     <tr>
                         <th scope="col">#</th>

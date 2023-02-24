@@ -323,3 +323,14 @@
 
 </div>
 <!-- End of Main Content -->
+
+
+<?php foreach($jadwal2 as $j) : ?>
+    <?php
+        $date = $j['tanggal_penggunaan'];
+        $id_range_waktu = $j['id_range_waktu'];
+        $tgl = date('Y_m_d', strtotime(str_replace('-', '/', $date)));
+        
+        $gabung = $tgl.'_'.$id_range_waktu;
+    ?>
+<?php endforeach ?>

@@ -44,7 +44,7 @@ class Peminjaman_model extends CI_Model
         $query = "SELECT `tb_peminjaman_ruang`.*,  `tb_range_waktu`.`range_waktu`,DATEDIFF(CURRENT_DATE(), `created_at`) as `lama_pengajuan`
         FROM `tb_peminjaman_ruang` JOIN `tb_range_waktu`
         ON `tb_peminjaman_ruang`.`id_range_waktu` = `tb_range_waktu`.`id_range_waktu`
-        ORDER BY `tb_peminjaman_ruang`.`tanggal_penggunaan` ASC";
+        ORDER BY `tb_peminjaman_ruang`.`status` ASC";
 
         return $this->db->query($query)->result_array();
     }
@@ -56,77 +56,33 @@ class Peminjaman_model extends CI_Model
     }
 
     public function jadwal(){
-        $query = "select *,
+        $query = "select `tb_peminjaman_ruang`.*, `tb_laboratorium`.`nama_lab`,
         count(case when (id_range_waktu = 1) then 1 else null end) as J_07_00_09_00,
         count(case when (id_range_waktu = 2) then 1 else null end) as J_09_00_11_00,
         count(case when (id_range_waktu = 3) then 1 else null end) as J_11_00_13_00,
         count(case when (id_range_waktu = 4) then 1 else null end) as J_13_00_15_00,
         count(case when (id_range_waktu = 5) then 1 else null end) as J_15_00_17_00
         
-        from tb_peminjaman_ruang
-        
-        where status='done'
-        group by id_laboratorium,tanggal_penggunaan,id_range_waktu ORDER BY tanggal_penggunaan";
+        from tb_peminjaman_ruang JOIN `tb_laboratorium` ON `tb_peminjaman_ruang`.`id_laboratorium` = `tb_laboratorium`.`id_laboratorium`
+          
+          where status='done'
+        group by id_laboratorium,tanggal_penggunaan ORDER BY id_laboratorium,tanggal_penggunaan";
 
-        
-        
         return $this->db->query($query)->result_array();
     }
 
-    public function jadwal2(){
-        $query = "select `tb_peminjaman_ruang`.`id_laboratorium`,`tanggal_penggunaan`, `tb_laboratorium`.`nama_lab`,
-
-        count(case when (id_range_waktu = 1 AND (DAYNAME(`tanggal_penggunaan`) = 'Monday')) then 1 else null end) as Senin_J_07_00_09_00,
-        count(case when (id_range_waktu = 2 AND (DAYNAME(`tanggal_penggunaan`) = 'Monday')) then 1 else null end) as Senin_J_09_00_11_00,
-        count(case when (id_range_waktu = 3 AND (DAYNAME(`tanggal_penggunaan`) = 'Monday')) then 1 else null end) as Senin_J_11_00_13_00,
-           count(case when (id_range_waktu = 4 AND (DAYNAME(`tanggal_penggunaan`) = 'Monday')) then 1 else null end) as Senin_J_13_00_15_00,
-           count(case when (id_range_waktu = 5 AND (DAYNAME(`tanggal_penggunaan`) = 'Monday')) then 1 else null end) as Senin_J_15_00_17_00,
-           
-        count(case when (id_range_waktu = 1 AND (DAYNAME(`tanggal_penggunaan`) = 'Tuesday')) then 1 else null end) as Selasa_J_07_00_09_00,
-        count(case when (id_range_waktu = 2 AND (DAYNAME(`tanggal_penggunaan`) = 'Tuesday')) then 1 else null end) as Selasa_J_09_00_11_00,
-        count(case when (id_range_waktu = 3 AND (DAYNAME(`tanggal_penggunaan`) = 'Tuesday')) then 1 else null end) as Selasa_J_11_00_13_00,
-           count(case when (id_range_waktu = 4 AND (DAYNAME(`tanggal_penggunaan`) = 'Tuesday')) then 1 else null end) as Selasa_J_13_00_15_00,
-           count(case when (id_range_waktu = 5 AND (DAYNAME(`tanggal_penggunaan`) = 'Tuesday')) then 1 else null end) as Selasa_J_15_00_17_00,
-
-        count(case when (id_range_waktu = 1 AND (DAYNAME(`tanggal_penggunaan`) = 'Wednesday')) then 1 else null end) as Rabu_J_07_00_09_00,
-        count(case when (id_range_waktu = 2 AND (DAYNAME(`tanggal_penggunaan`) = 'Wednesday')) then 1 else null end) as Rabu_J_09_00_11_00,
-        count(case when (id_range_waktu = 3 AND (DAYNAME(`tanggal_penggunaan`) = 'Wednesday')) then 1 else null end) as Rabu_J_11_00_13_00,
-           count(case when (id_range_waktu = 4 AND (DAYNAME(`tanggal_penggunaan`) = 'Wednesday')) then 1 else null end) as Rabu_J_13_00_15_00,
-           count(case when (id_range_waktu = 5 AND (DAYNAME(`tanggal_penggunaan`) = 'Wednesday')) then 1 else null end) as Rabu_J_15_00_17_00,
-
-        count(case when (id_range_waktu = 1 AND (DAYNAME(`tanggal_penggunaan`) = 'Thursday')) then 1 else null end) as Kamis_J_07_00_09_00,
-        count(case when (id_range_waktu = 2 AND (DAYNAME(`tanggal_penggunaan`) = 'Thursday')) then 1 else null end) as Kamis_J_09_00_11_00,
-        count(case when (id_range_waktu = 3 AND (DAYNAME(`tanggal_penggunaan`) = 'Thursday')) then 1 else null end) as Kamis_J_11_00_13_00,
-           count(case when (id_range_waktu = 4 AND (DAYNAME(`tanggal_penggunaan`) = 'Thursday')) then 1 else null end) as Kamis_J_13_00_15_00,
-           count(case when (id_range_waktu = 5 AND (DAYNAME(`tanggal_penggunaan`) = 'Thursday')) then 1 else null end) as Kamis_J_15_00_17_00,
-
-        count(case when (id_range_waktu = 1 AND (DAYNAME(`tanggal_penggunaan`) = 'Friday')) then 1 else null end) as Jumat_J_07_00_09_00,
-        count(case when (id_range_waktu = 2 AND (DAYNAME(`tanggal_penggunaan`) = 'Friday')) then 1 else null end) as Jumat_J_09_00_11_00,
-        count(case when (id_range_waktu = 3 AND (DAYNAME(`tanggal_penggunaan`) = 'Friday')) then 1 else null end) as Jumat_J_11_00_13_00,
-           count(case when (id_range_waktu = 4 AND (DAYNAME(`tanggal_penggunaan`) = 'Friday')) then 1 else null end) as Jumat_J_13_00_15_00,
-           count(case when (id_range_waktu = 5 AND (DAYNAME(`tanggal_penggunaan`) = 'Friday')) then 1 else null end) as Jumat_J_15_00_17_00,
-
-        count(case when (id_range_waktu = 1 AND (DAYNAME(`tanggal_penggunaan`) = 'Saturday')) then 1 else null end) as Sabtu_J_07_00_09_00,
-        count(case when (id_range_waktu = 2 AND (DAYNAME(`tanggal_penggunaan`) = 'Saturday')) then 1 else null end) as Sabtu_J_09_00_11_00,
-        count(case when (id_range_waktu = 3 AND (DAYNAME(`tanggal_penggunaan`) = 'Saturday')) then 1 else null end) as Sabtu_J_11_00_13_00,
-            count(case when (id_range_waktu = 4 AND (DAYNAME(`tanggal_penggunaan`) = 'Saturday')) then 1 else null end) as Sabtu_J_13_00_15_00,
-            count(case when (id_range_waktu = 5 AND (DAYNAME(`tanggal_penggunaan`) = 'Saturday')) then 1 else null end) as Sabtu_J_15_00_17_00,
+    public function jadwal1(){
+        $query = "select `tb_peminjaman_ruang`.`id_laboratorium`, `tb_laboratorium`.`nama_lab`,
+        count(case when (id_range_waktu = 1) then 1 else null end) as J_07_00_09_00,
+        count(case when (id_range_waktu = 2) then 1 else null end) as J_09_00_11_00,
+        count(case when (id_range_waktu = 3) then 1 else null end) as J_11_00_13_00,
+        count(case when (id_range_waktu = 4) then 1 else null end) as J_13_00_15_00,
+        count(case when (id_range_waktu = 5) then 1 else null end) as J_15_00_17_00
         
-        count(case when (id_range_waktu = 1 AND (DAYNAME(`tanggal_penggunaan`) = 'Sunday')) then 1 else null end) as Minggu_J_07_00_09_00,
-        count(case when (id_range_waktu = 2 AND (DAYNAME(`tanggal_penggunaan`) = 'Sunday')) then 1 else null end) as Minggu_J_09_00_11_00,
-        count(case when (id_range_waktu = 3 AND (DAYNAME(`tanggal_penggunaan`) = 'Sunday')) then 1 else null end) as Minggu_J_11_00_13_00,
-            count(case when (id_range_waktu = 4 AND (DAYNAME(`tanggal_penggunaan`) = 'Sunday')) then 1 else null end) as Minggu_J_13_00_15_00,
-            count(case when (id_range_waktu = 5 AND (DAYNAME(`tanggal_penggunaan`) = 'Sunday')) then 1 else null end) as Minggu_J_15_00_17_00
-        
-        
-        
-  
-  
-  
-          from tb_peminjaman_ruang JOIN `tb_laboratorium` ON `tb_peminjaman_ruang`.`id_laboratorium` = `tb_laboratorium`.`id_laboratorium`
+        from tb_peminjaman_ruang JOIN `tb_laboratorium` ON `tb_peminjaman_ruang`.`id_laboratorium` = `tb_laboratorium`.`id_laboratorium`
           
           where status='done'
-          group by id_laboratorium";
+        group by id_laboratorium ORDER BY id_laboratorium,tanggal_penggunaan";
 
         return $this->db->query($query)->result_array();
     }

@@ -10,6 +10,7 @@ class User extends CI_Controller
         $this->load->library('upload');
         is_logged_in();
     }
+
     public function index()
     {
 
@@ -233,8 +234,12 @@ class User extends CI_Controller
         $mydate=getdate(date("U"));
         $hariIni =  "$mydate[year]-$mydate[mon]-$mydate[mday]";
 
+        $hariIni =  "2023-01-01";
+        $akhir = "2023-06-30";
+        // $akhir =  date('Y-m-d', strtotime('+153 days', strtotime($hariIni)));
+
         $begin = new DateTime( $hariIni );
-        $end   = new DateTime( "2023-07-16" );
+        $end   = new DateTime( $akhir );
         $arr=array(
             '0'=>'Minggu',
             '1'=>'Senin',

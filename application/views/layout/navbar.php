@@ -17,7 +17,7 @@
                     <a class="nav-link mx-2 text-light" href="<?= base_url('main/kontak')?>">Kontak</a>
                 </li>
                 <li class="nav-item ml-2">
-                    <div class="subnav" style="background-color: #E8AA42; border-radius:3px;" tes>
+                    <div class="subnav" style="background-color: #E8AA42; border-radius:3px;">
                         <a class="nav-link mx-2 text-light" href=" <?php echo base_url('auth'); ?> ">Masuk</a>
                     </div>
                 </li>

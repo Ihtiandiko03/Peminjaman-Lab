@@ -236,14 +236,19 @@ class Peminjaman extends CI_Controller
 
     public function prosesPeminjaman($id){
 
-        
-
         if($this->input->method() == 'post'){
 
             $getSeluruhDataPeminjaman = $this->Peminjaman_model->peminjamanDone();
 
-
             foreach($getSeluruhDataPeminjaman as $getData){
+                //Kondisi Lab Prodi 1 hanya untuk prodi Teknik Informatika
+                if(($this->input->post('id_laboratorium') == '00001') && (($this->input->post('prodi') != 'Teknik Informatika'))){
+                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+                   Lab Prodi 1 hanya untuk Prodi Teknik Informatika
+                    </div>');
+                    redirect('peminjaman/proses/'.$id);
+                }
+
                 //Kondisi ketika tanggal,jam, dan ruangan sudah terisi
                 if(  ($getData['tanggal_penggunaan'] == ($this->input->post('tanggal_penggunaan'))) &&  ($getData['id_laboratorium'] == ($this->input->post('id_laboratorium'))) && ($getData['range_waktu'] == ($this->input->post('range_waktu'))) && ($this->input->post('status') == 'done') ){
                     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">

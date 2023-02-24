@@ -48,6 +48,91 @@
 <!-- Custom scripts for all pages-->
 <script src="<?= base_url('assets/'); ?>js/sb-admin-2.min.js"></script>
 
+<!-- Page level plugins -->
+<script src="<?= base_url('assets/'); ?>vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="<?= base_url('assets/'); ?>vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="<?= base_url('assets/'); ?>js/demo/datatables-demo.js"></script>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.4/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.4/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.4/js/buttons.print.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.4/css/buttons.dataTables.min.css">
+    
+    <script src="https://cdn.datatables.net/buttons/2.3.4/js/buttons.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.4/js/buttons.colVis.min.js"></script>
+    
+    
+    <!-- <style>
+        .buttons-excel {
+                background-color: #0d6efd;
+            }
+        .buttons-pdf{
+            background-color: #dc3545;
+        }
+    </style> -->
+
+<script>
+    $(document).ready(function () {
+
+        $('#tabel').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'colvis',
+                text : 'Kolom',
+                collectionLayout: 'fixed columns',
+                collectionTitle: 'Pilih kolom yang ingin dihilangkan'
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                },
+                
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5, 6]
+                }
+            },
+        ]
+    });
+
+    $('#peminjaman').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'colvis',
+                text : 'Kolom',
+                collectionLayout: 'fixed columns',
+                collectionTitle: 'Pilih kolom yang ingin dihilangkan'
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                },
+                
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5]
+                }
+            },
+        ]
+    });
+
+    });
+</script>
+
 </body>
 
 </html>
