@@ -46,7 +46,7 @@ class User extends CI_Controller
     }
 
     public function buatpeminjaman(){
-        $data['title'] = 'Halaman Peminjaman';
+        $data['title'] = 'Peminjaman Laboratorium';
         $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $this->session->userdata('email')])->row_array();
         
 

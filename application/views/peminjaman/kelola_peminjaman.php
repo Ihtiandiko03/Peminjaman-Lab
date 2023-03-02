@@ -70,6 +70,7 @@
                                 <a href="<?= base_url('user/show/').$p['id_peminjaman_ruang']; ?>" class="badge badge-secondary">Lihat</a>
                             <?php endif ?>
                             <a href="<?= base_url('peminjaman/hapus/').$p['id_peminjaman_ruang']; ?>" class="badge badge-danger" data-toggle="modal" data-target="#hapusModal">Hapus</a>
+                            <!-- <a href="<?= base_url('peminjaman/editPeminjaman/').$p['id_peminjaman_ruang']; ?>" class="badge badge-warning">Edit</a> -->
                             </td>
                         </tr>
                     <?php endforeach ?>

@@ -31,14 +31,38 @@ class Main extends CI_Controller
         $data['title'] = 'Dashboard Laboran';
         $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $this->session->userdata('email')])->row_array();
         $data['range_waktu'] = $this->Peminjaman_model->roadster();
+        $data['minggukuliah'] = $this->db->get('tb_minggu_perkuliahan')->result_array();
         // $data['jadwal'] = $this->Peminjaman_model->jadwal();
-        $data['jadwal2'] = $this->Peminjaman_model->jadwal3();
+        
         // $data['lab'] = $this->Peminjaman_model->getLaboratorium();
         // $data['lab_all'] = $this->db->get('tb_peminjaman_ruang')->result_array();
         // $data['jadwal1'] = $this->Peminjaman_model->jadwal1();
 
-        $hariIni =  "2023-01-01";
-        $akhir = "2023-06-30";
+        $getMingguPerkuliahan = $this->db->get('tb_minggu_perkuliahan')->result_array();
+        $mingguKuliah = $this->input->get('mingguPerkuliahan');
+        
+
+        if ($mingguKuliah) {
+            foreach($getMingguPerkuliahan as $mk){
+                if($mingguKuliah == $mk['id']){
+                    $tglMulai = $mk['tgl_mulai'];
+                    $tglSelesai = $mk['tgl_selesai'];
+                }
+            }
+
+            $filter = $this->Peminjaman_model->search($tglMulai, $tglSelesai);
+            $hariIni =  $tglMulai;
+            $akhir = $tglSelesai;
+
+        }else {
+            $filter = $this->Peminjaman_model->jadwal3();
+
+            $hariIni =  "2023-01-01";
+            $akhir = "2023-06-30";
+        }
+
+        $data['jadwal2'] = $filter;
+        
         // $akhir =  date('Y-m-d', strtotime('+153 days', strtotime($hariIni)));
 
         $begin = new DateTime( $hariIni );
@@ -111,8 +135,6 @@ class Main extends CI_Controller
     public function kapasitasRuangan(){
         $data['title'] = 'Roadster';
         $data['lab'] =  $this->Peminjaman_model->getLaboratorium();
-
-
 
         $this->load->view('layout/header', $data);
         $this->load->view('layout/navbar');

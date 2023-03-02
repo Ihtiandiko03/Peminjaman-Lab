@@ -1,7 +1,7 @@
 <!-- Begin Page Content -->
 
 
-<div class="container-fluid">
+<div class="container mt-4">
 
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
@@ -14,46 +14,58 @@
             <div class="row">
 
                 <div class="col-xl-12">
-
+                                        
+                    <div class="row mb-2">
+                        <form action="<?=base_url()?>main/roadster" method="get">
+                            <div class="col-lg-3">
+                                <!-- <label class="form-label">Tanggal Mulai</label>
+                                <input type="date" class="form-control" name="tanggal_mulai"> -->
+                                <select name="mingguPerkuliahan" id="mingguPerkuliahan" class="form-control">
+                                        <option value="">Pilih minggu perkuliahan...</option>
+                                    <?php foreach($minggukuliah as $mk) : ?>
+                                        <option value="<?= $mk['id'] ?>"><?=$mk['nama_minggu']?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <!-- <label class="form-label">Tanggal Selesai</label>
+                                <input type="date" class="form-control" name="tanggal_selesai"> -->
+                                <button class="btn btn-secondary mt-2" type="submit">Cari</button>
+                            </div>
+                        </form>
+                    </div>
 
                 <div class="view">
-                    <div class="schedule-table" id="table">
+                    <div class="schedule-table" id="table" style="border-radius:7px;">
                         <table class="table" id="tabel">
                         <thead>
-                        <tr>
-                                        <th colspan="1" rowspan="2" scope="colgroup" class="sticky-col first-col" style="font-size: 14pt;">Nama Lab</th>
-                                        <?php foreach($tgl as $k) : ?>
-                                            <th colspan="5" scope="colgroup">
-                                                <?php $hari = date("l", strtotime($k)); 
-                                                    if($hari == 'Monday'){echo 'Senin';} 
-                                                    elseif($hari == 'Tuesday'){echo 'Selasa';}
-                                                    elseif($hari == 'Wednesday'){echo 'Rabu';} 
-                                                    elseif($hari == 'Thursday'){echo 'Kamis';} 
-                                                    elseif($hari == 'Friday'){echo 'Jumat';} 
-                                                    elseif($hari == 'Saturday'){echo 'Sabtu';} 
-                                                    elseif($hari == 'Sunday'){echo 'Minggu';}  
-                                                    
-                                                    ?>, <?php $timestamp = strtotime($k); $new_date = date("d-m-Y", $timestamp); echo $new_date;  ?>
-                                            </th>
-                                        <?php endforeach ?>
+                            <tr>
+                                <th colspan="1" rowspan="2" scope="colgroup" class="sticky-col first-col" style="font-size: 14pt;">Nama Lab</th>
+                                <?php foreach($tgl as $k) : ?>
+                                <th colspan="5" scope="colgroup">
+                                    <?php $hari = date("l", strtotime($k)); 
+                                    if($hari == 'Monday'){echo 'Senin';} 
+                                    elseif($hari == 'Tuesday'){echo 'Selasa';}
+                                    elseif($hari == 'Wednesday'){echo 'Rabu';} 
+                                    elseif($hari == 'Thursday'){echo 'Kamis';} 
+                                    elseif($hari == 'Friday'){echo 'Jumat';} 
+                                    elseif($hari == 'Saturday'){echo 'Sabtu';} 
+                                    elseif($hari == 'Sunday'){echo 'Minggu';}  
+                                    ?>, <?php $timestamp = strtotime($k); $new_date = date("d-m-Y", $timestamp); echo $new_date;  ?>
+                                </th>
+                                <?php endforeach ?>
+                            </tr>
 
-                        </tr>
-
-                        <tr>
-                            <?php for($i=0; $i<count($tgl); $i++) : ?>
-                            <?php foreach($range_waktu as $r) : ?>
-                                <th scope="col"><?= $r['range_waktu']; ?></th>
-                            <?php endforeach ?>
-
-                            <?php endfor ?>
-                                
-                        </tr>
-
+                            <tr>
+                                <?php for($i=0; $i<count($tgl); $i++) : ?>
+                                    <?php foreach($range_waktu as $r) : ?>
+                                        <th scope="col"><?= $r['range_waktu']; ?></th>
+                                    <?php endforeach ?>
+                                <?php endfor ?>
+                            </tr>
                         </thead>
                         <tbody>
-
                             <?php foreach ($resultQuery as $jadwal) : ?>
-
                             <tr>
                                 <td class="sticky-col first-col" style="background-color:#86d4f5"><?= $jadwal->nama_lab ?></td>
                                 <?php foreach($td as $t):?>
@@ -81,36 +93,20 @@
                                                         </div>
                                                     </td>
                                                 <?php endif ?>
-
-
-
                                             <?php endif ?>
                                         <?php endforeach ?>
-
-                                        
                                     <?php else : ?>
                                         <td></td>
                                     <?php endif ?>
                                 <?php endforeach;?>
-                                
-
-
                             </tr>
                             <?php endforeach ?>
                         </tbody>
                         </table>
                     </div>
                 </div>
-                    
-                    <select name="filterMinggu" id="filterMinggu" onchange="filterWeek()">
-                            <option value="none">Pilih minggu perkuliahan...</option>
-                        <?php for($i=1; $i<=16; $i++) : ?>
-                            <option value="<?=$i?>">Minggu <?=$i?></option>
-                        <?php endfor ?>
-                    </select>
-
-                    <button id="slideLeft" type="button">Minggu Sebelumnya</button>
-                    <button id="slideRight" type="button">Minggu Selanjutnya</button>
+                
+                
                     
                     <div id="result"></div>
                 </div>
@@ -154,9 +150,6 @@
 
 
 <style>
-
-
-
 .schedule-table {
   position: relative;
 
@@ -175,6 +168,7 @@
   min-width: 100px;
   max-width: 200px;
   left: 0px;
+  z-index: 99;
 }
 
 body{}

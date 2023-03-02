@@ -15,6 +15,26 @@
 
                 <div class="col-xl-12">
                 
+                <div class="row mb-2">
+                        <form action="<?=base_url()?>admin/index" method="get">
+                        <div class="col">
+                                <!-- <label class="form-label">Tanggal Mulai</label>
+                                <input type="date" class="form-control" name="tanggal_mulai"> -->
+                                <select name="mingguPerkuliahan" id="mingguPerkuliahan" class="form-control">
+                                        <option value="">Pilih minggu perkuliahan...</option>
+                                    <?php foreach($minggukuliah as $mk) : ?>
+                                        <option value="<?= $mk['id'] ?>"><?=$mk['nama_minggu']?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <!-- <label class="form-label">Tanggal Selesai</label>
+                                <input type="date" class="form-control" name="tanggal_selesai"> -->
+                                <button class="btn btn-secondary mt-2" type="submit">Cari</button>
+                            </div>
+                        </form>
+                </div>
+                
                 <div class="view">
                     <div class="schedule-table">
                         <table class="table">
@@ -124,6 +144,7 @@
   min-width: 100px;
   max-width: 200px;
   left: 0px;
+  z-index: 99;
 }
 
 body{}
@@ -170,6 +191,7 @@ body{}
         }
         .schedule-table table tbody td.active {
         position: relative;
+        /* z-index: 10; */
         z-index: 10;
         transition: all 0.3s linear 0s;
         min-width: 50px;
@@ -211,6 +233,7 @@ body{}
         transform: scale(0);
         top: 0;
         left: 0;
+        /* z-index: -1; */
         z-index: -1;
         border-radius: 0.25rem;
         transition: all 0.3s linear 0s;
@@ -222,6 +245,7 @@ body{}
         width: 120%;
         height: 120%;
         transform: translate(-50%, -50%) scale(0.8);
+        /* z-index: 99; */
         z-index: 99;
         background: #86d4f5;
         border-radius: 0.25rem;

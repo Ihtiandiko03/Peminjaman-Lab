@@ -278,9 +278,10 @@ class Peminjaman extends CI_Controller
     }
 
     public function rangewaktu(){
-        $data['title'] = 'Proses Peminjaman';
+        $data['title'] = 'Range Waktu dan Tanggal Perkuliahan';
         $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $this->session->userdata('email')])->row_array();
         $data['range_waktu'] = $this->Peminjaman_model->roadster();
+        $data['mingguKuliah'] = $this->db->get('tb_minggu_perkuliahan')->result_array();
 
         
         $this->load->view('templates/header', $data);
@@ -355,6 +356,25 @@ class Peminjaman extends CI_Controller
 
     }
 
+    public function editMingguKuliah($id){
+        if($this->input->method() == 'post'){
+
+            $data = [
+                'tgl_mulai' => $this->input->post('tgl_mulai'),
+                'tgl_selesai' => $this->input->post('tgl_selesai')
+            ];
+
+            $this->db->where('id', $id);
+            $this->db->update('tb_minggu_perkuliahan', $data);
+
+        }
+
+        $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">
+        Tanggal berhasil diubah
+        </div>');
+        redirect('peminjaman/rangewaktu');
+    }
+
     public function hapusrangewaktu($id){
         $this->db->where('id_range_waktu', $id);
         $this->db->delete('tb_range_waktu');
@@ -377,6 +397,20 @@ class Peminjaman extends CI_Controller
         $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
         Peminjaman berhasil dihapus </div>');
         redirect('peminjaman/kelola');
+    }
+
+
+
+    public function editPeminjaman($id){
+        $data['title'] = 'Edit Peminjaman';
+        $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $this->session->userdata('email')])->row_array();
+        $data['data'] = $this->Peminjaman_model->showPeminjaman($id);
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('peminjaman/edit', $data);
+        $this->load->view('templates/footer');
     }
 
     // public function getDay(){

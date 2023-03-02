@@ -96,6 +96,14 @@ class Peminjaman_model extends CI_Model
         return $this->db->query($query)->result_array();
     }
 
+    public function search($filterTanggalMulai, $filterTanggalSelesai){
+
+        $query = "SELECT id_laboratorium, tanggal_penggunaan, id_range_waktu, nama_kegiatan, prodi, kapasitas from tb_peminjaman_ruang 
+                  where (tanggal_penggunaan BETWEEN '$filterTanggalMulai' AND '$filterTanggalSelesai') AND (status='done')";
+
+        return $this->db->query($query)->result_array();
+    }
+
     public function getLaboratorium(){
         $query="SELECT * FROM tb_laboratorium";
 
@@ -114,8 +122,4 @@ class Peminjaman_model extends CI_Model
         ON `tb_peminjaman_ruang`.`id_range_waktu` = `tb_range_waktu`.`id_range_waktu` WHERE `tb_peminjaman_ruang`.`status` = 'done'";
         return $this->db->query($query)->result_array();
     }
-
-
-
-
 }

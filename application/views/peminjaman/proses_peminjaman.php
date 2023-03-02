@@ -7,8 +7,9 @@
     <?= $this->session->flashdata('message'); ?>
 
     <div class="row">
-    <?php foreach ($detailPeminjaman as $p) : ?>
-        <div class="col-lg-6">
+        <?php foreach ($detailPeminjaman as $p) : ?>
+            <div class="col-lg-6">
+            <a href=" <?= base_url('peminjaman/kelola') ?>" class="ml-3"> <- Kembali</a>
 
         <form action="<?= base_url('peminjaman/prosesPeminjaman/'); ?><?= $p['id_peminjaman_ruang']?>" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
@@ -73,7 +74,7 @@
                 </div>
             </form>
 
-            <a href=" <?= base_url('peminjaman/kelola') ?>" class="ml-3">Kembali</a>
+            
         </div>
 
         <div class="col-lg-6">

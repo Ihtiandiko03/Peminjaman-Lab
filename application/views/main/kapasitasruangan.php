@@ -1,5 +1,5 @@
 <section class="intro">
-  <div class="bg-image h-100 pt-5">
+  <div class="bg-image h-100 mt-5">
     <div class="mask d-flex align-items-center h-100 pt-5" >
       <div class="container">
         <div class="row justify-content-center">

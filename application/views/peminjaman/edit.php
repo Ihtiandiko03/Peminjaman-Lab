@@ -23,27 +23,29 @@
             </div>
 
 
+            <?php foreach($data as $d) : ?>
+            
             <form action="<?=base_url()?>user/buatpeminjaman" method="post" enctype="multipart/form-data" id="formPeminjaman">
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama" value="<?php echo set_value('nama') ?>" autofocus autocomplete="off">
-                        <?php echo form_error('nama', ' <small class="text-danger pl-3">', '</small>') ?>
+                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama" value="<?=$d['nama'];?>" autofocus autocomplete="off">
+                        <?= form_error('nama', ' <small class="text-danger pl-3">', '</small>') ?>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nrk" name="nrk" placeholder="NRK" value="<?php echo set_value('nrk') ?>" autocomplete="off">
-                        <?php echo form_error('nrk', ' <small class="text-danger pl-3">', '</small>') ?>
+                        <input type="text" class="form-control" id="nrk" name="nrk" placeholder="NRK" value="<?=$d['nrk'];?>" autocomplete="off">
+                        <?= form_error('nrk', ' <small class="text-danger pl-3">', '</small>') ?>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="prodi" name="prodi" placeholder="Prodi" value="<?php echo set_value('prodi') ?>" autocomplete="off">
-                        <?php echo form_error('prodi', ' <small class="text-danger pl-3">', '</small>') ?>
+                        <input type="text" class="form-control" id="prodi" name="prodi" placeholder="Prodi" value="<?=$d['prodi'];?>" autocomplete="off">
+                        <?= form_error('prodi', ' <small class="text-danger pl-3">', '</small>') ?>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="notlp" name="notlp" placeholder="Nomor Telepon" value="<?php echo set_value('notlp') ?>" autocomplete="off">
-                        <?php echo form_error('notlp', ' <small class="text-danger pl-3">', '</small>') ?>
+                        <input type="text" class="form-control" id="notlp" name="notlp" placeholder="Nomor Telepon" value="<?=$d['notlp'];  ?>" autocomplete="off">
+                        <?= form_error('notlp', ' <small class="text-danger pl-3">', '</small>') ?>
                     </div>
                     <div class="form-group">
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="<?php echo set_value('email') ?>" autocomplete="off">
-                        <?php echo form_error('email', ' <small class="text-danger pl-3">', '</small>') ?>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="<?=$d['email'];?>" autocomplete="off">
+                        <?= form_error('email', ' <small class="text-danger pl-3">', '</small>') ?>
                     </div>
 
                     <div class="form-group">
@@ -55,8 +57,8 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nama_kegiatan" name="nama_kegiatan" placeholder="Nama Kegiatan" value="<?php echo set_value('nama_kegiatan') ?>" autocomplete="off">
-                        <?php echo form_error('nama_kegiatan', ' <small class="text-danger pl-3">', '</small>') ?>
+                        <input type="text" class="form-control" id="nama_kegiatan" name="nama_kegiatan" placeholder="Nama Kegiatan" value="<?=$d['nama_kegiatan']; ?>" autocomplete="off">
+                        <?= form_error('nama_kegiatan', ' <small class="text-danger pl-3">', '</small>') ?>
                     </div>
 
 
@@ -69,11 +71,6 @@
                          <label for="dokumen_pendukung">Upload Surat Permohonan (Wajib format .pdf)</label>
                          <input type="file" class="form-control" id="dokumen_pendukung" name="dokumen_pendukung">
                     </div>
-
-                    
-
-                    
-
 
                     <div id="isijadwal" style="display:none;">
                         <h6> Jadwal ke-1 </h6>
@@ -145,13 +142,18 @@
                 </div>
             </form>
 
+           
+
         </div>
     </div>
     
     <div class="col-lg-6" style="overflow-x:auto;">
         <b>Dokumen</b><br>
         <canvas id="pdfViewer"></canvas>
+        <iframe src="<?php echo base_url("dokumen/"); ?><?= $d['dokumen_pendukung']; ?>" width="700" height="700"></iframe>
     </div>
+
+    <?php endforeach ?>
 
 </div>
 <!-- /.container-fluid -->

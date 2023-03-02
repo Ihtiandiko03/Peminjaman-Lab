@@ -1,4 +1,3 @@
-
 <section class="intro">
   <div class="bg-image h-100" >
     <div class="mask d-flex align-items-center h-100"  >
@@ -8,10 +7,6 @@
             <div class="card" >
               <div class="card-body"  style="background-color: #FACA7A;">
                 
-
-
-
-
               <div class="row flex-column-reverse flex-sm-row p-4">
             <div class="col-md-6 reverse-2" style="padding:20px; ; border-radius:10px; background-color:white;">
                 <h2 class="text-lg-start">Hubungi Kami</h2>
