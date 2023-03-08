@@ -30,7 +30,7 @@
                         <?php echo form_error('nama', ' <small class="text-danger pl-3">', '</small>') ?>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nrk" name="nrk" placeholder="NRK" value="<?php echo set_value('nrk') ?>" autocomplete="off">
+                        <input type="text" class="form-control" id="nrk" name="nrk" placeholder="NIP/NRK" value="<?php echo set_value('nrk') ?>" autocomplete="off">
                         <?php echo form_error('nrk', ' <small class="text-danger pl-3">', '</small>') ?>
                     </div>
                     <div class="form-group">
@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nama_kegiatan" name="nama_kegiatan" placeholder="Nama Kegiatan" value="<?php echo set_value('nama_kegiatan') ?>" autocomplete="off">
+                        <input type="text" class="form-control" id="nama_kegiatan" name="nama_kegiatan" placeholder="Nama Kegiatan (Maksimal 35 huruf)" value="<?php echo set_value('nama_kegiatan') ?>" autocomplete="off">
                         <?php echo form_error('nama_kegiatan', ' <small class="text-danger pl-3">', '</small>') ?>
                     </div>
 
@@ -121,13 +121,13 @@
                         <div class="form-group">
                             <select class="form-control" id="namahari" onchange="fungsiHari()">
                                 <option selected>Pilih Hari</option>
-                                <option value="0">Minggu</option>
+                                <!-- <option value="0">Minggu</option> -->
                                 <option value="1">Senin</option>
                                 <option value="2">Selasa</option>
                                 <option value="3">Rabu</option>
                                 <option value="4">Kamis</option>
                                 <option value="5">Jumat</option>
-                                <option value="6">Sabtu</option>
+                                <!-- <option value="6">Sabtu</option> -->
                             </select>
                         </div>
 

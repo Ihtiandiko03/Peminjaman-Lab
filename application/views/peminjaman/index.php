@@ -24,7 +24,8 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Nama</th>
-                        <th scope="col">Tanggal</th>
+                        <th scope="col">Nama Kegiatan</th>
+                        <th scope="col">Tanggal Kegiatan</th>
                         <th scope="col">Kapasitas</th>
                         <th scope="col">Jam</th>
                         <th scope="col">Status</th>
@@ -37,7 +38,17 @@
                         <tr>
                             <th scope="row"><?= $i++; ?></th>
                             <td><?= $p['nama']; ?></td>
-                            <td><?=  $p['tanggal_penggunaan']; ?></td>
+                            <td><?= $p['nama_kegiatan']; ?></td>
+
+
+                            <td><?php $timestamp = strtotime($p['tanggal_penggunaan']); $new_date = date("d-m-Y", $timestamp); echo $new_date;  ?></td>
+                            <!-- <?php foreach ($mingguKuliah as $mk) : ?>
+                                <?php if($p['tanggal_penggunaan'] >= $mk['tgl_mulai'] && $p['tanggal_penggunaan'] <= $mk['tgl_selesai']) : ?>
+                                    <td><?php $timestamp = strtotime($p['tanggal_penggunaan']); $new_date = date("d-m-Y", $timestamp); echo $mk['nama_minggu'].', '.$new_date;  ?></td>
+                                <?php endif?>
+                            <?php endforeach ?>     -->
+
+
                             <td><?=  $p['kapasitas']; ?></td>
                             <td><?= $p['range_waktu']; ?></td>
                             <?php if($p['status'] == 'request') : ?>

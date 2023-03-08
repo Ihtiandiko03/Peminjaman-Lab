@@ -38,7 +38,7 @@
                 <div class="view">
                     <div class="schedule-table">
                         <table class="table">
-                        <thead>
+                        <thead style="position: sticky; top: 0px; z-index: 99;">
                         <tr>
                                         <th colspan="1" rowspan="2" scope="colgroup" class="sticky-col first-col" style="font-size: 14pt;">Nama Lab</th>
                                         <?php foreach($tgl as $k) : ?>
@@ -94,8 +94,7 @@
                                                     <div class="hover">
                                                         <h4><?= $j['nama_kegiatan'];?></h4>
                                                         <p><?=$j['prodi'];?></p>
-                                                        <p><?= $j['kapasitas'];?> orang</p>
-                                                        <span><?= $j['tanggal_penggunaan'];?></span>
+                                                        <span><?= $j['kapasitas'];?> orang</span>
                                                     </div>
                                                 </td>
                                             <?php endif ?>
@@ -130,6 +129,8 @@
 .schedule-table {
   position: relative;
   overflow: auto;
+  overflow-y: auto; 
+  height: 650px;
   /* white-space: nowrap; */
 }
 

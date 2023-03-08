@@ -38,7 +38,11 @@
 
                         <tr>
                             <th scope="col">Tanggal Peminjaman</th>
-                            <td><?= $p['tanggal_penggunaan']; ?></td>
+                            <?php foreach ($mingguKuliah as $mk) : ?>
+                                <?php if($p['tanggal_penggunaan'] >= $mk['tgl_mulai'] && $p['tanggal_penggunaan'] <= $mk['tgl_selesai']) : ?>
+                                    <td><?php $timestamp = strtotime($p['tanggal_penggunaan']); $new_date = date("d-m-Y", $timestamp); echo $mk['nama_minggu'].', '.$new_date;  ?></td>
+                                <?php endif?>
+                            <?php endforeach ?>
                         </tr>
 
                         <tr>

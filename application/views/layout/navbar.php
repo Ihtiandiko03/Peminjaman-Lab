@@ -49,7 +49,7 @@
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
                         <li class="nav-item"><a class="nav-link" href="<?= base_url('main/roadster')?>">Lihat Timeline</a></li>
                         <li class="nav-item"><a class="nav-link" href="<?= base_url('main/kapasitasruangan')?>">Kapasitas Ruangan</a></li>
-                        <li class="nav-item"><a class="nav-link" href="<?= base_url('main/kontak')?>">Kontak</a></li>
+                        <!-- <li class="nav-item"><a class="nav-link" href="<?= base_url('main/kontak')?>">Kontak</a></li> -->
                         <li class="nav-item"><a class="nav-link" style="color:yellow;" href="<?= base_url('auth'); ?>">Masuk</a></li>
                     </ul>
                 </div>

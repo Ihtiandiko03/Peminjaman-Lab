@@ -37,6 +37,7 @@ class User extends CI_Controller
         $data['peminjaman'] = $this->Peminjaman_model->peminjamanUser($sessionUser);
         $data['lab'] = $this->db->get('tb_laboratorium')->result_array();
         $data['rangeWaktu'] = $this->Peminjaman_model->roadster();
+        $data['mingguKuliah'] = $this->db->get('tb_minggu_perkuliahan')->result_array();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -98,9 +99,10 @@ class User extends CI_Controller
             array(
                 'field' => 'nama_kegiatan',
                 'label' => 'Nama Kegiatan',
-                'rules' => 'required|trim',
+                'rules' => 'required|trim|max_length[35]',
                 'errors' => array(
-                    'required' => 'Nama kegiatan wajib diisi'
+                    'required' => 'Nama kegiatan wajib diisi',
+                    'max_length[35]' => 'Nama kegiatan kepanjangan'
                 ),
             )
         );
@@ -219,6 +221,7 @@ class User extends CI_Controller
         $data['detailPeminjaman'] = $this->Peminjaman_model->showPeminjaman($id);
         $data['lab'] = $this->db->get('tb_laboratorium')->result_array();
         $data['nama_lab'] = $this->Peminjaman_model->ruangLab($id);
+        $data['mingguKuliah'] = $this->db->get('tb_minggu_perkuliahan')->result_array();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -230,6 +233,7 @@ class User extends CI_Controller
 
     public function getDay(){
 
+        $mingguPerkuliahan = $this->db->get('tb_minggu_perkuliahan')->result_array();
         $hari = $this->input->post('hari');
         $mydate=getdate(date("U"));
         $hariIni =  "$mydate[year]-$mydate[mon]-$mydate[mday]";
@@ -256,7 +260,15 @@ class User extends CI_Controller
             $tgl=$i->format("Y-m-d");
             $dayofweek = date('w', strtotime($tgl));
             if($dayofweek==$hari){
-                $kirim.="<input type='checkbox' class='form-check-input' name='tgl[$num][tanggal_penggunaan]' value='$tgl'>".$arr[$hari].", ".$tgl."<br>";
+                //Cek minggu keberapa
+                foreach ($mingguPerkuliahan as $mk) {
+                    if($tgl >= $mk['tgl_mulai'] && $tgl <= $mk['tgl_selesai']){
+                        $kirim.="<input type='checkbox' class='form-check-input' name='tgl[$num][tanggal_penggunaan]' value='$tgl'>".$mk['nama_minggu']."<br>";
+                    }    
+                }
+
+
+                
                 $num++;
             }
         }
