@@ -42,14 +42,15 @@
                         <tr>
                                         <th colspan="1" rowspan="2" scope="colgroup" class="sticky-col first-col" style="font-size: 14pt;">Nama Lab</th>
                                         <?php foreach($tgl as $k) : ?>
-                                            <th colspan="5" scope="colgroup"><?php $hari = date("l", strtotime($k)); 
+                                            <th colspan="4" scope="colgroup"><?php $hari = date("l", strtotime($k)); 
                                                     if($hari == 'Monday'){echo 'Senin';} 
                                                     elseif($hari == 'Tuesday'){echo 'Selasa';}
                                                     elseif($hari == 'Wednesday'){echo 'Rabu';} 
                                                     elseif($hari == 'Thursday'){echo 'Kamis';} 
                                                     elseif($hari == 'Friday'){echo 'Jumat';} 
                                                     elseif($hari == 'Saturday'){echo 'Sabtu';} 
-                                                    elseif($hari == 'Sunday'){echo 'Minggu';}  
+                                                    elseif($hari == 'Sunday'){echo 'Minggu';}
+                                            
                                                     
                                                     ?>, <?php $timestamp = strtotime($k); $new_date = date("d-m-Y", $timestamp); echo $new_date;  ?></th>
                                         <?php endforeach ?>
@@ -72,9 +73,9 @@
                             <?php foreach ($resultQuery as $jadwal) : ?>
 
                             <tr>
-                                <td class="sticky-col first-col"><?= $jadwal->nama_lab ?></td>
+                                <td class="sticky-col first-col"><?= $jadwal['nama_lab'] ?></td>
                                 <?php foreach($td as $t):?>
-                                <?php if($jadwal->$t['periode'] == 1) : ?>
+                                <?php if($jadwal[$t['periode']] == 1) : ?>
 
 
 
@@ -87,7 +88,7 @@
                                             $gabung = $tgl.'_'.$id_range_waktu;
                                         ?>
                                         <?php if($gabung == $t['periode']) : ?>
-                                            <?php if($j['id_laboratorium'] == $jadwal->id_laboratorium) : ?>
+                                            <?php if($j['id_laboratorium'] == $jadwal['id_laboratorium']) : ?>
                                                 <td class="active">
                                                     <h4><?= $j['nama_kegiatan'];?></h4>
                                                     <p><?= $j['prodi'];?></p>

@@ -206,8 +206,21 @@ class Peminjaman extends CI_Controller
     public function kelola(){
         $data['title'] = 'Kelola Peminjaman';
         $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $this->session->userdata('email')])->row_array();
-        $data['peminjaman'] = $this->Peminjaman_model->pengajuan();
+        
         $data['lab'] = $this->db->get('tb_laboratorium')->result_array();
+        $data['grupPeminjaman'] = $this->db->query("SELECT * FROM `tb_peminjaman_ruang` GROUP BY `nama_kegiatan`")->result_array();
+
+        $getPeminjamanLab = $this->Peminjaman_model->pengajuan();
+        $getStatus = $this->input->get('status_peminjaman');
+
+        if($getStatus){
+            $filter = $this->Peminjaman_model->searchStatus($getStatus);
+            
+        } else {
+            $filter = $this->Peminjaman_model->pengajuan();
+        }
+
+        $data['peminjaman'] = $filter;
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -217,14 +230,24 @@ class Peminjaman extends CI_Controller
     }
 
     public function proses($id){
+        // var_dump($id);
+        // die;
+
         $this->db->set('status', 'proses');
         $this->db->where('id_peminjaman_ruang', $id);
         $this->db->update('tb_peminjaman_ruang');
 
         $data['title'] = 'Proses Peminjaman';
         $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $this->session->userdata('email')])->row_array();
-        $data['detailPeminjaman'] = $this->Peminjaman_model->showPeminjaman($id);
+        // $data['detailPeminjaman'] = $this->Peminjaman_model->showPeminjaman($id);
+        $data['detailPeminjaman'] = $this->db->query("SELECT `tb_peminjaman_ruang`.*, `tb_range_waktu`.`range_waktu`
+        FROM `tb_peminjaman_ruang` JOIN `tb_range_waktu`
+        ON `tb_peminjaman_ruang`.`id_range_waktu` = `tb_range_waktu`.`id_range_waktu`
+        WHERE  `tb_peminjaman_ruang`.`id_peminjaman_ruang`= $id")->result_array();
         $data['lab'] = $this->db->get('tb_laboratorium')->result_array();
+
+        // var_dump( $data['detailPeminjaman']);
+        // die;
 
 
         $this->load->view('templates/header', $data);
@@ -242,17 +265,17 @@ class Peminjaman extends CI_Controller
 
             foreach($getSeluruhDataPeminjaman as $getData){
                 //Kondisi Lab Prodi 1 hanya untuk prodi Teknik Informatika
-                if(($this->input->post('id_laboratorium') == '00001') && (($this->input->post('prodi') != 'Teknik Informatika'))){
-                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-                   Lab Prodi 1 hanya untuk Prodi Teknik Informatika
-                    </div>');
-                    redirect('peminjaman/proses/'.$id);
-                }
+                // if(($this->input->post('id_laboratorium') == '00001') && (($this->input->post('prodi') != 'Teknik Informatika'))){
+                //     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+                //    Lab Prodi 1 hanya untuk Prodi Teknik Informatika
+                //     </div>');
+                //     redirect('peminjaman/proses/'.$id);
+                // }
 
                 //Kondisi ketika tanggal,jam, dan ruangan sudah terisi
                 if(  ($getData['tanggal_penggunaan'] == ($this->input->post('tanggal_penggunaan'))) &&  ($getData['id_laboratorium'] == ($this->input->post('id_laboratorium'))) && ($getData['range_waktu'] == ($this->input->post('range_waktu'))) && ($this->input->post('status') == 'done') ){
                     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-                    Terdapat Tanggal, Waktu, dan Ruang yang sama. Silahkan memilih ruangan yang lain
+                    Terdapat Tanggal, Jam, dan Ruang yang sama. Silahkan memilih ruangan yang lain
                     </div>');
                     redirect('peminjaman/proses/'.$id);
                 }
@@ -386,13 +409,14 @@ class Peminjaman extends CI_Controller
     }
 
     public function hapus($id){
-        $getPeminjaman = $this->Peminjaman_model->hapus($id);
+
+        // var_dump($id);
+        // die;
+
+        $this->db->query("DELETE FROM `tb_peminjaman_ruang` WHERE `id_peminjaman_ruang`=$id");
+        // $this->Peminjaman_model->hapus($id);
         
-        unlink('dokumen/'.$getPeminjaman['dokumen_pendukung']);
-
-
-        $this->db->where('id_peminjaman_ruang' , $id);
-        $this->db->delete('tb_peminjaman_ruang');
+        // unlink('dokumen/'.$getPeminjaman['dokumen_pendukung']);
 
         $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
         Peminjaman berhasil dihapus </div>');
@@ -404,12 +428,185 @@ class Peminjaman extends CI_Controller
     public function editPeminjaman($id){
         $data['title'] = 'Edit Peminjaman';
         $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $this->session->userdata('email')])->row_array();
-        $data['data'] = $this->Peminjaman_model->showPeminjaman($id);
+        $data['rangeWaktu'] = $this->Peminjaman_model->roadster();
+        $data['lab'] = $this->db->get('tb_laboratorium')->result_array();
+        $data['data'] = $this->Peminjaman_model->showPeminjaman2($id);
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
         $this->load->view('peminjaman/edit', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function prosesEditPeminjaman($id){
+        
+        if($this->input->method() == 'post'){
+
+            // var_dump($this->input->post('id_laboratorium'));
+            // die;
+
+            $getSeluruhDataPeminjaman = $this->Peminjaman_model->peminjamanDone();
+            
+            foreach($getSeluruhDataPeminjaman as $getData){
+                //Kondisi ketika tanggal,jam, dan ruangan sudah terisi
+                if(  (($this->input->post('tanggal_penggunaan')) == $getData['tanggal_penggunaan']) && (($this->input->post('id_laboratorium')) == $getData['id_laboratorium']) && (($this->input->post('id_range_waktu')) == $getData['id_range_waktu']) ){
+                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+                    Terdapat Tanggal, Jam, dan Ruang yang sama. Silahkan memilih ruangan yang lain
+                    </div>');
+                    redirect('peminjaman/editPeminjaman/'.$id);
+                }
+            }
+
+
+
+            $id_peminjaman = (int)$id;
+
+            $config['upload_path']          = 'dokumen';
+            $config['allowed_types']        = 'pdf';
+    
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+
+            if ($this->upload->do_upload('dokumen_pendukung')) 
+            {
+
+                $dokumen = $this->upload->data();
+        
+                $nama = $this->input->post('nama');
+                $nrk = $this->input->post('nrk');
+                $prodi = $this->input->post('prodi');
+                $notlp = $this->input->post('notlp');
+                $email = $this->input->post('email');
+                $nama_kegiatan = $this->input->post('nama_kegiatan');
+                $dokumen_pendukung = $dokumen['file_name'];
+                $status = $this->input->post('status');
+                $kapasitas = $this->input->post('kapasitas');
+                $range_waktu = $this->input->post('id_range_waktu');
+                $email_pengguna = $this->input->post('email_pengguna');
+                $tanggal_penggunaan = $this->input->post('tanggal_penggunaan');
+                $id_laboratorium = $this->input->post('id_laboratorium');
+
+                $data = array(
+                    'id_laboratorium' => $id_laboratorium,
+                    'nama' => $nama,
+                    'nrk' => $nrk,
+                    'prodi' => $prodi,
+                    'notlp' => $notlp,
+                    'email' => $email,
+                    'nama_kegiatan' => $nama_kegiatan,
+                    'dokumen_pendukung' => $dokumen_pendukung,
+                    'status' => $status,
+                    'tanggal_penggunaan' => $tanggal_penggunaan,
+                    'kapasitas' => $kapasitas,
+                    'id_range_waktu' => $range_waktu,
+                    'email_pengguna' => $email_pengguna
+                );
+
+                $this->db->where('id_peminjaman_ruang', $id_peminjaman);
+                $this->db->update('tb_peminjaman_ruang', $data);
+
+            } 
+            else {
+                $nama = $this->input->post('nama');
+                $nrk = $this->input->post('nrk');
+                $prodi = $this->input->post('prodi');
+                $notlp = $this->input->post('notlp');
+                $email = $this->input->post('email');
+                $nama_kegiatan = $this->input->post('nama_kegiatan');
+                $status = $this->input->post('status');
+                $kapasitas = $this->input->post('kapasitas');
+                $range_waktu = $this->input->post('id_range_waktu');
+                $email_pengguna = $this->input->post('email_pengguna');
+                $tanggal_penggunaan = $this->input->post('tanggal_penggunaan');
+                $id_laboratorium = $this->input->post('id_laboratorium');
+
+                $data = array(
+                    'id_laboratorium' => $id_laboratorium,
+                    'nama' => $nama,
+                    'nrk' => $nrk,
+                    'prodi' => $prodi,
+                    'notlp' => $notlp,
+                    'email' => $email,
+                    'nama_kegiatan' => $nama_kegiatan,
+                    'status' => $status,
+                    'tanggal_penggunaan' => $tanggal_penggunaan,
+                    'kapasitas' => $kapasitas,
+                    'id_range_waktu' => $range_waktu,
+                    'email_pengguna' => $email_pengguna
+                );
+
+
+                $this->db->where('id_peminjaman_ruang', $id_peminjaman);
+                $this->db->update('tb_peminjaman_ruang', $data);
+            }
+
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                                    Peminjaman lab berhasil diedit
+                                    </div>');
+                                    redirect('peminjaman/kelola');
+
+        }
+    }
+
+    function lihat($nama_kegiatan){
+        if ($_POST) {
+
+            // var_dump($_POST['check']);
+            // die;
+
+            $data = array();
+            $index = 0;
+
+            foreach($_POST['check'] as $a){
+                array_push($data, array(
+                    'id_peminjaman_ruang' => $a,
+                    'id_laboratorium' => $this->input->post('id_laboratorium'),
+                    'status' => 'done'
+                ));
+
+                $index++;
+            }
+
+            $this->db->update_batch('tb_peminjaman_ruang', $data, 'id_peminjaman_ruang');
+
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                            Peminjaman lab berhasil diajukan
+                            </div>');
+            redirect('peminjaman/lihat/'.$nama_kegiatan);
+
+        }
+
+        $nama = str_replace('%20', ' ', $nama_kegiatan);
+    
+        $data['url'] = $nama_kegiatan;
+        $data['title'] = $nama;
+        $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $this->session->userdata('email')])->row_array();
+        
+        $data['lab'] = $this->db->get('tb_laboratorium')->result_array();
+        $data['mingguKuliah'] = $this->db->get('tb_minggu_perkuliahan')->result_array();
+        
+
+        $getPeminjamanLab = $this->Peminjaman_model->pengajuan();
+        $getStatus = $this->input->get('status_peminjaman');
+
+        if($getStatus){
+            $filter = $this->Peminjaman_model->searchStatus($getStatus,$nama);
+            
+        } else {
+            $filter = $this->db->query("SELECT `tb_peminjaman_ruang`.*,  `tb_range_waktu`.`range_waktu`,DATEDIFF(CURRENT_DATE(), `created_at`) as `lama_pengajuan`
+            FROM `tb_peminjaman_ruang` JOIN `tb_range_waktu`
+            ON `tb_peminjaman_ruang`.`id_range_waktu` = `tb_range_waktu`.`id_range_waktu`
+            WHERE `nama_kegiatan`= '$nama'
+            ORDER BY `tb_peminjaman_ruang`.`status` ASC ")->result_array();
+        }
+
+        $data['peminjaman'] = $filter;
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('peminjaman/lihatKelas', $data);
         $this->load->view('templates/footer');
     }
 

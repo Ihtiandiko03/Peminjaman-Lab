@@ -17,7 +17,7 @@
                         </tr>
 
                         <tr>
-                            <th scope="col">NRK</th>
+                            <th scope="col">NIP/NRK</th>
                             <td><?= $p['nrk']; ?></td>
                         </tr>
 
@@ -63,11 +63,13 @@
                         <tr>
                             <th scope="col">Status</th>
                             <?php if($p['status'] == 'request') : ?>
-                                <td> <b class="badge badge-warning"><?= $p['status']; ?></b></td>
+                                <td> <b class="badge badge-warning">Diajukan</b></td>
+                            <?php elseif($p['status'] == 'proses') : ?>
+                                <td> <b class="badge badge-secondary">Permintaan Sedang di Proses</b></td>
                             <?php elseif($p['status'] == 'done') : ?>
-                                <td> <b class="badge badge-success"><?= $p['status']; ?></b></td>
+                                <td> <b class="badge badge-success">Peminjaman Lab Disetujui</b></td>
                             <?php elseif($p['status'] == 'reject') : ?>
-                                <td> <b class="badge badge-danger"><?= $p['status']; ?></b></td>
+                                <td> <b class="badge badge-danger">Peminjaman Lab Ditolak</b></td>
                             <?php endif ?>
                         </tr>
 

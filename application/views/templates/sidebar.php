@@ -1,6 +1,6 @@
 <!-- Sidebar -->
 <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background: rgb(38,48,97);
-background: linear-gradient(90deg, rgba(38,48,97,1) 0%, rgba(47,47,179,1) 48%, rgba(38,48,97,1) 100%);">
+background: linear-gradient(90deg, rgba(38,48,97,1) 0%, rgba(47,47,179,1) 48%, rgba(38,48,97,1) 100%); ">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php echo base_url('user/peminjaman');?>">

@@ -40,24 +40,42 @@
                         <table class="table" id="tabel">
                         <thead style="position: sticky; top: 0px; z-index: 99;">
                             <tr>
+                                <?php $libur = 0;?>
                                 <th colspan="1" rowspan="2" scope="colgroup" class="sticky-col first-col" style="font-size: 12pt;">Nama Lab</th>
                                 <?php foreach($tgl as $k) : ?>
-                                <th colspan="5" scope="colgroup">
-                                    <?php $hari = date("l", strtotime($k)); 
-                                    if($hari == 'Monday'){echo 'Senin';} 
-                                    elseif($hari == 'Tuesday'){echo 'Selasa';}
-                                    elseif($hari == 'Wednesday'){echo 'Rabu';} 
-                                    elseif($hari == 'Thursday'){echo 'Kamis';} 
-                                    elseif($hari == 'Friday'){echo 'Jumat';} 
-                                    elseif($hari == 'Saturday'){echo 'Sabtu';} 
-                                    elseif($hari == 'Sunday'){echo 'Minggu';}  
-                                    ?>, <?php $timestamp = strtotime($k); $new_date = date("d-m-Y", $timestamp); echo $new_date;  ?>
-                                </th>
+                                    <?php  $hari = date("l", strtotime($k)); ?>
+                                    <?php if($hari == 'Monday') : ?>
+                                        <th colspan="4" scope="colgroup">
+                                            <?php $timestamp = strtotime($k); $new_date = date("d-m-Y", $timestamp); echo 'Senin, ',$new_date; ?>
+                                        </th>
+                                    <?php elseif($hari == 'Tuesday') : ?>
+                                        <th colspan="4" scope="colgroup">
+                                            <?php $timestamp = strtotime($k); $new_date = date("d-m-Y", $timestamp); echo 'Selasa, ',$new_date; ?>
+                                        </th>
+                                    <?php elseif($hari == 'Wednesday') : ?>
+                                        <th colspan="4" scope="colgroup">
+                                            <?php $timestamp = strtotime($k); $new_date = date("d-m-Y", $timestamp); echo 'Rabu, ',$new_date; ?>
+                                        </th>
+                                    <?php elseif($hari == 'Thursday') : ?>
+                                        <th colspan="4" scope="colgroup">
+                                            <?php $timestamp = strtotime($k); $new_date = date("d-m-Y", $timestamp); echo 'Kamis, ',$new_date; ?>
+                                        </th>
+                                    <?php elseif($hari == 'Friday') : ?>
+                                        <th colspan="4" scope="colgroup">
+                                            <?php $timestamp = strtotime($k); $new_date = date("d-m-Y", $timestamp); echo 'Jumat, ',$new_date; ?>
+                                        </th>
+                                    
+                                    <?php else : ?>
+                                        <?php $libur++; ?>
+                                    <?php endif ?>
+                                    
+                                
                                 <?php endforeach ?>
                             </tr>
 
                             <tr>
-                                <?php for($i=0; $i<count($tgl); $i++) : ?>
+                                <?php $jmlh_tgl = count($tgl) - $libur; ?>
+                                <?php for($i=0; $i<$jmlh_tgl; $i++) : ?>
                                     <?php foreach($range_waktu as $r) : ?>
                                         <th scope="col"><?= $r['range_waktu']; ?></th>
                                     <?php endforeach ?>
@@ -67,9 +85,9 @@
                         <tbody>
                             <?php foreach ($resultQuery as $jadwal) : ?>
                             <tr>
-                                <td class="sticky-col first-col" style="background-color:#86d4f5; font-size:10pt;"><b><?= $jadwal->nama_lab ?></b></td>
+                                <td class="sticky-col first-col" style="background-color:#86d4f5; font-size:10pt;"><b><?= $jadwal['nama_lab'] ?></b></td>
                                 <?php foreach($td as $t):?>
-                                    <?php if($jadwal->$t['periode'] == 1) : ?>
+                                    <?php if($jadwal[$t['periode']] == 1) : ?>
 
                                         <?php foreach($jadwal2 as $j) : ?>
                                             
@@ -81,7 +99,7 @@
                                                 $gabung = $tgl.'_'.$id_range_waktu;
                                             ?>
                                             <?php if($gabung == $t['periode']) : ?>
-                                                <?php if($j['id_laboratorium'] == $jadwal->id_laboratorium) : ?>
+                                                <?php if($j['id_laboratorium'] == $jadwal['id_laboratorium']) : ?>
                                                     <td class="active">
                                                         <h4><?= $j['nama_kegiatan'];?></h4>
                                                         <p><?= $j['prodi'];?></p>

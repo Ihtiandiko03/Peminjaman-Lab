@@ -130,6 +130,11 @@
         ]
     });
 
+    $('#lihat').DataTable({
+        
+        
+    });
+
     });
 </script>
 

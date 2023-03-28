@@ -34,10 +34,31 @@ class User extends CI_Controller
         $data['title'] = 'Halaman Peminjaman';
         $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $sessionUser])->row_array();
         
-        $data['peminjaman'] = $this->Peminjaman_model->peminjamanUser($sessionUser);
+        // $data['peminjaman'] = $this->Peminjaman_model->peminjamanUser($sessionUser);
+
+        $data['peminjaman'] = $this->db->query("SELECT `tb_peminjaman_ruang`.*
+        FROM `tb_peminjaman_ruang`
+        WHERE `tb_peminjaman_ruang`.`email_pengguna` = '$sessionUser'
+        GROUP BY `nama_kegiatan`")->result_array();
+
+
         $data['lab'] = $this->db->get('tb_laboratorium')->result_array();
         $data['rangeWaktu'] = $this->Peminjaman_model->roadster();
         $data['mingguKuliah'] = $this->db->get('tb_minggu_perkuliahan')->result_array();
+
+        $getStatus = $this->input->get('status_peminjaman');
+
+        if($getStatus){
+            $filter = $this->Peminjaman_model->filterPeminjamanUser($sessionUser,$getStatus);
+            
+        } else {
+            $filter =$this->db->query("SELECT `tb_peminjaman_ruang`.*
+            FROM `tb_peminjaman_ruang`
+            WHERE `tb_peminjaman_ruang`.`email_pengguna` = '$sessionUser'
+            GROUP BY `nama_kegiatan`")->result_array();
+        }
+
+        $data['peminjaman'] = $filter;
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -120,6 +141,7 @@ class User extends CI_Controller
     
                         if ($this->upload->do_upload('dokumen_pendukung')) 
                         {
+                            
                             $dokumen = $this->upload->data();
     
                                     $nama = $this->input->post('nama');
@@ -138,58 +160,67 @@ class User extends CI_Controller
                                         //KULIAH
                                         $data = array();
                                         $index = 0;
-        
-                                        foreach($_POST['tgl'] as $m){
-                                            
-        
-                                            array_push($data, array(
-                                                'nama' => $nama,
-                                                'nrk' => $nrk,
-                                                'prodi' => $prodi,
-                                                'notlp' => $notlp,
-                                                'email' => $email,
-                                                'nama_kegiatan' => $nama_kegiatan,
-                                                'dokumen_pendukung' => $dokumen_pendukung,
-                                                'status' => $status,
-                                                'tanggal_penggunaan' => $m['tanggal_penggunaan'],
-                                                'kapasitas' => $kapasitas,
-                                                'id_range_waktu' => $range_waktu,
-                                                'email_pengguna' => $email_pengguna
-                                            ));
-        
-                                            $index++;
+
+                                        
+
+                                        foreach($_POST['multi'] as $l){
+                                            foreach($_POST['tgl'] as $m){
+                                                
+            
+                                                array_push($data, array(
+                                                    'nama' => $nama,
+                                                    'nrk' => $nrk,
+                                                    'prodi' => $prodi,
+                                                    'notlp' => $notlp,
+                                                    'email' => $email,
+                                                    'nama_kegiatan' => $nama_kegiatan,
+                                                    'dokumen_pendukung' => $dokumen_pendukung,
+                                                    'status' => $status,
+                                                    'tanggal_penggunaan' => $m['tanggal_penggunaan'],
+                                                    'kapasitas' => $kapasitas,
+                                                    'id_range_waktu' => $l['id_range_waktu'],
+                                                    'email_pengguna' => $email_pengguna
+                                                ));
+            
+                                                $index++;
+                                            }
+            
                                         }
-        
-                                        $this->db->insert_batch('tb_peminjaman_ruang', $data);
-    
+                                            $this->db->insert_batch('tb_peminjaman_ruang', $data);
+                                        
                                         
                                     }else{
                                         //UMUM
+
                                         $data = array();
                                         $index = 0;
+
+                                        
     
-                                        foreach($_POST['multiple'] as $m){
-                                            
-    
-                                            array_push($data, array(
-                                                'nama' => $nama,
-                                                'nrk' => $nrk,
-                                                'prodi' => $prodi,
-                                                'notlp' => $notlp,
-                                                'email' => $email,
-                                                'nama_kegiatan' => $nama_kegiatan,
-                                                'dokumen_pendukung' => $dokumen_pendukung,
-                                                'status' => $status,
-                                                'tanggal_penggunaan' => $m['tanggal_penggunaan'],
-                                                'kapasitas' => $m['kapasitas'],
-                                                'id_range_waktu' => $m['id_range_waktu'],
-                                                'email_pengguna' => $email_pengguna
-                                            ));
-    
-                                            $index++;
-                                        }
-    
-                                        $this->db->insert_batch('tb_peminjaman_ruang', $data);
+                                            foreach($_POST['multiple'] as $m){
+                                                
+        
+                                                array_push($data, array(
+                                                    'nama' => $nama,
+                                                    'nrk' => $nrk,
+                                                    'prodi' => $prodi,
+                                                    'notlp' => $notlp,
+                                                    'email' => $email,
+                                                    'nama_kegiatan' => $nama_kegiatan,
+                                                    'dokumen_pendukung' => $dokumen_pendukung,
+                                                    'status' => $status,
+                                                    'tanggal_penggunaan' => $m['tanggal_penggunaan'],
+                                                    'kapasitas' => $m['kapasitas'],
+                                                    'id_range_waktu' => $m['id_range_waktu'],
+                                                    'email_pengguna' => $email_pengguna
+                                                ));
+        
+                                                $index++;
+                                            }
+        
+                                            $this->db->insert_batch('tb_peminjaman_ruang', $data);
+
+                                        
                                     }
                                     $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
                                     Peminjaman lab berhasil diajukan
@@ -216,6 +247,8 @@ class User extends CI_Controller
 
     //Melihat detail peminjaman
     public function show($id){
+        
+
         $data['title'] = 'Detail Peminjaman';
         $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $this->session->userdata('email')])->row_array();
         $data['detailPeminjaman'] = $this->Peminjaman_model->showPeminjaman($id);
@@ -263,7 +296,9 @@ class User extends CI_Controller
                 //Cek minggu keberapa
                 foreach ($mingguPerkuliahan as $mk) {
                     if($tgl >= $mk['tgl_mulai'] && $tgl <= $mk['tgl_selesai']){
-                        $kirim.="<input type='checkbox' class='form-check-input' name='tgl[$num][tanggal_penggunaan]' value='$tgl'>".$mk['nama_minggu']."<br>";
+                        $timestamp = strtotime($tgl); 
+                        $new_date = date("d-m-Y", $timestamp);
+                        $kirim.="<input type='checkbox' class='form-check-input' name='tgl[$num][tanggal_penggunaan]' value='$tgl'>".$mk['nama_minggu'].', '.$new_date."<br>";
                     }    
                 }
 
@@ -274,5 +309,41 @@ class User extends CI_Controller
         }
         
         echo json_encode($kirim);
+    }
+
+    public function lihat($nama_kegiatan){
+        $sessionUser = $this->session->userdata('email');
+        $data['url'] = $nama_kegiatan;
+        $getStatus = $this->input->get('status_peminjaman');
+
+
+        $nama = str_replace('%20', ' ', $nama_kegiatan);
+
+        $data['title'] = $nama;
+        $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $sessionUser])->row_array();
+        $data['rangeWaktu'] = $this->Peminjaman_model->roadster();
+        
+        $data['lab'] = $this->db->get('tb_laboratorium')->result_array();
+        $data['mingguKuliah'] = $this->db->get('tb_minggu_perkuliahan')->result_array();
+
+        //$data['peminjaman'] = $this->db->query("SELECT `tb_peminjaman_ruang`.*,`tb_range_waktu`.`range_waktu` FROM `tb_peminjaman_ruang` JOIN `tb_range_waktu` ON `tb_peminjaman_ruang`.`id_range_waktu`=`tb_range_waktu`.`id_range_waktu`  WHERE `tb_peminjaman_ruang`.`nama_kegiatan`='$nama' AND `tb_peminjaman_ruang`.`email_pengguna`='$sessionUser'")->result_array();
+        
+        if($getStatus){
+            $filter = $this->Peminjaman_model->searchStatus($getStatus,$nama);
+            
+        } else {
+            $filter = $this->db->query("SELECT `tb_peminjaman_ruang`.*,`tb_range_waktu`.`range_waktu` FROM `tb_peminjaman_ruang` JOIN `tb_range_waktu` ON `tb_peminjaman_ruang`.`id_range_waktu`=`tb_range_waktu`.`id_range_waktu`  WHERE `tb_peminjaman_ruang`.`nama_kegiatan`='$nama' AND `tb_peminjaman_ruang`.`email_pengguna`='$sessionUser'")->result_array();
+        }
+
+        $data['peminjaman'] = $filter;
+
+
+
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('user/lihatKelas', $data);
+        $this->load->view('templates/footer');
     }
 }

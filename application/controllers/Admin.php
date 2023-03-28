@@ -77,7 +77,7 @@ class Admin extends CI_Controller
                 $q_case.=",count(case when (id_range_waktu = 2 AND tanggal_penggunaan='$tgl') then 1 else null end) as $tgl_name_2";
                 $q_case.=",count(case when (id_range_waktu = 3 AND tanggal_penggunaan='$tgl') then 1 else null end) as $tgl_name_3";
                 $q_case.=",count(case when (id_range_waktu = 4 AND tanggal_penggunaan='$tgl') then 1 else null end) as $tgl_name_4";
-                $q_case.=",count(case when (id_range_waktu = 5 AND tanggal_penggunaan='$tgl') then 1 else null end) as $tgl_name_5";
+                
                 $td[]=array(
                     'periode'=>$tgl_name_1
                 );
@@ -90,9 +90,7 @@ class Admin extends CI_Controller
                 $td[]=array(
                     'periode'=>$tgl_name_4
                 );
-                $td[]=array(
-                    'periode'=>$tgl_name_5
-                );
+                
                 $num++;
         }
         $q_case.=" from tb_peminjaman_ruang a JOIN `tb_laboratorium` b ON `a`.`id_laboratorium` = `b`.`id_laboratorium`
@@ -100,7 +98,7 @@ class Admin extends CI_Controller
         where status='done'
         group by a.id_laboratorium ORDER BY a.id_laboratorium,tanggal_penggunaan";
 
-        $query=$this->db->query($q_case)->result();
+        $query=$this->db->query($q_case)->result_array();
 
         $data['tgl'] = $kirim;
         $data['resultQuery'] = $query;

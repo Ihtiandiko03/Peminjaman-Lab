@@ -15,62 +15,54 @@
 
             <?= $this->session->flashdata('message'); ?>
 
+            <!-- <div class="row mb-2">
+                        <form action="<?=base_url()?>peminjaman/kelola" method="get">
+                            <div class="col">
+                                
+                                <select name="status_peminjaman" id="status_peminjaman" class="form-control">
+                                        <option value="">Pilih status peminjaman...</option>
+                                        <option value="request" class="bg bg-warning text-white"><b> Request </b></option>
+                                        <option value="proses" class="bg bg-secondary text-white"><b> Proses </b></option>
+                                        <option value="done" class="bg bg-success text-white"><b> Done </b></option>
+                                        <option value="reject" class="bg bg-danger text-white"><b> Reject </b></option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-secondary mt-2" type="submit">Cari</button>
+                            </div>
+                        </form>
+                    </div> -->
 
-            <table id="tabel" class="table table-hover">
+
+            <table id="lihat" class="table table-hover">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Nama</th>
-                        <th scope="col">Tanggal</th>
+                        <th scope="col">Nama Kegiatan</th>
+                        <th scope="col">Program Studi</th>
+                        <!-- <th scope="col">Tanggal</th>
                         <th scope="col">Jam</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Dibuat</th>
+                        <th scope="col">Dibuat</th> -->
                         <!-- <th scope="col">Tanggal Pengajuan</th> -->
                         
-                        <th scope="col">Lama Pengajuan</th>
+                        <!-- <th scope="col">Lama Pengajuan</th> -->
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php $i = 1; $today = date("Y/m/d") ?>
-                    <?php foreach ($peminjaman as $p) : ?>
+                    <?php foreach ($grupPeminjaman as $p) : ?>
                         <tr>
                             <td scope="row"><b><?= $i++; ?></b></td>
-                            <td><?= $p['nama']; ?></td>
-                            <td><?=date("l", strtotime($p['tanggal_penggunaan']))?>, <?php $timestamp = strtotime($p['tanggal_penggunaan']); $new_date = date("d-m-Y", $timestamp); echo $new_date;  ?></td>
-                            <td><?= $p['range_waktu']; ?></td>
-
-                            <?php if($p['status'] == 'request') : ?>
-                                <td> <b class="badge badge-warning"><?= $p['status']; ?></b></td>
-                            <?php elseif($p['status'] == 'done') : ?>
-                                <td> <b class="badge badge-success"><?= $p['status']; ?></b></td>
-                            <?php elseif($p['status'] == 'proses') : ?>
-                                <td> <b class="badge badge-secondary"><?= $p['status']; ?></b></td>
-                            <?php elseif($p['status'] == 'reject') : ?>
-                                <td> <b class="badge badge-danger"><?= $p['status']; ?></b></td>
-                            <?php endif ?>
-
-                            <td><?= $p['created_at']; ?></td>
-                            <!-- <td><?= $p['tanggal_pengajuan']; ?></td> -->
-
-                            <?php if($p['lama_pengajuan'] == 0) : ?>
-                                <td>Hari ini</td>
-                            <?php else :?>
-                                <td><?= $p['lama_pengajuan']; ?> hari</td>
-                            <?php endif ?>
+                            <td><?= $p['nama_kegiatan']; ?></td>
+                            <td><?= $p['prodi']; ?></td>
+                           
 
                             <td>
-                            <?php if($p['status'] == 'proses') : ?>
-                                <a href="<?= base_url('peminjaman/proses/').$p['id_peminjaman_ruang']; ?>" class="badge badge-info">Proses</a>
-                            <?php elseif($p['status'] == 'request') : ?>
-                                <a href="<?= base_url('peminjaman/proses/').$p['id_peminjaman_ruang']; ?>" class="badge badge-info">Proses</a>
-                            <?php elseif($p['status'] == 'done') : ?>
-                                <a href="<?= base_url('user/show/').$p['id_peminjaman_ruang']; ?>" class="badge badge-secondary">Lihat</a>
-                            <?php elseif($p['status'] == 'reject') : ?>
-                                <a href="<?= base_url('user/show/').$p['id_peminjaman_ruang']; ?>" class="badge badge-secondary">Lihat</a>
-                            <?php endif ?>
-                            <a href="<?= base_url('peminjaman/hapus/').$p['id_peminjaman_ruang']; ?>" class="badge badge-danger" data-toggle="modal" data-target="#hapusModal">Hapus</a>
-                            <!-- <a href="<?= base_url('peminjaman/editPeminjaman/').$p['id_peminjaman_ruang']; ?>" class="badge badge-warning">Edit</a> -->
+                            
+                            <a href="<?= base_url('peminjaman/lihat/').$p['nama_kegiatan']; ?>" class="badge badge-primary">Lihat</a>
+
                             </td>
                         </tr>
                     <?php endforeach ?>
@@ -86,23 +78,7 @@
 
 <!-- MODAL -->
 
-<div class="modal fade" id="hapusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Hapus</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">Apakah anda yakin ingin menghapus peminjaman ini?</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-danger" href="<?= base_url('peminjaman/hapus/').$p['id_peminjaman_ruang']; ?>">Hapus</a>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 
 

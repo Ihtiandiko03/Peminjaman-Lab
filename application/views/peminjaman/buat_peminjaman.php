@@ -49,7 +49,7 @@
                     <div class="form-group">
                         <select class="form-control" aria-label="Default select example" id="jeniskegiatan" onchange="jnsKegiatan()">
                             <option selected>Pilih Jenis Kegiatan</option>
-                            <option value="kuliah">Kuliah</option>
+                            <option value="kuliah">Praktikum</option>
                             <option value="umum">Umum</option>
                         </select>
                     </div>
@@ -69,10 +69,6 @@
                          <label for="dokumen_pendukung">Upload Surat Permohonan (Wajib format .pdf)</label>
                          <input type="file" class="form-control" id="dokumen_pendukung" name="dokumen_pendukung">
                     </div>
-
-                    
-
-                    
 
 
                     <div id="isijadwal" style="display:none;">
@@ -109,15 +105,24 @@
                         <div class="form-group">
                             <input type="number" class="form-control"  name="kapasitas" placeholder="Jumlah peserta" autocomplete="off">
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <select name="id_range_waktu" class="form-control">
                                 <option value="">Pilih Jam</option>
                                 <?php foreach ($rangeWaktu as $r) : ?>
                                     <option value="<?= $r['id_range_waktu']; ?>"><?= $r['range_waktu']; ?></option>
                                 <?php endforeach ?>
                             </select>
-                        </div>
+                        </div> -->
                         
+                        <div class="form-group">
+                            <?php foreach ($rangeWaktu as $r) : ?>
+                                <input class="form-check-input ml-2" type="checkbox" value="<?= $r['id_range_waktu']; ?>" name="multi[][id_range_waktu]" id="id_range_waktu">
+                                <label class="form-check-label ml-4" for="id_range_waktu">
+                                    <?= $r['range_waktu']; ?>
+                                </label>
+                                <br>
+                            <?php endforeach ?>
+                        </div>
                         <div class="form-group">
                             <select class="form-control" id="namahari" onchange="fungsiHari()">
                                 <option selected>Pilih Hari</option>
@@ -141,7 +146,23 @@
 
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Buat Peminjaman</button>
+                    <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#agreement">Buat Peminjaman</a>
+
+                    <div class="modal fade" id="agreement" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. <button type="submit" class="btn btn-success">Setuju</button></p>
+                                    
+                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </form>
 
@@ -158,6 +179,13 @@
 
 </div>
 <!-- End of Main Content -->
+
+
+<!-- MODAL -->
+
+
+
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
     <script type="text/javascript">

@@ -76,13 +76,13 @@
             <form action="<?= base_url('gedung/lab'); ?>" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="kode_ruang" name="kode_ruang" placeholder="Kode Ruang">
+                        <input type="text" class="form-control" id="kode_ruang" name="kode_ruang" placeholder="Kode Ruang" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nama_lab" name="nama_lab" placeholder="Nama Laboratorium">
+                        <input type="text" class="form-control" id="nama_lab" name="nama_lab" placeholder="Nama Laboratorium" required>
                     </div>
                     <div class="form-group">
-                        <select name="id_gedung" id="id_gedung" class="form-control">
+                        <select name="id_gedung" id="id_gedung" class="form-control" required>
                             <option value="">Pilih Gedung</option>
                             <?php foreach ($gedung as $g) : ?>
                                 <option value="<?= $g['id_gedung']; ?>"><?= $g['nama_gedung']; ?></option>
@@ -90,19 +90,19 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="lantai" name="lantai" placeholder="Lantai">
+                        <input type="text" class="form-control" id="lantai" name="lantai" placeholder="Lantai" required>
                     </div>
                     <div class="form-group">
-                        <textarea class="form-control" placeholder="Masukkan lokasi gedung" id="lokasi" name="lokasi"></textarea>
+                        <textarea class="form-control" placeholder="Masukkan lokasi gedung" id="lokasi" name="lokasi" required></textarea>
                     </div>
                     <div class="form-group">
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="kontak" name="kontak" placeholder="Kontak">
+                        <input type="text" class="form-control" id="kontak" name="kontak" placeholder="Kontak" required>
                     </div>
                     <div class="form-group">
-                        <input type="number" class="form-control" id="kapasitas" name="kapasitas" placeholder="Kapasitas">
+                        <input type="number" class="form-control" id="kapasitas" name="kapasitas" placeholder="Kapasitas" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -113,6 +113,8 @@
         </div>
     </div>
 </div>
+
+
 
 <?php foreach ($lab as $l): ?>
 <div class="modal fade" id="editlabModel<?= $l['id_laboratorium']?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -128,33 +130,41 @@
             <form action="<?= base_url('gedung/editLab/').$l['id_laboratorium']; ?>" method="post">
                 <div class="modal-body">
                 <div class="form-group">
-                        <input type="text" class="form-control" id="kode_ruang" name="kode_ruang" placeholder="Kode Ruang" value="<?=$l['kode_ruang']; ?>">
+                        <label for="kode_ruang">Kode Ruang</label>
+                        <input type="text" class="form-control" id="kode_ruang" name="kode_ruang" placeholder="Kode Ruang" value="<?=$l['kode_ruang']; ?>" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nama_lab" name="nama_lab" placeholder="Nama Laboratorium" value="<?=$l['nama_lab']; ?>">
+                        <label for="nama_lab">Nama Lab</label>
+                        <input type="text" class="form-control" id="nama_lab" name="nama_lab" placeholder="Nama Laboratorium" value="<?=$l['nama_lab']; ?>" required>
                     </div>
                     <div class="form-group">
-                        <select name="id_gedung" id="id_gedung" class="form-control">
-                            <option value="">Pilih Gedung</option>
+                        <label for="id_gedung">Gedung</label>
+                        <select name="id_gedung" id="id_gedung" class="form-control" required>
+                            <option value="<?=$l['id_gedung']; ?>"><?=$l['nama_gedung']; ?> (Gedung saat ini) </option>
                             <?php foreach ($gedung as $g) : ?>
                                 <option value="<?= $g['id_gedung']; ?>"><?= $g['nama_gedung']; ?></option>
                             <?php endforeach ?>
                         </select>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="lantai" name="lantai" placeholder="Lantai" value="<?=$l['lantai']; ?>">
+                        <label for="lantai">Lantai</label>
+                        <input type="text" class="form-control" id="lantai" name="lantai" placeholder="Lantai" value="<?=$l['lantai']; ?>" required>
                     </div>
                     <div class="form-group">
-                        <textarea class="form-control" placeholder="Masukkan lokasi gedung" id="lokasi" name="lokasi"></textarea>
+                        <label for="lokasi">Lokasi</label>
+                        <textarea class="form-control" placeholder="Masukkan lokasi gedung" id="lokasi" name="lokasi" required><?=$l['lokasi']; ?></textarea>
                     </div>
                     <div class="form-group">
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="<?=$l['email']; ?>">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="<?=$l['email']; ?>" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="kontak" name="kontak" placeholder="Kontak" value="<?=$l['kontak']; ?>">
+                        <label for="kontak">Kontak</label>
+                        <input type="text" class="form-control" id="kontak" name="kontak" placeholder="Kontak" value="<?=$l['kontak']; ?>" required>
                     </div>
                     <div class="form-group">
-                        <input type="number" class="form-control" id="kapasitas" name="kapasitas" placeholder="Kapasitas" value="<?=$l['kapasitas']; ?>">
+                        <label for="kapasitas">Kapasitas</label>
+                        <input type="number" class="form-control" id="kapasitas" name="kapasitas" placeholder="Kapasitas" value="<?=$l['kapasitas']; ?>" required>
                     </div>
                 </div>
                 <div class="modal-footer">

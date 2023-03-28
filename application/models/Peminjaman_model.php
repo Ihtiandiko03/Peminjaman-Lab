@@ -21,11 +21,31 @@ class Peminjaman_model extends CI_Model
         return $this->db->query($query)->result_array();
     }
 
+    public function filterPeminjamanUser($emailUser,$status){
+        $query = "SELECT `tb_peminjaman_ruang`.*, `tb_range_waktu`.`range_waktu`
+        FROM `tb_peminjaman_ruang` JOIN `tb_range_waktu`
+        ON `tb_peminjaman_ruang`.`id_range_waktu` = `tb_range_waktu`.`id_range_waktu`
+        WHERE `tb_peminjaman_ruang`.`email_pengguna` = '$emailUser' AND 
+        `tb_peminjaman_ruang`.`status` = '$status'
+        ";
+
+        return $this->db->query($query)->result_array();
+    }
 
     public function showPeminjaman($id){
         $query = "SELECT `tb_peminjaman_ruang`.*, `tb_range_waktu`.`range_waktu`
         FROM `tb_peminjaman_ruang` JOIN `tb_range_waktu`
-        ON `tb_peminjaman_ruang`.`id_range_waktu` = `tb_range_waktu`.`id_range_waktu`
+        ON `tb_peminjaman_ruang`.`id_range_waktu` = `tb_range_waktu`.`id_range_waktu` 
+        WHERE  `tb_peminjaman_ruang`.`id_peminjaman_ruang` = $id";
+        
+        return $this->db->query($query)->result_array();
+    }
+
+
+    public function showPeminjaman2($id){
+        $query = "SELECT `tb_peminjaman_ruang`.*, `tb_range_waktu`.`range_waktu`, `tb_laboratorium`.`nama_lab`
+        FROM `tb_peminjaman_ruang` JOIN `tb_range_waktu`
+        ON `tb_peminjaman_ruang`.`id_range_waktu` = `tb_range_waktu`.`id_range_waktu` JOIN `tb_laboratorium` ON `tb_peminjaman_ruang`.`id_laboratorium`=`tb_laboratorium`.`id_laboratorium`
         WHERE  `tb_peminjaman_ruang`.`id_peminjaman_ruang` = $id";
         
         return $this->db->query($query)->result_array();
@@ -44,6 +64,16 @@ class Peminjaman_model extends CI_Model
         $query = "SELECT `tb_peminjaman_ruang`.*,  `tb_range_waktu`.`range_waktu`,DATEDIFF(CURRENT_DATE(), `created_at`) as `lama_pengajuan`
         FROM `tb_peminjaman_ruang` JOIN `tb_range_waktu`
         ON `tb_peminjaman_ruang`.`id_range_waktu` = `tb_range_waktu`.`id_range_waktu`
+        ORDER BY `tb_peminjaman_ruang`.`status` ASC";
+
+        return $this->db->query($query)->result_array();
+    }
+
+    public function searchStatus($status,$nama){
+        $query = "SELECT `tb_peminjaman_ruang`.*,  `tb_range_waktu`.`range_waktu`,DATEDIFF(CURRENT_DATE(), `created_at`) as `lama_pengajuan`
+        FROM `tb_peminjaman_ruang` JOIN `tb_range_waktu`
+        ON `tb_peminjaman_ruang`.`id_range_waktu` = `tb_range_waktu`.`id_range_waktu`
+        WHERE `tb_peminjaman_ruang`.`status` = '$status' AND `nama_kegiatan`= '$nama'
         ORDER BY `tb_peminjaman_ruang`.`status` ASC";
 
         return $this->db->query($query)->result_array();
@@ -88,7 +118,7 @@ class Peminjaman_model extends CI_Model
     }
 
     public function jadwal3(){
-        $query = "SELECT id_laboratorium, tanggal_penggunaan, id_range_waktu, nama_kegiatan, prodi, kapasitas
+        $query = "SELECT id_laboratorium, tanggal_penggunaan, id_range_waktu, nama_kegiatan, prodi, kapasitas, nama
         
         from tb_peminjaman_ruang
         where status='done'";
@@ -98,7 +128,7 @@ class Peminjaman_model extends CI_Model
 
     public function search($filterTanggalMulai, $filterTanggalSelesai){
 
-        $query = "SELECT id_laboratorium, tanggal_penggunaan, id_range_waktu, nama_kegiatan, prodi, kapasitas from tb_peminjaman_ruang 
+        $query = "SELECT id_laboratorium, tanggal_penggunaan, id_range_waktu, nama_kegiatan, prodi, kapasitas, nama from tb_peminjaman_ruang 
                   where (tanggal_penggunaan BETWEEN '$filterTanggalMulai' AND '$filterTanggalSelesai') AND (status='done')";
 
         return $this->db->query($query)->result_array();
@@ -110,10 +140,9 @@ class Peminjaman_model extends CI_Model
         return $this->db->query($query)->result_array();
     }
 
-    public function hapus($id){
-        $query = "SELECT * from tb_peminjaman_ruang WHERE id_peminjaman_ruang = $id";
-        return $this->db->query($query)->result_array();
-
+    function hapus($id){
+        $query = "DELETE FROM `tb_peminjaman_ruang` WHERE `id_peminjaman_ruang`=$id";
+        return $this->db->query($query);
     }
 
     public function peminjamanDone(){

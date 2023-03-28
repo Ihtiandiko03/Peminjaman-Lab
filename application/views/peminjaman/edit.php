@@ -19,13 +19,12 @@
 
             <div class="modal-content card mb-4 py-3 border-left-primary">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Peminjaman Ruang</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Edit Peminjaman Ruang</h5>
             </div>
-
-
+            
             <?php foreach($data as $d) : ?>
             
-            <form action="<?=base_url()?>user/buatpeminjaman" method="post" enctype="multipart/form-data" id="formPeminjaman">
+            <form action="<?= base_url('peminjaman/prosesEditPeminjaman/').$d['id_peminjaman_ruang']; ?>" method="post" enctype="multipart/form-data" id="formPeminjaman">
                 <div class="modal-body">
                     <div class="form-group">
                         <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama" value="<?=$d['nama'];?>" autofocus autocomplete="off">
@@ -48,13 +47,6 @@
                         <?= form_error('email', ' <small class="text-danger pl-3">', '</small>') ?>
                     </div>
 
-                    <div class="form-group">
-                        <select class="form-control" aria-label="Default select example" id="jeniskegiatan" onchange="jnsKegiatan()">
-                            <option selected>Pilih Jenis Kegiatan</option>
-                            <option value="kuliah">Kuliah</option>
-                            <option value="umum">Umum</option>
-                        </select>
-                    </div>
 
                     <div class="form-group">
                         <input type="text" class="form-control" id="nama_kegiatan" name="nama_kegiatan" placeholder="Nama Kegiatan" value="<?=$d['nama_kegiatan']; ?>" autocomplete="off">
@@ -72,73 +64,43 @@
                          <input type="file" class="form-control" id="dokumen_pendukung" name="dokumen_pendukung">
                     </div>
 
-                    <div id="isijadwal" style="display:none;">
-                        <h6> Jadwal ke-1 </h6>
+
                         <div class="form-group">
-                            <input type="date" class="form-control" id="tanggal_penggunaan" name="multiple[0][tanggal_penggunaan]" placeholder="Tanggal Pelaksanaan"> 
+                            <label for="tanggal_penggunaan">Tanggal Penggunaan</label>
+                            <input type="date" class="form-control" id="tanggal_penggunaan" name="tanggal_penggunaan" placeholder="Tanggal Pelaksanaan" value="<?=$d['tanggal_penggunaan']; ?>"> 
                         </div>
                         <div class="form-group">
-                            <input type="number" class="form-control" id="kapasitas" name="multiple[0][kapasitas]" placeholder="Jumlah peserta" autocomplete="off">
+                            <label for="kapasitas">Kapasitas</label>
+                            <input type="number" class="form-control" id="kapasitas" name="kapasitas" placeholder="Jumlah peserta" autocomplete="off" value="<?=$d['kapasitas']; ?>">
                         </div>
                         <div class="form-group">
-                            <select name="multiple[0][id_range_waktu]" class="form-control">
-                                <option value="">Pilih Jam</option>
-                                <?php foreach ($rangeWaktu as $r) : ?>
-                                    <option value="<?= $r['id_range_waktu']; ?>"><?= $r['range_waktu']; ?></option>
-                                <?php endforeach ?>
-                            </select>
-                        </div>
-
-                        <div id="newinput"></div>
-
-                        <button id="btn-tambah-form" type="button"
-                            class="btn btn-primary">ADD
-                        </button>
-
-                        <button type="button" id="btn-reset-form" class="btn btn-secondary">Reset Form</button><br>
-
-                        
-                        <input type="hidden" id="jumlah-form" name="jumlah-form" value="0">
-                    </div>
-
-                    <div id="isijadwal2" style="display:none;">
-
-                        <div class="form-group">
-                            <input type="number" class="form-control"  name="kapasitas" placeholder="Jumlah peserta" autocomplete="off">
-                        </div>
-                        <div class="form-group">
+                            <label for="id_range_waktu">Pilih Jam</label>
                             <select name="id_range_waktu" class="form-control">
-                                <option value="">Pilih Jam</option>
+                                <option value="<?=$d['id_range_waktu']; ?>"><?=$d['range_waktu']; ?> (waktu peminjaman saat ini)</option>
                                 <?php foreach ($rangeWaktu as $r) : ?>
                                     <option value="<?= $r['id_range_waktu']; ?>"><?= $r['range_waktu']; ?></option>
                                 <?php endforeach ?>
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
-                            <select class="form-control" id="namahari" onchange="fungsiHari()">
-                                <option selected>Pilih Hari</option>
-                                <option value="0">Minggu</option>
-                                <option value="1">Senin</option>
-                                <option value="2">Selasa</option>
-                                <option value="3">Rabu</option>
-                                <option value="4">Kamis</option>
-                                <option value="5">Jumat</option>
-                                <option value="6">Sabtu</option>
+                            <label for="">Ruangan Lab</label>
+                            <select name="id_laboratorium" id="id_laboratorium" class="form-control">
+                                <option value="<?=$d['id_laboratorium']?>"><?=$d['nama_lab']?> (lab saat ini) </option>
+                                <?php foreach ($lab as $l) : ?>
+                                    <option value="<?= $l['id_laboratorium']; ?>"><?= $l['nama_lab']; ?></option>
+                                <?php endforeach ?>
                             </select>
                         </div>
 
-                        <div class="form-group" name="tgl_plk" id="tgl_plk" style="margin-left: 20px;"></div>
-
-                    </div>
-                    
-                    <input type="hidden" class="form-control" id="status" name="status" value="request">
+                    <input type="hidden" class="form-control" id="id_peminjaman_ruang" name="id_peminjaman_ruang" value="<?=$d['id_peminjaman_ruang']; ?>">
+                    <input type="hidden" class="form-control" id="status" name="status" value="done">
                     <input type="hidden" class="form-control" id="email_pengguna" name="email_pengguna" value="<?=$user['email']?>">            
                 </div>
 
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Buat Peminjaman</button>
+                    <button type="submit" class="btn btn-primary">Edit Peminjaman</button>
                 </div>
             </form>
 
