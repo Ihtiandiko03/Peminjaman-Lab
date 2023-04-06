@@ -116,8 +116,8 @@
                         
                         <div class="form-group">
                             <?php foreach ($rangeWaktu as $r) : ?>
-                                <input class="form-check-input ml-2" type="checkbox" value="<?= $r['id_range_waktu']; ?>" name="multi[][id_range_waktu]" id="id_range_waktu">
-                                <label class="form-check-label ml-4" for="id_range_waktu">
+                                <input class="form-check-input ml-2" type="checkbox" value="<?= $r['id_range_waktu']; ?>" name="multi[][id_range_waktu]" >
+                                <label class="form-check-label ml-4" >
                                     <?= $r['range_waktu']; ?>
                                 </label>
                                 <br>

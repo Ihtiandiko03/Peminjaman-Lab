@@ -118,10 +118,12 @@ class Peminjaman_model extends CI_Model
     }
 
     public function jadwal3(){
-        $query = "SELECT id_laboratorium, tanggal_penggunaan, id_range_waktu, nama_kegiatan, prodi, kapasitas, nama
+        $query = "SELECT id_laboratorium, tanggal_penggunaan, id_range_waktu, nama_kegiatan, prodi
         
         from tb_peminjaman_ruang
-        where status='done'";
+        where status='done'
+
+        ";
 
         return $this->db->query($query)->result_array();
     }

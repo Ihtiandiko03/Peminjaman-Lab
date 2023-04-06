@@ -21,3 +21,12 @@ function is_logged_in()
         }
     }
 }
+
+// function check_query($id_laboratorium, $tgl, $range_waktu){
+//     $query = "SELECT `nama_kegiatan` FROM `tb_peminjaman_ruang` WHERE `id_laboratorium` = '$id_laboratorium' AND `tanggal_penggunaan` = '$tgl' AND `id_range_waktu` = '$range_waktu'";
+//     $ci = get_instance();
+
+//     return $ci->db->query($query)->row_array();
+
+    
+// }

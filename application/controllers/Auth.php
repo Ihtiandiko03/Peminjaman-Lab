@@ -71,7 +71,7 @@ class Auth extends CI_Controller
         }
     }
 
-    public function registration()
+    public function register()
     {
         $this->form_validation->set_rules('name', 'Name', 'required|trim');
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[user.email]');
@@ -86,7 +86,7 @@ class Auth extends CI_Controller
                 'title' => 'Daftar'
             ];
             $this->load->view('templates/auth_header', $data);
-            $this->load->view('auth/registration');
+            $this->load->view('auth/register');
             $this->load->view('templates/auth_footer');
         } else {
             $data = [

@@ -7,6 +7,7 @@ class Main extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Peminjaman_model');
+        $this->output->enable_profiler(TRUE);
     }
 
 
@@ -28,7 +29,7 @@ class Main extends CI_Controller
 
     public function roadster()
     {
-        $data['title'] = 'Dashboard Laboran';
+        $data['title'] = 'Timeline';
         $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $this->session->userdata('email')])->row_array();
         $data['range_waktu'] = $this->Peminjaman_model->roadster();
         $data['minggukuliah'] = $this->db->get('tb_minggu_perkuliahan')->result_array();
@@ -50,22 +51,22 @@ class Main extends CI_Controller
                 }
             }
 
-            $filter = $this->Peminjaman_model->search($tglMulai, $tglSelesai);
-            $hariIni =  $tglMulai;
+            // $filter = $this->Peminjaman_model->search($tglMulai, $tglSelesai);
+            $awal =  $tglMulai;
             $akhir = $tglSelesai;
 
         }else {
-            $filter = $this->Peminjaman_model->jadwal3();
+            // $filter = $this->Peminjaman_model->jadwal3();
 
-            $hariIni =  "2023-01-01";
+            $awal =  "2023-01-01";
             $akhir = "2023-06-30";
         }
 
-        $data['jadwal2'] = $filter;
+        // $dataKuliah = $filter;
         
-        // $akhir =  date('Y-m-d', strtotime('+153 days', strtotime($hariIni)));
+        // $akhir =  date('Y-m-d', strtotime('+153 days', strtotime($awal)));
 
-        $begin = new DateTime( $hariIni );
+        $begin = new DateTime( $awal );
         $end   = new DateTime( $akhir );
         $arr=array(
             '0'=>'Minggu',
@@ -77,10 +78,12 @@ class Main extends CI_Controller
             '6'=>'Sabtu'
         );
         $kirim=array();
-        $q_case='SELECT * ';
+        $q_case='SELECT `a`.`id_laboratorium`, `d`.`nama_lab`, ';
         $td = '';
-        $num = 0;
         $td=array();
+
+
+
         for($i = $begin; $i <= $end; $i->modify('+1 day')){
             $tgl=$i->format("Y-m-d");
 
@@ -94,45 +97,144 @@ class Main extends CI_Controller
                 $tgl_name_2=$i->format("Y_m_d_2");
                 $tgl_name_3=$i->format("Y_m_d_3");
                 $tgl_name_4=$i->format("Y_m_d_4");
-                $tgl_name_5=$i->format("Y_m_d_5");
-                $dayofweek = date('w', strtotime($tgl));
                 
-                    array_push($kirim,$tgl);
-                    $q_case.=",count(case when (id_range_waktu = 1 AND tanggal_penggunaan='$tgl') then 1 else null end) as $tgl_name_1";
-                    $q_case.=",count(case when (id_range_waktu = 2 AND tanggal_penggunaan='$tgl') then 1 else null end) as $tgl_name_2";
-                    $q_case.=",count(case when (id_range_waktu = 3 AND tanggal_penggunaan='$tgl') then 1 else null end) as $tgl_name_3";
-                    $q_case.=",count(case when (id_range_waktu = 4 AND tanggal_penggunaan='$tgl') then 1 else null end) as $tgl_name_4";
-    
-                    $td[]=array(
-                        'periode'=>$tgl_name_1
-                    );
-                    $td[]=array(
-                        'periode'=>$tgl_name_2
-                    );
-                    $td[]=array(
-                        'periode'=>$tgl_name_3
-                    );
-                    $td[]=array(
-                        'periode'=>$tgl_name_4
-                    );
-            }
-
             
-                $num++;
-        }
-        $q_case.=" from tb_peminjaman_ruang a JOIN `tb_laboratorium` b ON `a`.`id_laboratorium` = `b`.`id_laboratorium`
-          
-        where status='done'
-        group by a.id_laboratorium ORDER BY a.id_laboratorium,tanggal_penggunaan";
+                array_push($kirim,$tgl);
 
+                if($i != $end){
+                    $q_case.="(SELECT `nama_kegiatan` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as '$tgl_name_1',";
+                    //$q_case.="(SELECT `prodi` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as 'prodi_$tgl_name_1',";
+                    $q_case.="(SELECT `nama_kegiatan` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='2') as '$tgl_name_2',";
+                    //$q_case.="(SELECT `prodi` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as 'prodi_$tgl_name_1',";
+                    $q_case.="(SELECT `nama_kegiatan` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='3') as '$tgl_name_3',";
+                    //$q_case.="(SELECT `prodi` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as 'prodi_$tgl_name_1',";
+                    $q_case.="(SELECT `nama_kegiatan` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='4') as '$tgl_name_4',";
+                    //$q_case.="(SELECT `prodi` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as 'prodi_$tgl_name_1',";
+                }
+                else{
+                    $q_case.="(SELECT `nama_kegiatan` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as '$tgl_name_1',";
+                    //$q_case.="(SELECT `prodi` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as 'prodi_$tgl_name_1',";
+                    $q_case.="(SELECT `nama_kegiatan` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='2') as '$tgl_name_2',";
+                    //$q_case.="(SELECT `prodi` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as 'prodi_$tgl_name_1',";
+                    $q_case.="(SELECT `nama_kegiatan` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='3') as '$tgl_name_3',";
+                    //$q_case.="(SELECT `prodi` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as 'prodi_$tgl_name_1',";
+                    $q_case.="(SELECT `nama_kegiatan` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='4') as '$tgl_name_4'";
+                    // $q_case.="(SELECT `prodi` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as 'prodi_$tgl_name_1',";
+
+                }
+
+                
+                // $q_case.=", `b.$no.1`.`nama_kegiatan` as '$tgl_name_1', `b.$no.2`.`nama_kegiatan` as '$tgl_name_2', `b.$no.3`.`nama_kegiatan` as '$tgl_name_3', `b.$no.4`.`nama_kegiatan` as '$tgl_name_4'  ";
+
+                // $temporary.="LEFT JOIN(SELECT * FROM tb_peminjaman_ruang  where tanggal_penggunaan='$tgl' and id_range_waktu='1') as `b.$no.1` on `b.$no.1`.`id_laboratorium`=`a`.`id_laboratorium`";
+                // $temporary.="LEFT JOIN(SELECT * FROM tb_peminjaman_ruang  where tanggal_penggunaan='$tgl' and id_range_waktu='2') as `b.$no.2` on `b.$no.2`.`id_laboratorium`=`a`.`id_laboratorium`";
+                // $temporary.="LEFT JOIN(SELECT * FROM tb_peminjaman_ruang  where tanggal_penggunaan='$tgl' and id_range_waktu='3') as `b.$no.3` on `b.$no.3`.`id_laboratorium`=`a`.`id_laboratorium`";
+                // $temporary.="LEFT JOIN(SELECT * FROM tb_peminjaman_ruang  where tanggal_penggunaan='$tgl' and id_range_waktu='4') as `b.$no.4` on `b.$no.4`.`id_laboratorium`=`a`.`id_laboratorium`";
+
+                $td[]=array(
+                    'periode'=>$tgl_name_1
+                );
+                $td[]=array(
+                    'periode'=>$tgl_name_2
+                );
+                $td[]=array(
+                    'periode'=>$tgl_name_3
+                );
+                $td[]=array(
+                    'periode'=>$tgl_name_4
+                );
+            }
+            // $no++;
+        }
+
+        // $q_case.=substr($q_case, 0, -1);
+
+        $q_case.=" from tb_laboratorium a JOIN tb_laboratorium d ON `a`.`id_laboratorium`=`d`.`id_laboratorium`";
+        // $q_case.=$temporary;
+
+        // $q_case.=" ORDER BY a.id_laboratorium";
         $query=$this->db->query($q_case)->result_array();
 
-        var_dump($q_case);
-        die;
+        $data['query'] = $query;
+
+        // var_dump($td);
+        // die;
+
+        // $tmp = array();
+
+        // foreach($query as $jadwal){
+        //     foreach($td as $t){
+        //         if($jadwal[$t['periode']] == 1){
+        //             foreach ($dataKuliah as $j) {
+        //                 $date = $j['tanggal_penggunaan'];
+        //                 $id_range_waktu = $j['id_range_waktu'];
+        //                 $tgl = date('Y_m_d', strtotime($date));
+        //                 $gabung = $tgl.'_'.$id_range_waktu;
+
+        //                 if($gabung == $t['periode']){
+        //                     if($j['id_laboratorium'] == $jadwal['id_laboratorium']){       
+        //                         $a2 = array($t['periode'] => $j['id_laboratorium'].','.$j['tanggal_penggunaan'].','.$j['id_range_waktu']);
+        //                         $jadwal = array_replace($jadwal,$a2);
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //         else {
+        //             // $a2 = array($t['periode'] => '');
+        //             // $jadwal = array_replace($jadwal,$a2);
+        //         }
+        //     }
+        //     // var_dump($jadwal);
+        //     // die;
+
+        //     array_push($tmp,$jadwal);
+        // }
+
+        // // var_dump($tmp);
+        // // die;
+
+        // $data['result'] = $tmp;
+        
+
+        
+    
+        // foreach ($td as $t) {
+        //     foreach ($dataKuliah as $j) {
+        //         $date = $j['tanggal_penggunaan'];
+        //         $id_range_waktu = $j['id_range_waktu'];
+        //         $tgl = date('Y_m_d', strtotime(str_replace('-', '/', $date)));
+                
+        //         $gabung = $tgl.'_'.$id_range_waktu;
+
+        //         if($gabung == $t['periode']){
+        //             array_push($te, array(
+        //                 'periode' => $t['periode'],
+        //                 'nama_kegiatan' => $j['nama_kegiatan'],
+        //                 'id_laboratorium' => $j['id_laboratorium'],
+        //                 'prodi' => $j['prodi']
+        //             ));
+        //         } 
+        //     }
+
+        // }
+
+        // var_dump($te);
+        // die;
+
+
+        // foreach ($query as $key) {
+        //     foreach ($td as $t) {
+        //         if($key[$t['periode']] == 1){
+        //             echo 'Ada';
+        //         }
+        //     }
+        // }
+        
+        
 
         $data['tgl'] = $kirim;
-        $data['resultQuery'] = $query;
         $data['td']=$td;
+
 
 
 

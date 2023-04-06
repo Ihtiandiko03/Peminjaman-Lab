@@ -105,6 +105,31 @@
         ]
     });
 
+    $('#lab').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'colvis',
+                text : 'Kolom',
+                collectionLayout: 'fixed columns',
+                collectionTitle: 'Pilih kolom yang ingin dihilangkan',
+            },
+            {
+                extend: 'excelHtml5', 
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5]
+                },
+                
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5]
+                }
+            },
+        ]
+    });
+
     $('#peminjaman').DataTable({
         dom: 'Bfrtip',
         buttons: [
@@ -117,14 +142,14 @@
             {
                 extend: 'excelHtml5',
                 exportOptions: {
-                    columns: ':visible'
+                    columns: [ 0, 1, 2, 3, 4, 5, 6]
                 },
                 
             },
             {
                 extend: 'pdfHtml5',
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3, 4, 5]
+                    columns: [ 0, 1, 2, 3, 4, 5, 6]
                 }
             },
         ]

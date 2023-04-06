@@ -18,7 +18,7 @@
 
             <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#labModel">Tambah Laboratorium</a>
 
-            <table id="tabel" class=" table table-hover">
+            <table id="lab" class=" table table-hover">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -41,7 +41,7 @@
                             <td><?= $l['kontak']; ?></td>
                             <td><?= $l['kapasitas']; ?></td>
                             <td>
-                                <a href="<?= base_url('gedung/editLab/').$l['id_laboratorium']; ?>" class="badge badge-success" data-toggle="modal" data-target="#editlabModel<?= $l['id_laboratorium']?>">Edit</a>
+                                <a href="<?= base_url('gedung/editLab/').$l['id_laboratorium']; ?>" class="badge badge-warning" data-toggle="modal" data-target="#editlabModel<?= $l['id_laboratorium']?>">Edit</a>
                                 <a href="<?= base_url('gedung/deleteLab/').$l['id_laboratorium']; ?>" class="badge badge-danger">Delete</a>
                             </td>
                         </tr>

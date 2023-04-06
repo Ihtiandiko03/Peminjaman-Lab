@@ -83,47 +83,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($resultQuery as $jadwal) : ?>
+                            <?php foreach ($query as $q=> $value) : ?>
                             <tr>
-                                <td class="sticky-col first-col" style="background-color:#86d4f5; font-size:10pt;"><b><?= $jadwal['nama_lab'] ?></b></td>
-                                <?php foreach($td as $t):?>
-                                    <?php if($jadwal[$t['periode']] == 1) : ?>
-
-                                        <?php foreach($jadwal2 as $j) : ?>
-                                            
-                                            <?php
-                                                $date = $j['tanggal_penggunaan'];
-                                                $id_range_waktu = $j['id_range_waktu'];
-                                                $tgl = date('Y_m_d', strtotime(str_replace('-', '/', $date)));
-                                                
-                                                $gabung = $tgl.'_'.$id_range_waktu;
-                                            ?>
-                                            <?php if($gabung == $t['periode']) : ?>
-                                                <?php if($j['id_laboratorium'] == $jadwal['id_laboratorium']) : ?>
-                                                    <td class="active">
-                                                        <h4><?= $j['nama_kegiatan'];?></h4>
-                                                        <p><?= $j['prodi'];?></p>
-                                                        <div class="hover">
-                                                            <h4><?= $j['nama_kegiatan'];?></h4>
-                                                            <p><?=$j['prodi'];?></p>
-                                                            <span><?= $j['kapasitas'];?> orang</span>
-                                                        </div>
-                                                    </td>
-                                                <?php endif ?>
-                                            <?php endif ?>
-                                        <?php endforeach ?>
+                                <td class="sticky-col first-col" style="background-color:#86d4f5; font-size:10pt;"><b><?= $value['nama_lab'] ?></b></td>
+                                
+                                <?php foreach ($td as $t) : ?>
+                                    <?php if($value[$t['periode']]) : ?>
+                                        <td class="active">
+                                            <h4><?=$value[$t['periode']]?></h4>
+                                        </td>
                                     <?php else : ?>
                                         <td></td>
                                     <?php endif ?>
-                                <?php endforeach;?>
+                                <?php endforeach ?>
+                                
                             </tr>
                             <?php endforeach ?>
                         </tbody>
                         </table>
                     </div>
                 </div>
-                
-                
                     
                     <div id="result"></div>
                 </div>
@@ -133,15 +112,6 @@
 
 
 <script>
-    const buttonRight = document.getElementById('slideRight');
-    const buttonLeft = document.getElementById('slideLeft');
-
-    buttonRight.onclick = function () {
-      document.getElementById('table').scrollLeft += 1975;
-    };
-    buttonLeft.onclick = function () {
-      document.getElementById('table').scrollLeft -= 1975;
-    };
 
     function filterWeek(){
         var getData = document.getElementById('filterMinggu').value;
