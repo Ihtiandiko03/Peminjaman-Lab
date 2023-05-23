@@ -120,7 +120,8 @@
                                 <a href="<?= base_url('user/show/').$p['id_peminjaman_ruang']; ?>" class="badge badge-secondary">Lihat</a>
                                 
                             <?php endif ?>
-                            <a href="<?= base_url('peminjaman/hapus/').$p['id_peminjaman_ruang']; ?>" class="badge badge-danger">Hapus</a>
+
+                            <a href="<?= base_url('peminjaman/hapus/').$p['id_peminjaman_ruang'].'/'.$url; ?>" class="badge badge-danger">Hapus</a>
                             <div class="modal fade" id="hapusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">

@@ -34,7 +34,7 @@
                             <td><?= $g['nama_gedung']; ?></td>
                             <td>
                                 <a href="<?= base_url('gedung/edit/').$g['id_gedung']; ?>" class="badge badge-warning" data-toggle="modal" data-target="#editgedungModal<?= $g['id_gedung']?>">Edit</a>
-                                <a href="<?= base_url('gedung/delete/').$g['id_gedung']; ?>" class="badge badge-danger">Delete</a>
+                                <a href="<?= base_url('gedung/delete/').$g['id_gedung']; ?>" class="badge badge-danger">Hapus</a>
                             </td>
                         </tr>
                     <?php endforeach ?>

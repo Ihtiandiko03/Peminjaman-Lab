@@ -42,7 +42,7 @@
                         <tr>
                                         <th colspan="1" rowspan="2" scope="colgroup" class="sticky-col first-col" style="font-size: 14pt;">Nama Lab</th>
                                         <?php foreach($tgl as $k) : ?>
-                                            <th colspan="4" scope="colgroup"><?php $hari = date("l", strtotime($k)); 
+                                            <th colspan="<?=$colspan?>" scope="colgroup"><?php $hari = date("l", strtotime($k)); 
                                                     if($hari == 'Monday'){echo 'Senin';} 
                                                     elseif($hari == 'Tuesday'){echo 'Selasa';}
                                                     elseif($hari == 'Wednesday'){echo 'Rabu';} 

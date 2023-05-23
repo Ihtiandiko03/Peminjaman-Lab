@@ -408,9 +408,10 @@ class Peminjaman extends CI_Controller
         redirect('peminjaman/rangewaktu');
     }
 
-    public function hapus($id){
+    public function hapus($id,$url){
 
         // var_dump($id);
+        // var_dump($url);
         // die;
 
         $this->db->query("DELETE FROM `tb_peminjaman_ruang` WHERE `id_peminjaman_ruang`=$id");
@@ -420,7 +421,7 @@ class Peminjaman extends CI_Controller
 
         $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
         Peminjaman berhasil dihapus </div>');
-        redirect('peminjaman/kelola');
+        redirect('peminjaman/lihat/'.$url);
     }
 
 

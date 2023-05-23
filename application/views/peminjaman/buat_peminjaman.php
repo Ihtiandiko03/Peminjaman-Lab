@@ -91,7 +91,7 @@
                         <div id="newinput"></div>
 
                         <button id="btn-tambah-form" type="button"
-                            class="btn btn-primary">ADD
+                            class="btn btn-primary">Tambah Data
                         </button>
 
                         <button type="button" id="btn-reset-form" class="btn btn-secondary">Reset Form</button><br>

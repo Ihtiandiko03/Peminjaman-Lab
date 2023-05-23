@@ -42,7 +42,7 @@
                             <td><?= $l['kapasitas']; ?></td>
                             <td>
                                 <a href="<?= base_url('gedung/editLab/').$l['id_laboratorium']; ?>" class="badge badge-warning" data-toggle="modal" data-target="#editlabModel<?= $l['id_laboratorium']?>">Edit</a>
-                                <a href="<?= base_url('gedung/deleteLab/').$l['id_laboratorium']; ?>" class="badge badge-danger">Delete</a>
+                                <a href="<?= base_url('gedung/deleteLab/').$l['id_laboratorium']; ?>" class="badge badge-danger">Hapus</a>
                             </td>
                         </tr>
                     <?php endforeach ?>

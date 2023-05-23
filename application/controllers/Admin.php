@@ -7,14 +7,13 @@ class Admin extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Peminjaman_model');
-        $this->output->enable_profiler(TRUE);
+        // $this->output->enable_profiler(TRUE);
         is_logged_in();
     }
 
 
     public function index()
     {
-
         $data['title'] = 'Dashboard Laboran';
         $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $this->session->userdata('email')])->row_array();
         $data['range_waktu'] = $this->Peminjaman_model->roadster();
@@ -68,41 +67,49 @@ class Admin extends CI_Controller
         $td = '';
         $td=array();
 
+        $rw = $this->db->get('tb_range_waktu')->result_array();
+        // echo count($rw);
+        // var_dump($rw);
+        // die;
 
+        
 
         for($i = $begin; $i <= $end; $i->modify('+1 day')){
             $tgl=$i->format("Y-m-d");
+            $tgl_name = array();
 
             $hari = date("l", strtotime($tgl));
 
-                $tgl_name_1=$i->format("Y_m_d_1");
-                $tgl_name_2=$i->format("Y_m_d_2");
-                $tgl_name_3=$i->format("Y_m_d_3");
-                $tgl_name_4=$i->format("Y_m_d_4");
+                for($j=1; $j<=count($rw); $j++){
+                    $tgl_nama=$i->format("Y_m_d_$j");
+                    array_push($tgl_name, $tgl_nama);
+                }
+
+                // $tgl_name_1=$i->format("Y_m_d_1");
+                // $tgl_name_2=$i->format("Y_m_d_2");
+                // $tgl_name_3=$i->format("Y_m_d_3");
+                // $tgl_name_4=$i->format("Y_m_d_4");
                 
             
                 array_push($kirim,$tgl);
 
+                $num=1;
                 if($i != $end){
-                    $q_case.="(SELECT `nama_kegiatan` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as '$tgl_name_1',";
-                    //$q_case.="(SELECT `prodi` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as 'prodi_$tgl_name_1',";
-                    $q_case.="(SELECT `nama_kegiatan` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='2') as '$tgl_name_2',";
-                    //$q_case.="(SELECT `prodi` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as 'prodi_$tgl_name_1',";
-                    $q_case.="(SELECT `nama_kegiatan` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='3') as '$tgl_name_3',";
-                    //$q_case.="(SELECT `prodi` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as 'prodi_$tgl_name_1',";
-                    $q_case.="(SELECT `nama_kegiatan` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='4') as '$tgl_name_4',";
-                    //$q_case.="(SELECT `prodi` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as 'prodi_$tgl_name_1',";
+                    foreach ($tgl_name as $key) {
+                        $q_case.="(SELECT `nama_kegiatan` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='$num') as '$key',";
+                        $num++;
+                    }
                 }
                 else{
-                    $q_case.="(SELECT `nama_kegiatan` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as '$tgl_name_1',";
-                    //$q_case.="(SELECT `prodi` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as 'prodi_$tgl_name_1',";
-                    $q_case.="(SELECT `nama_kegiatan` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='2') as '$tgl_name_2',";
-                    //$q_case.="(SELECT `prodi` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as 'prodi_$tgl_name_1',";
-                    $q_case.="(SELECT `nama_kegiatan` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='3') as '$tgl_name_3',";
-                    //$q_case.="(SELECT `prodi` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as 'prodi_$tgl_name_1',";
-                    $q_case.="(SELECT `nama_kegiatan` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='4') as '$tgl_name_4'";
-                    // $q_case.="(SELECT `prodi` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='1') as 'prodi_$tgl_name_1',";
-
+                    foreach ($tgl_name as $key) {
+                        if($num == count($tgl_name)){
+                            $q_case.="(SELECT `nama_kegiatan` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='$num') as '$key'";
+                        }
+                        else{
+                            $q_case.="(SELECT `nama_kegiatan` from `tb_peminjaman_ruang` `b` where `a`.`id_laboratorium`=`b`.`id_laboratorium` and `b`.`tanggal_penggunaan`='$tgl' and `b`.`id_range_waktu`='$num') as '$key',";
+                        }
+                        $num++;
+                    }
                 }
 
                 
@@ -113,18 +120,25 @@ class Admin extends CI_Controller
                 // $temporary.="LEFT JOIN(SELECT * FROM tb_peminjaman_ruang  where tanggal_penggunaan='$tgl' and id_range_waktu='3') as `b.$no.3` on `b.$no.3`.`id_laboratorium`=`a`.`id_laboratorium`";
                 // $temporary.="LEFT JOIN(SELECT * FROM tb_peminjaman_ruang  where tanggal_penggunaan='$tgl' and id_range_waktu='4') as `b.$no.4` on `b.$no.4`.`id_laboratorium`=`a`.`id_laboratorium`";
 
-                $td[]=array(
-                    'periode'=>$tgl_name_1
-                );
-                $td[]=array(
-                    'periode'=>$tgl_name_2
-                );
-                $td[]=array(
-                    'periode'=>$tgl_name_3
-                );
-                $td[]=array(
-                    'periode'=>$tgl_name_4
-                );
+
+                foreach ($tgl_name as $key) {
+                    $td[]=array(
+                        'periode'=>$key
+                    );
+                }
+
+                // $td[]=array(
+                //     'periode'=>$tgl_name_1
+                // );
+                // $td[]=array(
+                //     'periode'=>$tgl_name_2
+                // );
+                // $td[]=array(
+                //     'periode'=>$tgl_name_3
+                // );
+                // $td[]=array(
+                //     'periode'=>$tgl_name_4
+                // );
             
             // $no++;
         }
@@ -132,14 +146,18 @@ class Admin extends CI_Controller
         // $q_case.=substr($q_case, 0, -1);
 
         $q_case.=" from tb_laboratorium a JOIN tb_laboratorium d ON `a`.`id_laboratorium`=`d`.`id_laboratorium`";
-        // $q_case.=$temporary;
+        
+
+        // var_dump($td);
+        // die;
 
         // $q_case.=" ORDER BY a.id_laboratorium";
         $query=$this->db->query($q_case)->result_array();
 
         $data['query'] = $query;
+        $data['colspan'] = count($rw);
 
-        // var_dump($q_case);
+        // var_dump($td);
         // die;
 
         // $tmp = array();
@@ -215,7 +233,7 @@ class Admin extends CI_Controller
         
 
         $data['tgl'] = $kirim;
-        $data['td']=$td;
+        $data['td'] = $td;
 
 
         $this->load->view('templates/header', $data);

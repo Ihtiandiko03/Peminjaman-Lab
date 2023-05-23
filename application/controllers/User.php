@@ -8,7 +8,43 @@ class User extends CI_Controller
         parent::__construct();
         $this->load->model('Peminjaman_model');
         $this->load->library('upload');
+        $this->load->library('unit_test');
         is_logged_in();
+        
+    }
+
+    private function testPeminjaman($data){
+        if($this->db->insert('tb_peminjaman_ruang', $data)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function testBuatPeminjaman(){
+
+        $data = [
+            'nama' => 'testing12345',
+            'nrk' => '1610040309010001',
+            'prodi' => 'Teknik Informatika',
+            'notlp' => '082377102513',
+            'email' => 'tugrp@example.com',
+            'nama_kegiatan' => 'Kegiatan Tugas Akhir',
+            'dokumen_pendukung' => 'Dokumen.pdf',
+            'status' => 'request',
+            'tanggal_penggunaan' => '2021-10-01',
+            'kapasitas' => '80',
+            'id_range_waktu' => '2',
+            'email_pengguna' => 'wihtiandiko@gmail.com'
+        ];
+
+        $test = $this->testPeminjaman($data);
+
+        $expectedResult = true;
+        $testName = "Menguji fungsi buat peminjaman";
+
+        echo $this->unit->run($test, $expectedResult, $testName);
     }
 
     public function index()
@@ -16,8 +52,6 @@ class User extends CI_Controller
 
         $data['title'] = 'Halaman Staff';
         $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $this->session->userdata('email')])->row_array();
-
-
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -40,7 +74,6 @@ class User extends CI_Controller
         FROM `tb_peminjaman_ruang`
         WHERE `tb_peminjaman_ruang`.`email_pengguna` = '$sessionUser'
         GROUP BY `nama_kegiatan`")->result_array();
-
 
         $data['lab'] = $this->db->get('tb_laboratorium')->result_array();
         $data['rangeWaktu'] = $this->Peminjaman_model->roadster();
@@ -71,7 +104,6 @@ class User extends CI_Controller
         $data['title'] = 'Peminjaman Laboratorium';
         $data['user'] = $this->db->get_where('tb_pengguna', ['email' => $this->session->userdata('email')])->row_array();
         
-
         $data['lab'] = $this->db->get('tb_laboratorium')->result_array();
         $data['rangeWaktu'] = $this->Peminjaman_model->roadster();
 
@@ -134,7 +166,6 @@ class User extends CI_Controller
     
                     $config['upload_path']          = 'dokumen';
                     $config['allowed_types']        = 'pdf';
-    
     
                     $this->load->library('upload', $config);
                     $this->upload->initialize($config);

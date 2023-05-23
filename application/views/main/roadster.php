@@ -45,23 +45,23 @@
                                 <?php foreach($tgl as $k) : ?>
                                     <?php  $hari = date("l", strtotime($k)); ?>
                                     <?php if($hari == 'Monday') : ?>
-                                        <th colspan="4" scope="colgroup">
+                                        <th colspan="<?=$colspan?>" scope="colgroup">
                                             <?php $timestamp = strtotime($k); $new_date = date("d-m-Y", $timestamp); echo 'Senin, ',$new_date; ?>
                                         </th>
                                     <?php elseif($hari == 'Tuesday') : ?>
-                                        <th colspan="4" scope="colgroup">
+                                        <th colspan="<?=$colspan?>" scope="colgroup">
                                             <?php $timestamp = strtotime($k); $new_date = date("d-m-Y", $timestamp); echo 'Selasa, ',$new_date; ?>
                                         </th>
                                     <?php elseif($hari == 'Wednesday') : ?>
-                                        <th colspan="4" scope="colgroup">
+                                        <th colspan="<?=$colspan?>" scope="colgroup">
                                             <?php $timestamp = strtotime($k); $new_date = date("d-m-Y", $timestamp); echo 'Rabu, ',$new_date; ?>
                                         </th>
                                     <?php elseif($hari == 'Thursday') : ?>
-                                        <th colspan="4" scope="colgroup">
+                                        <th colspan="<?=$colspan?>" scope="colgroup">
                                             <?php $timestamp = strtotime($k); $new_date = date("d-m-Y", $timestamp); echo 'Kamis, ',$new_date; ?>
                                         </th>
                                     <?php elseif($hari == 'Friday') : ?>
-                                        <th colspan="4" scope="colgroup">
+                                        <th colspan="<?=$colspan?>" scope="colgroup">
                                             <?php $timestamp = strtotime($k); $new_date = date("d-m-Y", $timestamp); echo 'Jumat, ',$new_date; ?>
                                         </th>
                                     

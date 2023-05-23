@@ -44,7 +44,7 @@
 
             <?= $this->session->flashdata('message'); ?>
 
-            <!-- <a href="<?= base_url('peminjaman/buatrangewaktu/'); ?>" class="btn btn-primary mb-3">Buat range waktu</a> -->
+            <a href="<?= base_url('peminjaman/buatrangewaktu/'); ?>" class="btn btn-primary mb-3">Tambah range waktu</a>
             <h5 style="text-align:center;" class="mb-3">Range Waktu</h5>
             <table class=" table table-hover">
                 <thead>
